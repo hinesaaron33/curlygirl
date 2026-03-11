@@ -627,7 +627,7 @@ export default function HomePage() {
           <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {pricingTiers.map((tier, i) => (
               <RevealDiv key={tier.name} delay={`delay-${(i + 1) * 100}`}>
-                <div className={`relative flex h-full flex-col rounded-2xl border bg-white/30 p-8 shadow-sm backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-lg ${tier.highlighted ? "border-pink/30 ring-4 ring-pink/10" : "border-white/40"}`}>
+                <div className={`group relative flex h-full flex-col rounded-2xl border bg-white/30 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink/15 ${tier.highlighted ? "border-pink/30 ring-4 ring-pink/10 hover:border-pink hover:ring-pink/30" : "border-white/40 hover:border-pink hover:ring-4 hover:ring-pink/15"}`}>
                   {tier.highlighted && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                       <span className="rounded-full bg-gradient-to-r from-pink to-blush px-6 py-1.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg shadow-pink/25">Most Popular</span>
@@ -653,8 +653,12 @@ export default function HomePage() {
                     ))}
                   </ul>
                   <div className="mt-8">
-                    <Link href="/signup" className={`block w-full rounded-xl py-3.5 text-center text-sm font-semibold transition-all ${tier.highlighted ? "bg-pink text-white shadow-lg shadow-pink/25 hover:bg-pink-dark hover:shadow-xl hover:-translate-y-0.5" : "border-2 border-ink/15 bg-white/40 text-ink/70 hover:border-ink/25 hover:bg-white/60 hover:text-ink"}`}>
+                    <Link href="/signup" className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold transition-all ${tier.highlighted ? "bg-pink text-white shadow-lg shadow-pink/25 group-hover:bg-white group-hover:text-pink group-hover:border-2 group-hover:border-pink group-hover:shadow-xl group-hover:-translate-y-0.5" : "border-2 border-ink/15 bg-white/40 text-ink/70 group-hover:border-pink group-hover:bg-pink group-hover:text-white group-hover:shadow-lg group-hover:shadow-pink/25"}`}>
                       GET STARTED
+                      <span className="relative h-4 w-4">
+                        <svg className="absolute inset-0 h-4 w-4 transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
+                        <svg className="absolute inset-0 h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                      </span>
                     </Link>
                   </div>
                 </div>
