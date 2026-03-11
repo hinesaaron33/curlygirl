@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────
+
+enum Role {
+  TEACHER
+  ADMIN
+}
+
+enum SubscriptionTier {
+  STARTER
+  PROFESSIONAL
+  SCHOOL
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+  INACTIVE
+}
+
+enum AiJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// ─── Models ──────────────────────────────────────────────────────────
+
+model User {
+  id               String   @id @default(cuid()) @db.VarChar(36)
+  email            String   @unique
+  name             String
+  role             Role     @default(TEACHER)
+  stripeCustomerId String?  @unique
+  avatarUrl        String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  subscription     Subscription?
+  lessonPlans      LessonPlan[]
+  customizedPlans  CustomizedPlan[]
+  downloadLogs     DownloadLog[]
+  aiGenerationJobs AiGenerationJob[]
+}
+
+model Subscription {
+  id                    String             @id @default(cuid()) @db.VarChar(36)
+  userId                String             @unique
+  user                  User               @relation(fields: [userId], references: [id])
+  tier                  SubscriptionTier
+  status                SubscriptionStatus @default(INACTIVE)
+  stripeSubscriptionId  String?            @unique
+  stripePriceId         String?
+  currentPeriodStart    DateTime?
+  currentPeriodEnd      DateTime?
+  cancelAtPeriodEnd     Boolean            @default(false)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+}
+
+model LessonPlan {
+  id            String   @id @default(cuid()) @db.VarChar(36)
+  title         String
+  description   String?
+  gradeLevel    String
+  topic         String
+  languageSkill String
+  slidesData    Json
+  metadata      Json?
+  tags          String[]
+  published     Boolean  @default(false)
+  createdById   String
+  createdBy     User     @relation(fields: [createdById], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  assets           LessonPlanAsset[]
+  customizedPlans  CustomizedPlan[]
+  downloadLogs     DownloadLog[]
+  sourceForJobs    AiGenerationJob[] @relation("SourcePlan")
+  resultOfJobs     AiGenerationJob[] @relation("ResultPlan")
+}
+
+model LessonPlanAsset {
+  id           String     @id @default(cuid()) @db.VarChar(36)
+  lessonPlanId String
+  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
+  fileName     String
+  fileUrl      String
+  fileType     String
+  fileSize     Int
+  createdAt    DateTime   @default(now())
+}
+
+model CustomizedPlan {
+  id           String     @id @default(cuid()) @db.VarChar(36)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  lessonPlanId String
+  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
+  slidesData   Json
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  downloadLogs DownloadLog[]
+
+  @@unique([userId, lessonPlanId])
+}
+
+model DownloadLog {
+  id               String          @id @default(cuid()) @db.VarChar(36)
+  userId           String
+  user             User            @relation(fields: [userId], references: [id])
+  lessonPlanId     String
+  lessonPlan       LessonPlan      @relation(fields: [lessonPlanId], references: [id])
+  customizedPlanId String?
+  customizedPlan   CustomizedPlan? @relation(fields: [customizedPlanId], references: [id])
+  downloadedAt     DateTime        @default(now())
+}
+
+model AiGenerationJob {
+  id                  String      @id @default(cuid()) @db.VarChar(36)
+  sourcePlanId        String
+  sourcePlan          LessonPlan  @relation("SourcePlan", fields: [sourcePlanId], references: [id])
+  targetGradeLevel    String
+  targetLanguageSkill String
+  status              AiJobStatus @default(PENDING)
+  resultPlanId        String?
+  resultPlan          LessonPlan? @relation("ResultPlan", fields: [resultPlanId], references: [id])
+  createdById         String
+  createdBy           User        @relation(fields: [createdById], references: [id])
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+}
