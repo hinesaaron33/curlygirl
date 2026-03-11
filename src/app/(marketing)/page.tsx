@@ -634,7 +634,7 @@ export default function HomePage() {
                     </div>
                   )}
                   <h3 className="text-lg font-semibold text-ink text-center">{tier.name}</h3>
-                  <p className="mt-1 text-sm text-ink/45 text-center">{tier.description}</p>
+                  <p className="mt-1 text-sm text-slate text-center">{tier.description}</p>
                   <div className="mt-6 flex items-baseline justify-center gap-1">
                     <span className="font-[family-name:var(--font-playfair)] text-5xl font-bold text-ink">{yearly ? tier.yearlyPrice : tier.monthlyPrice}</span>
                     {tier.period && <span className="text-lg text-ink/75">{tier.period}</span>}
