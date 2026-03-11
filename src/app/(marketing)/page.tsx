@@ -322,7 +322,17 @@ export default function HomePage() {
               <h1 className="animate-fade-in-up delay-200 max-w-3xl font-[family-name:var(--font-playfair)] text-5xl font-bold leading-[1.1] tracking-tight text-ink sm:text-6xl lg:text-5xl xl:text-6xl">
                 We make lesson planning
                 <br />
-                <em className="text-pink">effortless.</em>
+                <em>
+                  {"effortless.".split("").map((char, i) => (
+                    <span
+                      key={i}
+                      className="animate-bounce-letter"
+                      style={{ animationDelay: `${0.5 + i * 0.08}s` }}
+                    >
+                      {char}
+                    </span>
+                  ))}
+                </em>
               </h1>
 
               <p className="animate-fade-in-up delay-300 mt-8 max-w-xl text-lg leading-relaxed text-ink/75">
