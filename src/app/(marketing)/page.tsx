@@ -69,13 +69,28 @@ const testimonials = [
 /* ── Pricing ── */
 const pricingTiers = [
   {
-    name: "Starter", price: "$9.99", period: "/mo",
+    name: "Free",
+    monthlyPrice: "$0",
+    yearlyPrice: "$0",
+    period: "",
+    description: "Explore what Curly Girl ELD has to offer.",
+    features: ["Browse lesson plan previews", "1 PDF download per month", "Community access", "Email support"],
+    highlighted: false,
+  },
+  {
+    name: "Starter",
+    monthlyPrice: "$14.99",
+    yearlyPrice: "$9.99",
+    period: "/mo",
     description: "Perfect for individual teachers getting started.",
     features: ["Core lesson plan library", "Basic customization tools", "5 PDF downloads per month", "Email support"],
     highlighted: false,
   },
   {
-    name: "Professional", price: "$19.99", period: "/mo",
+    name: "Professional",
+    monthlyPrice: "$24.99",
+    yearlyPrice: "$19.99",
+    period: "/mo",
     description: "For educators who want the full toolkit.",
     features: ["Full lesson plan library", "Advanced editor & customization", "Unlimited PDF downloads", "Priority support", "New plans added monthly", "Collaboration tools"],
     highlighted: true,
@@ -312,6 +327,8 @@ function StatCard({ value, label, countTo, delay = 0, bounce = false, href, hove
 }
 
 export default function HomePage() {
+  const [yearly, setYearly] = useState(true);
+
   return (
     <>
       {/* ═══ HERO ═══ */}
@@ -587,25 +604,47 @@ export default function HomePage() {
             </RevealDiv>
             <RevealDiv delay="delay-200">
               <p className="mx-auto mt-4 max-w-md text-base text-ink/50">Start with a 7-day free trial. No credit card required. Cancel anytime.</p>
+
+              {/* Monthly / Yearly toggle */}
+              <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-white/40 bg-white/30 p-1 backdrop-blur-sm">
+                <button
+                  onClick={() => setYearly(false)}
+                  className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${!yearly ? "bg-pink text-white shadow-md" : "text-ink/50 hover:text-ink"}`}
+                >
+                  Monthly
+                </button>
+                <button
+                  onClick={() => setYearly(true)}
+                  className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${yearly ? "bg-pink text-white shadow-md" : "text-ink/50 hover:text-ink"}`}
+                >
+                  Yearly
+                  <span className="ml-1.5 rounded-full bg-gold/80 px-2 py-0.5 text-[10px] font-bold text-ink">SAVE 33%</span>
+                </button>
+              </div>
             </RevealDiv>
           </div>
 
-          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {pricingTiers.map((tier, i) => (
-              <RevealDiv key={tier.name} delay={i === 0 ? "" : "delay-100"}>
-                <div className={`relative h-full rounded-2xl border bg-white/30 p-8 shadow-sm backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-lg ${tier.highlighted ? "border-pink/30 ring-4 ring-pink/10" : "border-white/40"}`}>
+              <RevealDiv key={tier.name} delay={`delay-${(i + 1) * 100}`}>
+                <div className={`relative flex h-full flex-col rounded-2xl border bg-white/30 p-8 shadow-sm backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-lg ${tier.highlighted ? "border-pink/30 ring-4 ring-pink/10" : "border-white/40"}`}>
                   {tier.highlighted && (
-                    <div className="absolute -top-3.5 left-6">
-                      <span className="rounded-full bg-gradient-to-r from-pink to-blush px-4 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg shadow-pink/25">Most Popular</span>
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                      <span className="rounded-full bg-gradient-to-r from-pink to-blush px-6 py-1.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg shadow-pink/25">Most Popular</span>
                     </div>
                   )}
-                  <h3 className="text-lg font-semibold text-ink">{tier.name}</h3>
-                  <p className="mt-1 text-sm text-ink/45">{tier.description}</p>
-                  <div className="mt-6 flex items-baseline gap-1">
-                    <span className="font-[family-name:var(--font-playfair)] text-5xl font-bold text-ink">{tier.price}</span>
-                    <span className="text-sm text-ink/40">{tier.period}</span>
+                  <h3 className="text-lg font-semibold text-ink text-center">{tier.name}</h3>
+                  <p className="mt-1 text-sm text-ink/45 text-center">{tier.description}</p>
+                  <div className="mt-6 flex items-baseline justify-center gap-1">
+                    <span className="font-[family-name:var(--font-playfair)] text-5xl font-bold text-ink">{yearly ? tier.yearlyPrice : tier.monthlyPrice}</span>
+                    {tier.period && <span className="text-lg text-ink/75">{tier.period}</span>}
                   </div>
-                  <ul className="mt-8 space-y-3">
+                  {yearly && tier.yearlyPrice !== "$0" && (
+                    <div className="mt-3 text-center">
+                      <span className="inline-block rounded-full bg-gold/80 px-4 py-1 text-xs font-bold tracking-wide text-ink uppercase">Billed Annually</span>
+                    </div>
+                  )}
+                  <ul className="mt-8 flex-1 space-y-3">
                     {tier.features.map(f => (
                       <li key={f} className="flex items-start gap-2.5 text-sm text-ink/60">
                         <svg className="mt-0.5 h-4 w-4 shrink-0 text-teal-dark" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
