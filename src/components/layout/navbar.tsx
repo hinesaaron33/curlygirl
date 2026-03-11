@@ -13,6 +13,14 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      setMobileMenuOpen(false);
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
@@ -24,11 +32,11 @@ export function Navbar() {
       <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" onClick={() => { if (window.location.pathname === "/") { window.scrollTo({ top: 0, behavior: "smooth" }); } }} className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-pink font-bold text-white text-sm shadow-lg shadow-pink/25 font-[family-name:var(--font-playfair)]">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-pink font-bold text-white text-sm shadow-lg shadow-pink/25">
             CG
           </div>
           <div className="flex flex-col leading-none">
-            <span className="text-[22px] font-semibold tracking-tight text-ink font-[family-name:var(--font-playfair)]">
+            <span className="text-[22px] font-semibold tracking-tight text-ink">
               Curly Girl
             </span>
             <span className="text-[10px] font-semibold tracking-[0.2em] text-pink uppercase">
@@ -38,12 +46,12 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 md:flex">
-          <Link href="/#about" className="text-[13px] font-medium text-ink/50 transition-colors hover:text-ink">About</Link>
-          <Link href="/#features" className="text-[13px] font-medium text-ink/50 transition-colors hover:text-ink">Features</Link>
-          <Link href="/#how-it-works" className="text-[13px] font-medium text-ink/50 transition-colors hover:text-ink">How It Works</Link>
-          <Link href="/pricing" className="text-[13px] font-medium text-ink/50 transition-colors hover:text-ink">Pricing</Link>
-          <Link href="/login" className="text-[13px] font-medium text-ink/50 transition-colors hover:text-ink">Log In</Link>
+        <div className="hidden items-center gap-4 md:flex">
+          <Link href="/#about" onClick={(e) => scrollTo(e, "about")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">About</Link>
+          <Link href="/#features" onClick={(e) => scrollTo(e, "features")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Features</Link>
+          <Link href="/#how-it-works" onClick={(e) => scrollTo(e, "how-it-works")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">How It Works</Link>
+          <Link href="/pricing" className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Pricing</Link>
+          <Link href="/login" className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Log In</Link>
         </div>
 
         {/* Desktop CTA */}
@@ -83,11 +91,11 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="border-t border-ink/[0.08] bg-base/95 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1 px-4 py-4">
-            <Link href="/#about" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/60 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>About</Link>
-            <Link href="/#features" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/60 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>Features</Link>
-            <Link href="/#how-it-works" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/60 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>How It Works</Link>
-            <Link href="/pricing" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/60 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
-            <Link href="/login" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/60 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
+            <Link href="/#about" onClick={(e) => scrollTo(e, "about")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">About</Link>
+            <Link href="/#features" onClick={(e) => scrollTo(e, "features")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">Features</Link>
+            <Link href="/#how-it-works" onClick={(e) => scrollTo(e, "how-it-works")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">How It Works</Link>
+            <Link href="/pricing" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
+            <Link href="/login" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
             <div className="mt-3 border-t border-ink/[0.08] pt-4">
               <Link href="/pricing" className="block w-full rounded-full bg-pink py-2.5 text-center text-sm font-semibold text-white shadow-lg shadow-pink/25 hover:bg-pink-dark" onClick={() => setMobileMenuOpen(false)}>GET STARTED</Link>
             </div>

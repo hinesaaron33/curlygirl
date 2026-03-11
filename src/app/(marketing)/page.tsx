@@ -249,20 +249,33 @@ function StatCard({ value, label, countTo, delay = 0, bounce = false, href, hove
     if (!bounce && !countTo) return;
     const el = ref.current;
     if (!el) return;
+    let done = false;
+    const cleanup = () => {
+      done = true;
+      obs.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
     const obs = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (!done && entry.isIntersecting && window.scrollY > 50) {
           setTimeout(() => {
             setTriggered(true);
             animate();
           }, delay);
-          obs.disconnect();
+          cleanup();
         }
       },
       { threshold: 0.3 }
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    const onScroll = () => {
+      if (!done && window.scrollY > 50) {
+        obs.unobserve(el);
+        obs.observe(el);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return cleanup;
   }, [animate, delay, bounce, countTo]);
 
   const content = (
@@ -335,7 +348,7 @@ export default function HomePage() {
                 </em>
               </h1>
 
-              <p className="animate-fade-in-up delay-300 mt-8 max-w-xl text-lg leading-relaxed text-ink/75">
+              <p className="animate-fade-in-up delay-300 mt-8 max-w-xl text-lg leading-relaxed text-slate">
                 Expert-crafted, standards-aligned ELD lesson plans designed by experienced middle school educators. Customize them for your classroom and save hours every week.
               </p>
 
@@ -416,25 +429,32 @@ export default function HomePage() {
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div>
-            <RevealDiv><p className="text-[13px] font-semibold tracking-[0.2em] text-pink uppercase">Our Story</p></RevealDiv>
+            <RevealDiv><p className="text-lg font-semibold tracking-[0.2em] text-pink uppercase">Our Story</p></RevealDiv>
             <RevealDiv delay="delay-100">
-              <h2 className="mt-4 font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl lg:text-[2.75rem]">
-                Built by teachers,<br />for teachers
+              <h2 className="mt-4 font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight tracking-tight text-slate sm:text-4xl lg:text-[2.75rem]">
+                Born from 15 Years of<br />&quot;There&apos;s Nothing Out There for My Students&quot;
               </h2>
-            </RevealDiv>
-            <RevealDiv delay="delay-200">
-              <p className="mt-6 text-base leading-relaxed text-ink/55">
-                Curly Girl ELD was created by experienced middle school ELD educators who understand the daily challenge of planning effective lessons for English learners. Our mission is to give every teacher access to high-quality, standards-aligned plans they can make their own.
+              <p className="mt-6 text-base leading-relaxed text-slate">
+                Here&apos;s the truth about ELD teaching: you get handed a roster of newcomers from 12 different countries, zero curriculum, and a &quot;good luck.&quot; I know because I lived it for 15 years. Curly Girl ELD exists so no teacher has to build their entire program from a blank Google Doc ever again. Every unit is thematic, standards aligned, and built from what actually works with secondary multilingual learners, not what looks good in a textbook.
               </p>
+              <div className="mt-8">
+                <Link href="/pricing" className="group inline-flex items-center gap-2 rounded-full bg-pink px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-pink/25 ring-2 ring-transparent transition-all duration-300 hover:bg-pink-dark hover:shadow-2xl hover:shadow-pink/40 hover:-translate-y-1 hover:scale-105 hover:ring-gold">
+                  GET STARTED
+                  <span className="relative h-4 w-4">
+                    <svg className="absolute inset-0 h-4 w-4 transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
+                    <svg className="absolute inset-0 h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                  </span>
+                </Link>
+              </div>
             </RevealDiv>
             <RevealDiv delay="delay-300">
               <ul className="mt-10 space-y-4">
-                {["Created by certified ELD specialists", "Aligned to WIDA and state ELD standards", "Tested in real middle school classrooms", "New plans added every month"].map((item) => (
+                {["New plans added every month", "Created by certified ELD specialists", "Aligned to WIDA and state ELD standards", "Tested in real middle school classrooms"].map((item) => (
                   <li key={item} className="flex items-center gap-3">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-teal/20">
-                      <svg className="h-3.5 w-3.5 text-teal-dark" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pink">
+                      <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                     </div>
-                    <span className="text-sm text-ink/70">{item}</span>
+                    <span className="text-sm text-slate">{item}</span>
                   </li>
                 ))}
               </ul>
