@@ -189,20 +189,27 @@ function LaptopMockup() {
 
             {/* Fade slideshow */}
             <div className="absolute inset-0 top-8">
-              {heroSlides.map((slide, i) => (
-                <div
-                  key={i}
-                  className={`absolute inset-0 transition-opacity duration-700 ${i === activeSlide ? "opacity-100" : "opacity-0"}`}
-                >
-                  <Image
-                    src={slide.src}
-                    alt={slide.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 400px, 500px"
-                  />
-                </div>
-              ))}
+              {heroSlides.map((slide, i) => {
+                const isNearby = i === activeSlide || i === (activeSlide + 1) % heroSlides.length || i === (activeSlide - 1 + heroSlides.length) % heroSlides.length;
+                return (
+                  <div
+                    key={i}
+                    className={`absolute inset-0 transition-opacity duration-700 ${i === activeSlide ? "opacity-100" : "opacity-0"}`}
+                  >
+                    {isNearby && (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 400px, 500px"
+                        quality={75}
+                        {...(i === 0 ? { priority: true, loading: "eager" as const } : { loading: "lazy" as const })}
+                      />
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             {/* Dot indicators */}
