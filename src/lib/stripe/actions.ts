@@ -1,6 +1,6 @@
 "use server";
 
-import { stripe } from "@/lib/stripe/config";
+import { stripe, getPriceId, type TierName } from "@/lib/stripe/config";
 import { prisma } from "@/lib/db/prisma";
 import { createClient } from "@/lib/supabase/server";
 
@@ -45,9 +45,10 @@ async function getOrCreateStripeCustomer(userId: string) {
   return customer.id;
 }
 
-export async function createCheckoutSession(priceId: string) {
+export async function createCheckoutSession(tier: TierName, period: "monthly" | "yearly") {
   const user = await getAuthenticatedUser();
   const customerId = await getOrCreateStripeCustomer(user.id);
+  const priceId = getPriceId(tier, period);
 
   const session = await stripe.checkout.sessions.create({
     customer: customerId,

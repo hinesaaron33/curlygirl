@@ -17,8 +17,13 @@ enum Role {
 
 enum SubscriptionTier {
   STARTER
-  PROFESSIONAL
-  SCHOOL
+  ESSENTIAL
+  PRO_PLUS
+}
+
+enum CreditTransactionType {
+  GRANT
+  SPEND
 }
 
 enum SubscriptionStatus {
@@ -52,12 +57,14 @@ model User {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
-  subscription     Subscription?
-  lessonPlans      LessonPlan[]
-  customizedPlans  CustomizedPlan[]
-  downloadLogs     DownloadLog[]
-  aiGenerationJobs AiGenerationJob[]
-  driveCopyLogs    DriveCopyLog[]
+  subscription         Subscription?
+  lessonPlans          LessonPlan[]
+  customizedPlans      CustomizedPlan[]
+  downloadLogs         DownloadLog[]
+  aiGenerationJobs     AiGenerationJob[]
+  driveCopyLogs        DriveCopyLog[]
+  creditTransactions   CreditTransaction[]
+  lessonAccess         UserLessonAccess[]
 }
 
 model Subscription {
@@ -71,6 +78,8 @@ model Subscription {
   currentPeriodStart    DateTime?
   currentPeriodEnd      DateTime?
   cancelAtPeriodEnd     Boolean            @default(false)
+  creditsBalance        Int                @default(0)
+  canceledAt            DateTime?
   createdAt             DateTime           @default(now())
   updatedAt             DateTime           @updatedAt
 }
@@ -93,12 +102,15 @@ model LessonPlan {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
-  assets           LessonPlanAsset[]
-  customizedPlans  CustomizedPlan[]
-  downloadLogs     DownloadLog[]
-  driveCopyLogs    DriveCopyLog[]
-  sourceForJobs    AiGenerationJob[] @relation("SourcePlan")
-  resultOfJobs     AiGenerationJob[] @relation("ResultPlan")
+  assets             LessonPlanAsset[]
+  customizedPlans    CustomizedPlan[]
+  downloadLogs       DownloadLog[]
+  driveCopyLogs      DriveCopyLog[]
+  sourceForJobs      AiGenerationJob[] @relation("SourcePlan")
+  resultOfJobs       AiGenerationJob[] @relation("ResultPlan")
+  bundleLessonPlans  BundleLessonPlan[]
+  creditTransactions CreditTransaction[]
+  userLessonAccess   UserLessonAccess[]
 }
 
 model LessonPlanAsset {
@@ -162,4 +174,46 @@ model DriveCopyLog {
   lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
   copiedFileId String
   copiedAt     DateTime   @default(now())
+}
+
+model Bundle {
+  id          String           @id @default(cuid()) @db.VarChar(36)
+  name        String
+  tier        SubscriptionTier
+  description String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  lessonPlans BundleLessonPlan[]
+}
+
+model BundleLessonPlan {
+  bundleId     String
+  bundle       Bundle     @relation(fields: [bundleId], references: [id])
+  lessonPlanId String
+  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
+
+  @@unique([bundleId, lessonPlanId])
+}
+
+model CreditTransaction {
+  id           String                @id @default(cuid()) @db.VarChar(36)
+  userId       String
+  user         User                  @relation(fields: [userId], references: [id])
+  lessonPlanId String?
+  lessonPlan   LessonPlan?           @relation(fields: [lessonPlanId], references: [id])
+  amount       Int
+  type         CreditTransactionType
+  createdAt    DateTime              @default(now())
+}
+
+model UserLessonAccess {
+  id           String     @id @default(cuid()) @db.VarChar(36)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  lessonPlanId String
+  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
+  grantedAt    DateTime   @default(now())
+
+  @@unique([userId, lessonPlanId])
 }

@@ -69,6 +69,13 @@ export function RevealDiv({
     const el = ref.current;
     if (!el || !ctx) return;
 
+    // Immediate check for elements already in viewport (back navigation, bfcache, etc.)
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setVisible(true);
+      return;
+    }
+
     ctx.observe(el, (entry) => {
       if (entry.isIntersecting) {
         setVisible(true);

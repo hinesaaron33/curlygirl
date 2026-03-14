@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { stripe, PRICE_IDS } from "@/lib/stripe/config";
+import { stripe, PRICE_IDS, TIER_CONFIG } from "@/lib/stripe/config";
 import { prisma } from "@/lib/db/prisma";
 import { SubscriptionStatus, SubscriptionTier } from "@prisma/client";
 
@@ -20,8 +20,30 @@ function mapStripeStatus(status: Stripe.Subscription.Status): SubscriptionStatus
 }
 
 function getTierFromPriceId(priceId: string): SubscriptionTier {
-  if (priceId === PRICE_IDS.PROFESSIONAL) return "PROFESSIONAL";
+  if (priceId === PRICE_IDS.ESSENTIAL_MONTHLY || priceId === PRICE_IDS.ESSENTIAL_YEARLY) return "ESSENTIAL";
+  if (priceId === PRICE_IDS.PRO_PLUS_MONTHLY || priceId === PRICE_IDS.PRO_PLUS_YEARLY) return "PRO_PLUS";
   return "STARTER";
+}
+
+async function grantMonthlyCredits(subscriptionId: string, tier: SubscriptionTier) {
+  const config = TIER_CONFIG[tier];
+  const sub = await prisma.subscription.findUniqueOrThrow({
+    where: { id: subscriptionId },
+  });
+
+  await prisma.$transaction([
+    prisma.subscription.update({
+      where: { id: subscriptionId },
+      data: { creditsBalance: { increment: config.creditsPerMonth } },
+    }),
+    prisma.creditTransaction.create({
+      data: {
+        userId: sub.userId,
+        amount: config.creditsPerMonth,
+        type: "GRANT",
+      },
+    }),
+  ]);
 }
 
 export async function POST(request: NextRequest) {
@@ -81,7 +103,7 @@ export async function POST(request: NextRequest) {
         const periodStart = (stripeSubscription as unknown as { current_period_start: number }).current_period_start;
         const periodEnd = (stripeSubscription as unknown as { current_period_end: number }).current_period_end;
 
-        await prisma.subscription.upsert({
+        const sub = await prisma.subscription.upsert({
           where: { userId: user.id },
           create: {
             userId: user.id,
@@ -92,6 +114,7 @@ export async function POST(request: NextRequest) {
             currentPeriodStart: new Date(periodStart * 1000),
             currentPeriodEnd: new Date(periodEnd * 1000),
             cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
+            creditsBalance: TIER_CONFIG[tier].creditsPerMonth,
           },
           update: {
             tier,
@@ -101,6 +124,16 @@ export async function POST(request: NextRequest) {
             currentPeriodStart: new Date(periodStart * 1000),
             currentPeriodEnd: new Date(periodEnd * 1000),
             cancelAtPeriodEnd: stripeSubscription.cancel_at_period_end,
+            creditsBalance: { increment: TIER_CONFIG[tier].creditsPerMonth },
+          },
+        });
+
+        // Record the initial credit grant
+        await prisma.creditTransaction.create({
+          data: {
+            userId: user.id,
+            amount: TIER_CONFIG[tier].creditsPerMonth,
+            type: "GRANT",
           },
         });
 
@@ -110,20 +143,37 @@ export async function POST(request: NextRequest) {
       case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
         const priceId = subscription.items.data[0]?.price.id;
+        const tier = getTierFromPriceId(priceId);
         const subPeriodStart = (subscription as unknown as { current_period_start: number }).current_period_start;
         const subPeriodEnd = (subscription as unknown as { current_period_end: number }).current_period_end;
+
+        const existingSub = await prisma.subscription.findUnique({
+          where: { stripeSubscriptionId: subscription.id },
+        });
+
+        const newPeriodStart = new Date(subPeriodStart * 1000);
+        const periodRenewed = existingSub &&
+          existingSub.currentPeriodStart &&
+          newPeriodStart.getTime() > existingSub.currentPeriodStart.getTime();
 
         await prisma.subscription.update({
           where: { stripeSubscriptionId: subscription.id },
           data: {
             status: mapStripeStatus(subscription.status),
-            tier: getTierFromPriceId(priceId),
+            tier,
             stripePriceId: priceId,
-            currentPeriodStart: new Date(subPeriodStart * 1000),
+            currentPeriodStart: newPeriodStart,
             currentPeriodEnd: new Date(subPeriodEnd * 1000),
             cancelAtPeriodEnd: subscription.cancel_at_period_end,
+            // Clear canceledAt if subscription is reactivated
+            ...(subscription.status === "active" ? { canceledAt: null } : {}),
           },
         });
+
+        // Grant credits on period renewal
+        if (periodRenewed && existingSub) {
+          await grantMonthlyCredits(existingSub.id, tier);
+        }
 
         break;
       }
@@ -131,10 +181,11 @@ export async function POST(request: NextRequest) {
       case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
 
+        // Set 30-day grace period instead of immediately deactivating
         await prisma.subscription.update({
           where: { stripeSubscriptionId: subscription.id },
           data: {
-            status: "INACTIVE",
+            canceledAt: new Date(),
             cancelAtPeriodEnd: false,
           },
         });

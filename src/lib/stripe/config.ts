@@ -20,17 +20,29 @@ export const stripe = new Proxy({} as Stripe, {
 });
 
 export const PRICE_IDS = {
-  STARTER: process.env.STRIPE_PRICE_STARTER!,
-  PROFESSIONAL: process.env.STRIPE_PRICE_PROFESSIONAL!,
+  STARTER_MONTHLY: process.env.STRIPE_PRICE_STARTER_MONTHLY!,
+  STARTER_YEARLY: process.env.STRIPE_PRICE_STARTER_YEARLY!,
+  ESSENTIAL_MONTHLY: process.env.STRIPE_PRICE_ESSENTIAL_MONTHLY!,
+  ESSENTIAL_YEARLY: process.env.STRIPE_PRICE_ESSENTIAL_YEARLY!,
+  PRO_PLUS_MONTHLY: process.env.STRIPE_PRICE_PRO_PLUS_MONTHLY!,
+  PRO_PLUS_YEARLY: process.env.STRIPE_PRICE_PRO_PLUS_YEARLY!,
 } as const;
 
-export const TIER_LIMITS = {
-  STARTER: {
-    downloadsPerMonth: 5,
-    allGradeBands: false,
-  },
-  PROFESSIONAL: {
-    downloadsPerMonth: Infinity,
-    allGradeBands: true,
-  },
+export type TierName = "Starter" | "Essential" | "Professional Plus";
+
+const TIER_KEY_MAP: Record<TierName, string> = {
+  Starter: "STARTER",
+  Essential: "ESSENTIAL",
+  "Professional Plus": "PRO_PLUS",
+};
+
+export function getPriceId(tier: TierName, period: "monthly" | "yearly"): string {
+  const key = `${TIER_KEY_MAP[tier]}_${period.toUpperCase()}` as keyof typeof PRICE_IDS;
+  return PRICE_IDS[key];
+}
+
+export const TIER_CONFIG = {
+  STARTER: { creditsPerMonth: 3, hasCustomDashboard: false, hasOfficeHours: false },
+  ESSENTIAL: { creditsPerMonth: 8, hasCustomDashboard: false, hasOfficeHours: false },
+  PRO_PLUS: { creditsPerMonth: 15, hasCustomDashboard: true, hasOfficeHours: true },
 } as const;

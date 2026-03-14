@@ -3,6 +3,7 @@ import { RevealProvider, RevealDiv } from "@/components/marketing/reveal-div";
 import { LaptopMockup } from "@/components/marketing/laptop-mockup";
 import { StatCard } from "@/components/marketing/stat-card";
 import { PricingSection } from "@/components/marketing/pricing-section";
+import { SignupSection } from "@/components/marketing/signup-section";
 
 /* ── Marquee topics ── */
 const topics = [
@@ -46,7 +47,7 @@ const features = [
   },
   {
     title: "Expert-Created",
-    description: "Every plan is designed by experienced middle school ELD educators who know what works in real classrooms.",
+    description: "Every plan is designed by experienced secondary ELD educators who know what works in real classrooms.",
     iconColor: "bg-pink/15 text-pink",
     iconPath: "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z",
   },
@@ -113,7 +114,11 @@ export default function HomePage() {
               </h1>
 
               <p className="animate-fade-in-up delay-300 mt-8 max-w-xl text-lg leading-relaxed text-slate">
-                Expert-crafted, standards-aligned ELD lesson plans designed by experienced middle school educators. Customize them for your classroom and save hours every week.
+                Classroom tested and expertly crafted, standard-aligned ELD lesson plans specifically designed for secondary educators. This is your one stop shop for engaging and inclusive resources for multilingual learners.
+              </p>
+
+              <p className="animate-fade-in-up delay-350 mt-4 max-w-xl text-lg leading-relaxed text-slate">
+                Flexible plans starting at $9.99/month. Every plan includes a curated lesson bundle plus monthly credits to unlock additional resources.
               </p>
 
               <div className="animate-fade-in-up delay-400 mt-10 flex flex-wrap items-center gap-4">
@@ -166,7 +171,7 @@ export default function HomePage() {
             <StatCard countTo={700} label="Reviews" delay={1000} bounce href="#testimonials" hoverLabel="READ REVIEWS" />
             <StatCard value={<>225<span className="text-4xl font-bold align-middle">+</span></>} label="Lesson Plans" />
             <StatCard countTo={1250} label="Educators Served" delay={2000} bounce />
-            <StatCard value="50" label="States Represented" />
+            <StatCard value="9" label="Countries Reached" />
           </div>
         </div>
       </section>
@@ -213,7 +218,7 @@ export default function HomePage() {
             </RevealDiv>
             <RevealDiv delay="delay-300">
               <ul className="mt-10 space-y-4">
-                {["New plans added every month", "Created by certified ELD specialists", "Aligned to WIDA and state ELD standards", "Tested in real middle school classrooms"].map((item) => (
+                {["New plans added every month", "Created by certified ELD specialists", "Aligned to WIDA and state ELD standards", "Tested in real secondary classrooms"].map((item) => (
                   <li key={item} className="flex items-center gap-3">
                     <div className="flex h-6 w-6 items-center justify-center rounded-full bg-pink">
                       <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
@@ -376,38 +381,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ JOIN CTA ═══ */}
-      <section className="relative overflow-hidden bg-base-dark py-28 sm:py-36">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-pink/[0.08] blur-[150px]" />
-        </div>
-        <div className="relative mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
-          <div className="animate-float mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-pink font-[family-name:var(--font-playfair)] text-xl font-bold text-white shadow-2xl shadow-pink/30">
-            CG
-          </div>
-          <RevealDiv>
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              Ready to transform your<br />ELD classroom?
-            </h2>
-          </RevealDiv>
-          <RevealDiv delay="delay-100">
-            <p className="mx-auto mt-4 max-w-md text-base text-ink/50">
-              Join 500+ educators who are saving hours every week. Start free today.
-            </p>
-          </RevealDiv>
-          <RevealDiv delay="delay-200">
-            <div className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row">
-              <input type="email" placeholder="Enter your email" className="flex-1 rounded-xl border border-ink/10 bg-white/40 px-5 py-3.5 text-sm text-ink placeholder:text-ink/30 backdrop-blur-sm transition-colors focus:border-pink/50 focus:outline-none focus:ring-2 focus:ring-pink/20" />
-              <Link href="/signup" className="rounded-xl bg-pink px-8 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-pink/25 transition-all hover:bg-pink-dark hover:shadow-xl hover:-translate-y-0.5">
-                GET STARTED
-              </Link>
-            </div>
-          </RevealDiv>
-          <RevealDiv delay="delay-300">
-            <p className="mt-4 text-xs text-ink/30">No credit card required. Cancel anytime.</p>
-          </RevealDiv>
-        </div>
-      </section>
+      {/* ═══ SIGNUP ═══ */}
+      <SignupSection />
     </RevealProvider>
   );
 }

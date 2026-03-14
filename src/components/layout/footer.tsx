@@ -16,7 +16,7 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-3 text-sm leading-relaxed text-ink/35">
-              Expert ELD lesson plans designed by experienced middle school
+              Expert ELD lesson plans designed by experienced secondary
               educators, ready to customize and use in your classroom.
             </p>
           </div>

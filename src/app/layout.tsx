@@ -24,9 +24,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Curly Girl ELD | Lesson Plans for Middle School Educators",
+  title: "Curly Girl ELD | Lesson Plans for Secondary Educators",
   description:
-    "Expert ELD lesson plans designed for middle school educators. Browse, customize, and download print-ready lesson plans in minutes.",
+    "Expert ELD lesson plans designed for secondary educators. Browse, customize, and download print-ready lesson plans in minutes.",
 };
 
 export default function RootLayout({

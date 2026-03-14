@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { LoginTrigger } from "@/components/auth/login-modal";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function SignupPage() {
         <p className="mt-2 text-sm text-ink-muted">
           We&apos;ve sent a confirmation link to <strong className="text-teal-dark">{email}</strong>. Click the link to verify your account.
         </p>
-        <p className="mt-6"><Link href="/login" className="text-sm font-semibold text-pink hover:text-pink-dark">Back to login</Link></p>
+        <p className="mt-6"><LoginTrigger className="text-sm font-semibold text-pink hover:text-pink-dark">Back to login</LoginTrigger></p>
       </div>
     );
   }
@@ -85,13 +86,13 @@ export default function SignupPage() {
         {error && <div className="rounded-lg bg-pink/10 px-3 py-2 text-sm text-pink-dark">{error}</div>}
         <button type="submit" disabled={loading}
           className="w-full rounded-xl bg-pink py-3 text-sm font-semibold text-white shadow-lg shadow-pink/25 transition-all hover:bg-pink-dark disabled:opacity-50">
-          {loading ? "Creating account..." : "Get Started Free"}
+          {loading ? "Creating account..." : "Create Account"}
         </button>
       </form>
 
       <p className="mt-6 text-center text-sm text-ink-muted">
         Already have an account?{" "}
-        <Link href="/login" className="font-semibold text-teal-dark hover:text-teal">Log in</Link>
+        <LoginTrigger className="font-semibold text-teal-dark hover:text-teal">Log in</LoginTrigger>
       </p>
     </div>
   );

@@ -1,43 +1,98 @@
 import { prisma } from "@/lib/db/prisma";
-import { TIER_LIMITS } from "@/lib/stripe/config";
 import { decrypt } from "./token-encryption";
 import { refreshAccessToken, getSubscriberDrive } from "./oauth";
 import { encrypt } from "./token-encryption";
 
-export async function checkCopyAccess(userId: string) {
+const GRACE_PERIOD_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+function isWithinGracePeriod(canceledAt: Date | null): boolean {
+  if (!canceledAt) return false;
+  return Date.now() - canceledAt.getTime() < GRACE_PERIOD_MS;
+}
+
+export async function checkCopyAccess(userId: string, lessonPlanId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: { subscription: true },
   });
 
-  if (!user?.subscription || user.subscription.status !== "ACTIVE") {
+  if (!user?.subscription) {
     return { allowed: false, reason: "Active subscription required" } as const;
   }
 
-  const tier = user.subscription.tier;
-  const limits = TIER_LIMITS[tier as keyof typeof TIER_LIMITS];
+  const sub = user.subscription;
+  const isActive = sub.status === "ACTIVE";
+  const inGracePeriod = isWithinGracePeriod(sub.canceledAt);
 
-  if (!limits) {
-    return { allowed: false, reason: "Unknown subscription tier" } as const;
+  // Check subscription expired grace period
+  if (sub.canceledAt && !inGracePeriod) {
+    return { allowed: false, reason: "Subscription expired" } as const;
   }
 
-  // Count copies this billing period
-  const periodStart = user.subscription.currentPeriodStart ?? new Date(0);
-  const copyCount = await prisma.driveCopyLog.count({
+  if (!isActive && !inGracePeriod) {
+    return { allowed: false, reason: "Active subscription required" } as const;
+  }
+
+  // Check if lesson is in user's tier bundle
+  const bundleAccess = await prisma.bundleLessonPlan.findFirst({
     where: {
-      userId,
-      copiedAt: { gte: periodStart },
+      lessonPlanId,
+      bundle: { tier: sub.tier },
     },
   });
 
-  if (copyCount >= limits.downloadsPerMonth) {
-    return {
-      allowed: false,
-      reason: `Copy limit reached (${limits.downloadsPerMonth}/month)`,
-    } as const;
+  if (bundleAccess) {
+    return { allowed: true, source: "bundle" } as const;
   }
 
-  return { allowed: true, remaining: limits.downloadsPerMonth - copyCount } as const;
+  // Check if user already purchased this lesson with credits
+  const lessonAccess = await prisma.userLessonAccess.findUnique({
+    where: { userId_lessonPlanId: { userId, lessonPlanId } },
+  });
+
+  if (lessonAccess) {
+    return { allowed: true, source: "credit" } as const;
+  }
+
+  return { allowed: false, reason: "Use 1 credit to unlock this lesson" } as const;
+}
+
+export async function purchaseWithCredit(userId: string, lessonPlanId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { subscription: true },
+  });
+
+  if (!user?.subscription || user.subscription.creditsBalance < 1) {
+    throw new Error("Insufficient credits");
+  }
+
+  // Check not already owned
+  const existing = await prisma.userLessonAccess.findUnique({
+    where: { userId_lessonPlanId: { userId, lessonPlanId } },
+  });
+
+  if (existing) {
+    return; // Already owned, no-op
+  }
+
+  await prisma.$transaction([
+    prisma.subscription.update({
+      where: { userId },
+      data: { creditsBalance: { decrement: 1 } },
+    }),
+    prisma.userLessonAccess.create({
+      data: { userId, lessonPlanId },
+    }),
+    prisma.creditTransaction.create({
+      data: {
+        userId,
+        lessonPlanId,
+        amount: 1,
+        type: "SPEND",
+      },
+    }),
+  ]);
 }
 
 export async function getValidAccessToken(userId: string): Promise<string> {
@@ -86,7 +141,7 @@ export async function copyFileToSubscriber(
   lessonPlanId: string
 ) {
   // Check access
-  const access = await checkCopyAccess(userId);
+  const access = await checkCopyAccess(userId, lessonPlanId);
   if (!access.allowed) {
     throw new Error(access.reason);
   }
