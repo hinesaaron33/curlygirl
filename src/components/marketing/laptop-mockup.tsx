@@ -13,9 +13,15 @@ const heroSlides = [
 
 export function LaptopMockup() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isVisibleRef = useRef(false);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024);
+  }, []);
 
   const startAutoAdvance = useCallback(() => {
     if (intervalRef.current) return;
@@ -31,8 +37,10 @@ export function LaptopMockup() {
     }
   }, []);
 
-  // Only autoplay when visible in viewport
+  // Only autoplay when visible in viewport and not mobile
   useEffect(() => {
+    if (isMobile) return;
+
     const el = containerRef.current;
     if (!el) return;
 
@@ -53,7 +61,7 @@ export function LaptopMockup() {
       obs.disconnect();
       stopAutoAdvance();
     };
-  }, [startAutoAdvance, stopAutoAdvance]);
+  }, [startAutoAdvance, stopAutoAdvance, isMobile]);
 
   return (
     <div ref={containerRef} className="relative mx-auto w-full max-w-md lg:max-w-none">
@@ -81,42 +89,60 @@ export function LaptopMockup() {
               </div>
             </div>
 
-            {/* Fade slideshow */}
-            <div className="absolute inset-0 top-8">
-              {heroSlides.map((slide, i) => {
-                const isNearby = i === activeSlide || i === (activeSlide + 1) % heroSlides.length || i === (activeSlide - 1 + heroSlides.length) % heroSlides.length;
-                return (
-                  <div
-                    key={i}
-                    className={`absolute inset-0 transition-opacity duration-700 ${i === activeSlide ? "opacity-100" : "opacity-0"}`}
-                  >
-                    {isNearby && (
-                      <Image
-                        src={slide.src}
-                        alt={slide.alt}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 400px, 500px"
-                        quality={75}
-                        {...(i === 0 ? { priority: true, loading: "eager" as const } : { loading: "lazy" as const })}
-                      />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Dot indicators */}
-            <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
-              {heroSlides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveSlide(i)}
-                  className={`h-2 w-2 rounded-full transition-all duration-300 ${i === activeSlide ? "bg-pink scale-125" : "bg-ink/20 hover:bg-ink/40"}`}
-                  aria-label={`Go to slide ${i + 1}`}
+            {isMobile ? (
+              /* Static image on mobile */
+              <div className="absolute inset-0 top-8">
+                <Image
+                  src={heroSlides[0].src}
+                  alt={heroSlides[0].alt}
+                  fill
+                  className="object-cover"
+                  sizes="400px"
+                  quality={75}
+                  priority
+                  loading="eager"
                 />
-              ))}
-            </div>
+              </div>
+            ) : (
+              <>
+                {/* Fade slideshow on desktop */}
+                <div className="absolute inset-0 top-8">
+                  {heroSlides.map((slide, i) => {
+                    const isNearby = i === activeSlide || i === (activeSlide + 1) % heroSlides.length || i === (activeSlide - 1 + heroSlides.length) % heroSlides.length;
+                    return (
+                      <div
+                        key={i}
+                        className={`absolute inset-0 transition-opacity duration-700 ${i === activeSlide ? "opacity-100" : "opacity-0"}`}
+                      >
+                        {isNearby && (
+                          <Image
+                            src={slide.src}
+                            alt={slide.alt}
+                            fill
+                            className="object-cover"
+                            sizes="500px"
+                            quality={75}
+                            {...(i === 0 ? { priority: true, loading: "eager" as const } : { loading: "lazy" as const })}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Dot indicators — desktop only */}
+                <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+                  {heroSlides.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveSlide(i)}
+                      className={`h-2 w-2 rounded-full transition-all duration-300 ${i === activeSlide ? "bg-pink scale-125" : "bg-ink/20 hover:bg-ink/40"}`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
 
