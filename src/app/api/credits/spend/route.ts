@@ -35,7 +35,6 @@ export async function POST(request: NextRequest) {
 
     const updatedSub = await prisma.subscription.findUnique({
       where: { userId: dbUser.id },
-      select: { creditsBalance: true },
     });
 
     return NextResponse.json({
