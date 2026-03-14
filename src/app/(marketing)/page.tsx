@@ -147,7 +147,7 @@ export default function HomePage() {
                   <div className="h-9 w-9 rounded-full border-2 border-white bg-blush shadow-md" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-ink/80">Trusted by 1250+ Educators</p>
+                  <p className="text-sm font-semibold text-ink/80">Trusted by 2500+ Educators</p>
                   <div className="mt-0.5 flex items-center gap-1.5">
                     <div className="flex gap-0.5">{[1,2,3,4,5].map(i => <Star key={i} />)}</div>
                     <span className="text-xs text-ink/40">4.9/5 average rating</span>
@@ -168,9 +168,9 @@ export default function HomePage() {
         {/* Stats bar */}
         <div className="relative border-t border-ink/[0.08]">
           <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 sm:grid-cols-4 px-4 py-8 sm:px-6 lg:px-8">
-            <StatCard countTo={700} label="Reviews" delay={1000} bounce href="#testimonials" hoverLabel="READ REVIEWS" />
+            <StatCard countTo={700} label="Reviews" delay={500} bounce href="#testimonials" hoverLabel="READ REVIEWS" />
             <StatCard value={<>225<span className="text-4xl font-bold align-middle">+</span></>} label="Lesson Plans" />
-            <StatCard countTo={1250} label="Educators Served" delay={2000} bounce />
+            <StatCard countTo={2500} label="Educators Served" delay={1500} bounce />
             <StatCard value="9" label="Countries Reached" />
           </div>
         </div>
@@ -198,7 +198,7 @@ export default function HomePage() {
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div>
-            <RevealDiv><p className="text-lg font-semibold tracking-[0.2em] text-pink uppercase">Our Story</p></RevealDiv>
+            <RevealDiv><p className="inline-block rounded-full bg-white px-4 py-1 text-lg font-semibold tracking-[0.2em] text-pink uppercase">Our Story</p></RevealDiv>
             <RevealDiv delay="delay-100">
               <h2 className="mt-4 font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight tracking-tight text-slate sm:text-4xl lg:text-[2.75rem]">
                 Born from 15 Years of<br />&quot;There&apos;s Nothing Out There for My Students&quot;
