@@ -91,20 +91,20 @@ export default function HomePage() {
           <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-20">
             {/* Left column — text, CTAs, trust row */}
             <div>
-              <div className="animate-fade-in-up mb-8 h-1 w-16 rounded-full bg-gradient-to-r from-pink to-blush" />
+              <div className="lg:animate-fade-in-up mb-8 h-1 w-16 rounded-full bg-gradient-to-r from-pink to-blush" />
 
-              <p className="animate-fade-in-up delay-100 mb-6 text-[15px] font-semibold tracking-[0.2em] text-teal-dark uppercase">
-                Lesson Plans For Multilingual Learners
+              <p className="lg:animate-fade-in-up lg:delay-100 mb-6 inline-block whitespace-nowrap rounded-full bg-white px-4 py-1 text-lg font-semibold tracking-[0.1em] text-pink uppercase">
+                Lesson Plans&ensp;For&ensp;Multilingual&ensp;Learners
               </p>
 
-              <h1 className="animate-fade-in-up delay-200 max-w-3xl font-[family-name:var(--font-playfair)] text-5xl font-bold leading-[1.1] tracking-tight text-ink sm:text-6xl lg:text-5xl xl:text-6xl">
+              <h1 className="lg:animate-fade-in-up lg:delay-200 max-w-3xl font-[family-name:var(--font-playfair)] text-5xl font-bold leading-[1.1] tracking-tight text-ink sm:text-6xl lg:text-5xl xl:text-6xl">
                 We make lesson planning
                 <br />
                 <em>
                   {"effortless.".split("").map((char, i) => (
                     <span
                       key={i}
-                      className="animate-bounce-letter"
+                      className="lg:animate-bounce-letter"
                       style={{ animationDelay: `${0.5 + i * 0.08}s` }}
                     >
                       {char}
@@ -113,15 +113,15 @@ export default function HomePage() {
                 </em>
               </h1>
 
-              <p className="animate-fade-in-up delay-300 mt-8 max-w-xl text-lg leading-relaxed text-slate">
+              <p className="lg:animate-fade-in-up lg:delay-300 mt-8 max-w-xl text-lg leading-relaxed text-slate">
                 Classroom tested and expertly crafted, standard-aligned ELD lesson plans specifically designed for secondary educators. This is your one stop shop for engaging and inclusive resources for multilingual learners.
               </p>
 
-              <p className="animate-fade-in-up delay-350 mt-4 max-w-xl text-lg leading-relaxed text-slate">
+              <p className="lg:animate-fade-in-up lg:delay-350 mt-4 max-w-xl text-lg leading-relaxed text-slate">
                 Flexible plans starting at $9.99/month. Every plan includes a curated lesson bundle plus monthly credits to unlock additional resources.
               </p>
 
-              <div className="animate-fade-in-up delay-400 mt-10 flex flex-wrap items-center gap-4">
+              <div className="lg:animate-fade-in-up lg:delay-400 mt-10 flex flex-wrap items-center gap-4">
                 <Link href="/#pricing" className="group inline-flex items-center gap-2 rounded-full bg-pink px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-pink/25 ring-2 ring-transparent transition-all duration-300 hover:bg-pink-dark hover:shadow-2xl hover:shadow-pink/40 hover:-translate-y-1 hover:scale-105 hover:ring-gold">
                   GET STARTED
                   <span className="relative h-5 w-5">
@@ -139,7 +139,7 @@ export default function HomePage() {
               </div>
 
               {/* Trust row */}
-              <div className="animate-fade-in-up delay-500 mt-14 flex flex-wrap items-center gap-6">
+              <div className="lg:animate-fade-in-up lg:delay-500 mt-14 flex flex-wrap items-center gap-6">
                 <div className="flex -space-x-2.5">
                   <div className="h-9 w-9 rounded-full border-2 border-white bg-teal shadow-md" />
                   <div className="h-9 w-9 rounded-full border-2 border-white bg-pink shadow-md" />
@@ -158,7 +158,7 @@ export default function HomePage() {
 
             {/* Right column — laptop mockup */}
             <div className="relative mt-16 lg:mt-0">
-              <div className="animate-fade-in-up delay-500">
+              <div className="lg:animate-fade-in-up lg:delay-500">
                 <LaptopMockup />
               </div>
             </div>

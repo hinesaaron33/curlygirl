@@ -21,7 +21,12 @@ export function StatCard({
 }) {
   const [count, setCount] = useState(0);
   const [triggered, setTriggered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024);
+  }, []);
 
   const animate = useCallback(() => {
     if (!countTo) return;
@@ -41,6 +46,13 @@ export function StatCard({
   }, [countTo]);
 
   useEffect(() => {
+    // On mobile, skip animations — show final values immediately
+    if (isMobile) {
+      if (countTo) setCount(countTo);
+      setTriggered(true);
+      return;
+    }
+
     if (!bounce && !countTo) return;
     const el = ref.current;
     if (!el) return;
@@ -71,7 +83,7 @@ export function StatCard({
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return cleanup;
-  }, [animate, delay, bounce, countTo]);
+  }, [animate, delay, bounce, countTo, isMobile]);
 
   const content = (
     <>
