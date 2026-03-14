@@ -13,9 +13,10 @@ const RevealContext = createContext<{
 
 export function RevealProvider({ children }: { children: React.ReactNode }) {
   const callbacksRef = useRef<Map<Element, RevealCallback>>(new Map());
+  // Create observer eagerly (not inside useEffect) so it's ready for children
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  useEffect(() => {
+  if (typeof window !== "undefined" && !observerRef.current) {
     observerRef.current = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -25,7 +26,13 @@ export function RevealProvider({ children }: { children: React.ReactNode }) {
       },
       { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
     );
-    return () => observerRef.current?.disconnect();
+  }
+
+  useEffect(() => {
+    return () => {
+      observerRef.current?.disconnect();
+      observerRef.current = null;
+    };
   }, []);
 
   const observe = useCallback((el: Element, cb: RevealCallback) => {
