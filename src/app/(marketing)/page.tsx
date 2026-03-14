@@ -87,7 +87,7 @@ export default function HomePage() {
           <div className="absolute bottom-0 left-1/2 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-blush/[0.15] blur-[100px]" />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 pt-36 pb-20 sm:px-6 sm:pt-44 sm:pb-28 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 pt-24 pb-20 sm:px-6 sm:pt-28 sm:pb-28 lg:px-8">
           <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-20">
             {/* Left column — text, CTAs, trust row */}
             <div>
