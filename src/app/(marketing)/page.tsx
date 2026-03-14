@@ -599,7 +599,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ PRICING ═══ */}
-      <section id="pricing" className="relative overflow-hidden bg-base-dark pt-20 pb-28 sm:pt-24 sm:pb-36 scroll-mt-[72px]">
+      <section id="pricing" className="relative overflow-hidden bg-base-dark pt-10 pb-28 sm:pt-12 sm:pb-36 scroll-mt-[72px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-10 right-[15%] h-[300px] w-[300px] rounded-full bg-blush/[0.1] blur-[120px]" />
         </div>
