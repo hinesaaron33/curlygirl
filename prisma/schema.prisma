@@ -39,20 +39,25 @@ enum AiJobStatus {
 // ─── Models ──────────────────────────────────────────────────────────
 
 model User {
-  id               String   @id @default(cuid()) @db.VarChar(36)
-  email            String   @unique
-  name             String
-  role             Role     @default(TEACHER)
-  stripeCustomerId String?  @unique
-  avatarUrl        String?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id                  String   @id @default(cuid()) @db.VarChar(36)
+  email               String   @unique
+  name                String
+  role                Role     @default(TEACHER)
+  stripeCustomerId    String?  @unique
+  avatarUrl           String?
+  googleAccessToken   String?
+  googleRefreshToken  String?
+  googleEmail         String?
+  googleTokenExpiry   DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   subscription     Subscription?
   lessonPlans      LessonPlan[]
   customizedPlans  CustomizedPlan[]
   downloadLogs     DownloadLog[]
   aiGenerationJobs AiGenerationJob[]
+  driveCopyLogs    DriveCopyLog[]
 }
 
 model Subscription {
@@ -71,37 +76,41 @@ model Subscription {
 }
 
 model LessonPlan {
-  id            String   @id @default(cuid()) @db.VarChar(36)
-  title         String
-  description   String?
-  gradeLevel    String
-  topic         String
-  languageSkill String
-  slidesData    Json
-  metadata      Json?
-  tags          String[]
-  published     Boolean  @default(false)
-  createdById   String
-  createdBy     User     @relation(fields: [createdById], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id               String   @id @default(cuid()) @db.VarChar(36)
+  title            String
+  description      String?
+  gradeLevel       String
+  topic            String
+  languageSkill    String
+  slidesData       Json
+  metadata         Json?
+  tags             String[]
+  published        Boolean  @default(false)
+  googleDriveFileId String?
+  googleDriveUrl    String?
+  createdById      String
+  createdBy        User     @relation(fields: [createdById], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   assets           LessonPlanAsset[]
   customizedPlans  CustomizedPlan[]
   downloadLogs     DownloadLog[]
+  driveCopyLogs    DriveCopyLog[]
   sourceForJobs    AiGenerationJob[] @relation("SourcePlan")
   resultOfJobs     AiGenerationJob[] @relation("ResultPlan")
 }
 
 model LessonPlanAsset {
-  id           String     @id @default(cuid()) @db.VarChar(36)
-  lessonPlanId String
-  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
-  fileName     String
-  fileUrl      String
-  fileType     String
-  fileSize     Int
-  createdAt    DateTime   @default(now())
+  id               String     @id @default(cuid()) @db.VarChar(36)
+  lessonPlanId     String
+  lessonPlan       LessonPlan @relation(fields: [lessonPlanId], references: [id])
+  fileName         String
+  fileUrl          String
+  fileType         String
+  fileSize         Int
+  googleDriveFileId String?
+  createdAt        DateTime   @default(now())
 }
 
 model CustomizedPlan {
@@ -143,4 +152,14 @@ model AiGenerationJob {
   createdBy           User        @relation(fields: [createdById], references: [id])
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
+}
+
+model DriveCopyLog {
+  id           String     @id @default(cuid()) @db.VarChar(36)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  lessonPlanId String
+  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
+  copiedFileId String
+  copiedAt     DateTime   @default(now())
 }
