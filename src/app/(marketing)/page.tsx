@@ -599,15 +599,14 @@ export default function HomePage() {
       </section>
 
       {/* ═══ PRICING ═══ */}
-      <section id="pricing" className="relative overflow-hidden bg-base-dark py-28 sm:py-36">
+      <section id="pricing" className="relative overflow-hidden bg-base-dark pt-20 pb-28 sm:pt-24 sm:pb-36 scroll-mt-[72px]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-10 right-[15%] h-[300px] w-[300px] rounded-full bg-blush/[0.1] blur-[120px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <RevealDiv><p className="text-[13px] font-semibold tracking-[0.2em] text-pink uppercase">Pricing</p></RevealDiv>
-            <RevealDiv delay="delay-100">
-              <h2 className="mt-4 font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">Choose your plan</h2>
+            <RevealDiv>
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">Choose your plan</h2>
             </RevealDiv>
             <RevealDiv delay="delay-200">
               <p className="mx-auto mt-4 max-w-md text-base text-ink/50">Start with a 7-day free trial. No credit card required. Cancel anytime.</p>
