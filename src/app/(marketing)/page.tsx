@@ -636,7 +636,7 @@ export default function HomePage() {
                 <div className={`group relative flex h-full flex-col rounded-2xl border bg-white/30 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink/15 ${tier.highlighted ? "border-pink/30 ring-4 ring-pink/10 hover:border-pink hover:ring-pink/30" : "border-white/40 hover:border-pink hover:ring-4 hover:ring-pink/15"}`}>
                   {tier.highlighted && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                      <span className="rounded-full bg-gradient-to-r from-pink to-blush px-6 py-1.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg shadow-pink/25">Most Popular</span>
+                      <span className="rounded-full bg-pink px-6 py-1.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg shadow-pink/25 transition-all duration-300 group-hover:bg-white group-hover:text-pink group-hover:shadow-white/25">Most Popular</span>
                     </div>
                   )}
                   <h3 className="text-lg font-semibold text-ink text-center">{tier.name}</h3>
