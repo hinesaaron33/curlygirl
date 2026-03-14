@@ -7,10 +7,19 @@ import { encrypt } from "@/lib/google/token-encryption";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
+  const state = searchParams.get("state");
   const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
 
+  const isAdmin = state === "admin";
+  const errorRedirect = isAdmin
+    ? `${appUrl}/admin/content?google=error`
+    : `${appUrl}/library?google=error`;
+  const successRedirect = isAdmin
+    ? `${appUrl}/admin/content?google=connected`
+    : `${appUrl}/library?google=connected`;
+
   if (!code) {
-    return NextResponse.redirect(`${appUrl}/library?google=error`);
+    return NextResponse.redirect(errorRedirect);
   }
 
   const supabase = await createClient();
@@ -26,7 +35,7 @@ export async function GET(request: Request) {
     const tokens = await exchangeCodeForTokens(code);
 
     if (!tokens.access_token || !tokens.refresh_token) {
-      return NextResponse.redirect(`${appUrl}/library?google=error`);
+      return NextResponse.redirect(errorRedirect);
     }
 
     await prisma.user.update({
@@ -40,8 +49,8 @@ export async function GET(request: Request) {
       },
     });
 
-    return NextResponse.redirect(`${appUrl}/library?google=connected`);
+    return NextResponse.redirect(successRedirect);
   } catch {
-    return NextResponse.redirect(`${appUrl}/library?google=error`);
+    return NextResponse.redirect(errorRedirect);
   }
 }
