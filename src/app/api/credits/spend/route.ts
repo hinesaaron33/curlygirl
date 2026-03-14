@@ -33,11 +33,16 @@ export async function POST(request: NextRequest) {
     await purchaseWithCredit(dbUser.id, lessonPlanId);
     const result = await copyFileToSubscriber(dbUser.id, lessonPlanId);
 
+    const updatedSub = await prisma.subscription.findUnique({
+      where: { userId: dbUser.id },
+      select: { creditsBalance: true },
+    });
+
     return NextResponse.json({
       success: true,
       fileId: result.fileId,
       url: result.url,
-      creditsRemaining: dbUser.subscription.creditsBalance - 1,
+      creditsRemaining: updatedSub?.creditsBalance ?? 0,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
