@@ -26,7 +26,7 @@ export function Footer() {
             <h3 className="text-xs font-semibold tracking-widest text-ink/40 uppercase">Quick Links</h3>
             <ul className="mt-4 space-y-2.5">
               <li><Link href="/" className="text-sm text-ink/35 transition-colors hover:text-ink/60">Home</Link></li>
-              <li><Link href="/pricing" className="text-sm text-ink/35 transition-colors hover:text-ink/60">Pricing</Link></li>
+              <li><Link href="/#pricing" className="text-sm text-ink/35 transition-colors hover:text-ink/60">Pricing</Link></li>
               <li><Link href="/#about" className="text-sm text-ink/35 transition-colors hover:text-ink/60">About</Link></li>
             </ul>
           </div>

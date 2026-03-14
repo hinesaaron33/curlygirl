@@ -50,14 +50,15 @@ export function Navbar() {
           <Link href="/#about" onClick={(e) => scrollTo(e, "about")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">About</Link>
           <Link href="/#features" onClick={(e) => scrollTo(e, "features")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Features</Link>
           <Link href="/#how-it-works" onClick={(e) => scrollTo(e, "how-it-works")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">How It Works</Link>
-          <Link href="/pricing" className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Pricing</Link>
+          <Link href="/#pricing" onClick={(e) => scrollTo(e, "pricing")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Pricing</Link>
           <Link href="/login" className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Log In</Link>
         </div>
 
         {/* Desktop CTA */}
         <div className="hidden md:block">
           <Link
-            href="/pricing"
+            href="/#pricing"
+            onClick={(e) => scrollTo(e, "pricing")}
             className="group inline-flex items-center gap-2 rounded-full bg-pink px-6 py-2.5 text-[13px] font-semibold text-white shadow-lg shadow-pink/25 ring-2 ring-transparent transition-all duration-300 hover:bg-pink-dark hover:shadow-2xl hover:shadow-pink/40 hover:-translate-y-1 hover:scale-105 hover:ring-gold"
           >
             GET STARTED
@@ -94,10 +95,10 @@ export function Navbar() {
             <Link href="/#about" onClick={(e) => scrollTo(e, "about")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">About</Link>
             <Link href="/#features" onClick={(e) => scrollTo(e, "features")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">Features</Link>
             <Link href="/#how-it-works" onClick={(e) => scrollTo(e, "how-it-works")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">How It Works</Link>
-            <Link href="/pricing" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
+            <Link href="/#pricing" onClick={(e) => scrollTo(e, "pricing")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">Pricing</Link>
             <Link href="/login" className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
             <div className="mt-3 border-t border-ink/[0.08] pt-4">
-              <Link href="/pricing" className="block w-full rounded-full bg-pink py-2.5 text-center text-sm font-semibold text-white shadow-lg shadow-pink/25 hover:bg-pink-dark" onClick={() => setMobileMenuOpen(false)}>GET STARTED</Link>
+              <Link href="/#pricing" onClick={(e) => scrollTo(e, "pricing")} className="block w-full rounded-full bg-pink py-2.5 text-center text-sm font-semibold text-white shadow-lg shadow-pink/25 hover:bg-pink-dark">GET STARTED</Link>
             </div>
           </div>
         </div>
