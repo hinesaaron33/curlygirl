@@ -1,8 +1,8 @@
-"use client";
-
 import Link from "next/link";
-import Image from "next/image";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { RevealProvider, RevealDiv } from "@/components/marketing/reveal-div";
+import { LaptopMockup } from "@/components/marketing/laptop-mockup";
+import { StatCard } from "@/components/marketing/stat-card";
+import { PricingSection } from "@/components/marketing/pricing-section";
 
 /* ── Marquee topics ── */
 const topics = [
@@ -18,37 +18,37 @@ const features = [
     title: "Save Hours Every Week",
     description: "Stop spending evenings and weekends creating lesson plans from scratch. Our library is ready to go.",
     iconColor: "bg-teal/20 text-teal-dark",
-    icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>,
+    iconPath: "M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25",
   },
   {
     title: "Standards-Aligned",
     description: "Every plan is aligned to WIDA and state ELD frameworks, so you can teach with confidence and compliance.",
     iconColor: "bg-pink/15 text-pink",
-    icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg>,
+    iconPath: "M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z",
   },
   {
     title: "Fully Customizable",
     description: "Every plan can be tailored to your students' proficiency levels, interests, and classroom context.",
     iconColor: "bg-blush/30 text-pink-dark",
-    icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>,
+    iconPath: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10",
   },
   {
     title: "Differentiated for ELLs",
     description: "Built-in scaffolding and differentiation for emerging, developing, and bridging proficiency levels.",
     iconColor: "bg-gold/20 text-gold-dark",
-    icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>,
+    iconPath: "M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z",
   },
   {
     title: "Print-Ready PDFs",
     description: "Download polished, professionally formatted PDFs ready for your classroom with a single click.",
     iconColor: "bg-teal/20 text-teal-dark",
-    icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>,
+    iconPath: "M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3",
   },
   {
     title: "Expert-Created",
     description: "Every plan is designed by experienced middle school ELD educators who know what works in real classrooms.",
     iconColor: "bg-pink/15 text-pink",
-    icon: <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>,
+    iconPath: "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z",
   },
 ];
 
@@ -66,62 +66,6 @@ const testimonials = [
   { quote: "I recommended Curly Girl to my entire department. We all use it now and our ELD block has never been more consistent or effective.", name: "Sandra L.", role: "6th Grade ELD, Arizona", color: "bg-gold" },
 ];
 
-/* ── Pricing ── */
-const pricingTiers = [
-  {
-    name: "Free",
-    monthlyPrice: "$0",
-    yearlyPrice: "$0",
-    period: "",
-    description: "Explore what Curly Girl ELD has to offer.",
-    features: ["Browse lesson plan previews", "1 PDF download per month", "Community access", "Email support"],
-    highlighted: false,
-  },
-  {
-    name: "Starter",
-    monthlyPrice: "$14.99",
-    yearlyPrice: "$9.99",
-    period: "/mo",
-    description: "Perfect for individual teachers getting started.",
-    features: ["Core lesson plan library", "Basic customization tools", "5 PDF downloads per month", "Email support"],
-    highlighted: false,
-  },
-  {
-    name: "Professional",
-    monthlyPrice: "$24.99",
-    yearlyPrice: "$19.99",
-    period: "/mo",
-    description: "For educators who want the full toolkit.",
-    features: ["Full lesson plan library", "Advanced editor & customization", "Unlimited PDF downloads", "Priority support", "New plans added monthly", "Collaboration tools"],
-    highlighted: true,
-  },
-];
-
-/* ── Scroll reveal hook ── */
-function useReveal() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) el.classList.add("opacity-100", "translate-y-0"); },
-      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  return ref;
-}
-
-function RevealDiv({ children, className = "", delay = "" }: { children: React.ReactNode; className?: string; delay?: string }) {
-  const ref = useReveal();
-  return (
-    <div ref={ref} className={`opacity-0 translate-y-8 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${delay} ${className}`}>
-      {children}
-    </div>
-  );
-}
-
 /* ── Star icon ── */
 function Star() {
   return (
@@ -131,213 +75,9 @@ function Star() {
   );
 }
 
-/* ── Product slides for monitor mockup ── */
-const heroSlides = [
-  { src: "/hero/slide-1.jpg", alt: "Year 1 Secondary Newcomer/SLIFE Thematic Units" },
-  { src: "/hero/slide-2.jpg", alt: "What's Inside This Bundle?" },
-  { src: "/hero/slide-3.jpg", alt: "Scope & Sequence — Year-Long Curriculum" },
-  { src: "/hero/slide-4.jpg", alt: "Google Slides for Each Unit" },
-  { src: "/hero/slide-5.jpg", alt: "Student Workbooks" },
-];
-
-/* ── iMac Monitor Mockup ── */
-function LaptopMockup() {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const startAutoAdvance = useCallback(() => {
-    intervalRef.current = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 4000);
-  }, []);
-
-  const stopAutoAdvance = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  }, []);
-
-  useEffect(() => {
-    startAutoAdvance();
-    return stopAutoAdvance;
-  }, [startAutoAdvance, stopAutoAdvance]);
-
-  return (
-    <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-      {/* Monitor body */}
-      <div className="rounded-2xl border-[3px] border-[#2a2a2e] bg-gradient-to-b from-[#2a2a2e] to-[#1d1d20] p-2.5 shadow-2xl">
-        {/* Screen bezel */}
-        <div className="rounded-xl bg-black p-[2px]">
-          {/* Screen */}
-          <div
-            className="relative h-72 overflow-hidden rounded-[10px] bg-[#e8e8e8] sm:h-80 lg:h-[22rem]"
-            onMouseEnter={stopAutoAdvance}
-            onMouseLeave={startAutoAdvance}
-          >
-            {/* Browser chrome */}
-            <div className="flex items-center gap-2 border-b border-ink/10 bg-white/80 px-3 py-1.5">
-              <div className="flex gap-1.5">
-                <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-                <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-                <div className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-              </div>
-              <div className="ml-2 flex-1 rounded-md bg-ink/[0.06] px-3 py-0.5 text-center text-[10px] text-ink/30">
-                curlygirleld.com
-              </div>
-            </div>
-
-            {/* Fade slideshow */}
-            <div className="absolute inset-0 top-8">
-              {heroSlides.map((slide, i) => {
-                const isNearby = i === activeSlide || i === (activeSlide + 1) % heroSlides.length || i === (activeSlide - 1 + heroSlides.length) % heroSlides.length;
-                return (
-                  <div
-                    key={i}
-                    className={`absolute inset-0 transition-opacity duration-700 ${i === activeSlide ? "opacity-100" : "opacity-0"}`}
-                  >
-                    {isNearby && (
-                      <Image
-                        src={slide.src}
-                        alt={slide.alt}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 400px, 500px"
-                        quality={75}
-                        {...(i === 0 ? { priority: true, loading: "eager" as const } : { loading: "lazy" as const })}
-                      />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Dot indicators */}
-            <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
-              {heroSlides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveSlide(i)}
-                  className={`h-2 w-2 rounded-full transition-all duration-300 ${i === activeSlide ? "bg-pink scale-125" : "bg-ink/20 hover:bg-ink/40"}`}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Chin with logo */}
-        <div className="flex items-center justify-center py-2">
-          <div className="h-3 w-3 rounded-full bg-white/10" />
-        </div>
-      </div>
-
-      {/* Stand neck */}
-      <div className="mx-auto h-16 w-[18%] bg-gradient-to-b from-[#c0c0c4] via-[#d4d4d8] to-[#bbbbbe] shadow-[inset_2px_0_4px_rgba(0,0,0,0.08),inset_-2px_0_4px_rgba(0,0,0,0.08)]" />
-
-      {/* Stand base — oval foot */}
-      <div className="mx-auto h-3 w-[45%] rounded-[50%] bg-gradient-to-b from-[#c8c8cc] to-[#b0b0b4] shadow-[0_2px_8px_rgba(0,0,0,0.12)]" />
-
-      {/* Shadow underneath */}
-      <div className="mx-auto mt-0.5 h-2 w-[40%] rounded-full bg-ink/[0.08] blur-md" />
-    </div>
-  );
-}
-
-/* ── StatCard with scroll-triggered bounce + optional counter ── */
-function StatCard({ value, label, countTo, delay = 0, bounce = false, href, hoverLabel }: { value?: React.ReactNode; label: string; countTo?: number; delay?: number; bounce?: boolean; href?: string; hoverLabel?: string }) {
-  const [count, setCount] = useState(0);
-  const [triggered, setTriggered] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const animate = useCallback(() => {
-    if (!countTo) return;
-    const duration = 2000;
-    let start: number | null = null;
-
-    function step(timestamp: number) {
-      if (!start) start = timestamp;
-      const elapsed = timestamp - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      setCount(Math.floor(eased * countTo!));
-      if (progress < 1) requestAnimationFrame(step);
-    }
-
-    requestAnimationFrame(step);
-  }, [countTo]);
-
-  useEffect(() => {
-    if (!bounce && !countTo) return;
-    const el = ref.current;
-    if (!el) return;
-    let done = false;
-    const cleanup = () => {
-      done = true;
-      obs.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (!done && entry.isIntersecting && window.scrollY > 50) {
-          setTimeout(() => {
-            setTriggered(true);
-            animate();
-          }, delay);
-          cleanup();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    obs.observe(el);
-    const onScroll = () => {
-      if (!done && window.scrollY > 50) {
-        obs.unobserve(el);
-        obs.observe(el);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return cleanup;
-  }, [animate, delay, bounce, countTo]);
-
-  const content = (
-    <>
-      <p className="font-[family-name:var(--font-playfair)] text-6xl font-bold text-[#61A0AF]">
-        {countTo ? <>{(triggered ? count : 0).toLocaleString()}<span className="text-4xl font-bold align-middle">+</span></> : value}
-      </p>
-      {hoverLabel ? (
-        <p className="mt-2 text-lg font-semibold text-ink/70">
-          <span className="group-hover:hidden">{label}</span>
-          <span className="hidden group-hover:inline text-pink">{hoverLabel}</span>
-        </p>
-      ) : (
-        <p className="mt-2 text-lg font-semibold text-ink/70">{label}</p>
-      )}
-    </>
-  );
-
-  const cls = `group rounded-xl bg-[#F5D491] border-2 border-gold-dark/50 shadow-md py-8 text-center ${bounce ? (triggered ? "animate-bounce-in" : "scale-100") : ""} ${href ? "cursor-pointer transition-all duration-300 hover:scale-105 ring-2 ring-transparent hover:ring-pink hover:shadow-lg hover:shadow-pink/20" : ""}`;
-
-  if (href) {
-    return (
-      <a ref={ref as React.Ref<HTMLAnchorElement>} href={href} className={cls}>
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <div ref={ref} className={cls}>
-      {content}
-    </div>
-  );
-}
-
 export default function HomePage() {
-  const [yearly, setYearly] = useState(true);
-
   return (
-    <>
+    <RevealProvider>
       {/* ═══ HERO ═══ */}
       <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-base-light via-base to-base-dark">
         <div className="pointer-events-none absolute inset-0">
@@ -411,7 +151,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right column — laptop mockup + counter */}
+            {/* Right column — laptop mockup */}
             <div className="relative mt-16 lg:mt-0">
               <div className="animate-fade-in-up delay-500">
                 <LaptopMockup />
@@ -545,7 +285,9 @@ export default function HomePage() {
             {features.map((f, i) => (
               <RevealDiv key={f.title} delay={`delay-${(i + 1) * 100}`}>
                 <div className="h-full rounded-2xl border border-white/40 bg-white/30 p-7 shadow-sm backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-pink/[0.08]">
-                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${f.iconColor}`}>{f.icon}</div>
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${f.iconColor}`}>
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d={f.iconPath} /></svg>
+                  </div>
                   <h3 className="mt-5 text-base font-semibold text-ink">{f.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-ink/45">{f.description}</p>
                 </div>
@@ -599,80 +341,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ PRICING ═══ */}
-      <section id="pricing" className="relative overflow-hidden bg-base-dark pt-2 pb-28 sm:pt-3 sm:pb-36 scroll-mt-[72px]">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-10 right-[15%] h-[300px] w-[300px] rounded-full bg-blush/[0.1] blur-[120px]" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <RevealDiv>
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">Choose your plan</h2>
-            </RevealDiv>
-            <RevealDiv delay="delay-200">
-              <p className="mx-auto mt-4 max-w-md text-base text-ink/50">Start free and explore. Upgrade anytime to unlock the full library.</p>
-
-              {/* Monthly / Yearly toggle */}
-              <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-white/40 bg-white/30 p-1 backdrop-blur-sm">
-                <button
-                  onClick={() => setYearly(false)}
-                  className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${!yearly ? "bg-pink text-white shadow-md" : "text-ink/50 hover:text-ink"}`}
-                >
-                  Monthly
-                </button>
-                <button
-                  onClick={() => setYearly(true)}
-                  className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${yearly ? "bg-pink text-white shadow-md" : "text-ink/50 hover:text-ink"}`}
-                >
-                  Yearly
-                  <span className="ml-1.5 rounded-full bg-gold/80 px-2 py-0.5 text-[10px] font-bold text-ink">SAVE 33%</span>
-                </button>
-              </div>
-            </RevealDiv>
-          </div>
-
-          <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {pricingTiers.map((tier, i) => (
-              <RevealDiv key={tier.name} delay={`delay-${(i + 1) * 100}`}>
-                <div className={`group relative flex h-full flex-col rounded-2xl border bg-white/30 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-pink/15 ${tier.highlighted ? "border-pink/30 ring-4 ring-pink/10 hover:border-pink hover:ring-pink/30" : "border-white/40 hover:border-pink hover:ring-4 hover:ring-pink/15"}`}>
-                  {tier.highlighted && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                      <span className="rounded-full bg-pink px-6 py-1.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg shadow-pink/25 transition-all duration-300 group-hover:bg-white group-hover:text-pink group-hover:shadow-white/25">Most Popular</span>
-                    </div>
-                  )}
-                  <h3 className="text-lg font-semibold text-ink text-center">{tier.name}</h3>
-                  <p className="mt-1 text-sm text-slate text-center">{tier.description}</p>
-                  <div className="mt-6 flex items-baseline justify-center gap-1">
-                    <span className="font-[family-name:var(--font-playfair)] text-5xl font-bold text-ink">{yearly ? tier.yearlyPrice : tier.monthlyPrice}</span>
-                    {tier.period && <span className="text-lg text-ink/75">{tier.period}</span>}
-                  </div>
-                  {yearly && tier.yearlyPrice !== "$0" && (
-                    <div className="mt-3 text-center">
-                      <span className="inline-block rounded-full bg-gold/80 px-4 py-1 text-xs font-bold tracking-wide text-ink uppercase">Billed Annually</span>
-                    </div>
-                  )}
-                  <ul className="mt-8 flex-1 space-y-3">
-                    {tier.features.map(f => (
-                      <li key={f} className="flex items-start gap-2.5 text-sm text-ink/60">
-                        <svg className="mt-0.5 h-4 w-4 shrink-0 text-teal-dark" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-8">
-                    <Link href="/signup" className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold transition-all ${tier.highlighted ? "bg-pink text-white shadow-lg shadow-pink/25 group-hover:bg-white group-hover:text-pink group-hover:border-2 group-hover:border-pink group-hover:shadow-xl group-hover:-translate-y-0.5" : "border-2 border-ink/15 bg-white/40 text-ink/70 group-hover:border-pink group-hover:bg-pink group-hover:text-white group-hover:shadow-lg group-hover:shadow-pink/25"}`}>
-                      GET STARTED
-                      <span className="relative h-4 w-4">
-                        <svg className="absolute inset-0 h-4 w-4 transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
-                        <svg className="absolute inset-0 h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                      </span>
-                    </Link>
-                  </div>
-                </div>
-              </RevealDiv>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PricingSection />
 
       {/* ═══ TESTIMONIALS ═══ */}
       <section id="testimonials" className="relative overflow-hidden bg-base py-28 sm:py-36">
@@ -739,6 +408,6 @@ export default function HomePage() {
           </RevealDiv>
         </div>
       </section>
-    </>
+    </RevealProvider>
   );
 }
