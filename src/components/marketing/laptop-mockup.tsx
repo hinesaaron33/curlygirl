@@ -13,14 +13,14 @@ const heroSlides = [
 
 export function LaptopMockup() {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isVisibleRef = useRef(false);
 
-  // Detect mobile on mount
+  // Detect desktop on mount — default is mobile (static image, no slideshow)
   useEffect(() => {
-    setIsMobile(window.innerWidth < 1024);
+    if (window.innerWidth >= 1024) setIsMobile(false);
   }, []);
 
   const startAutoAdvance = useCallback(() => {

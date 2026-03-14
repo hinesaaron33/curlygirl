@@ -274,7 +274,7 @@ export default function HomePage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <RevealDiv><p className="text-[13px] font-semibold tracking-[0.2em] text-teal-dark uppercase">Features</p></RevealDiv>
+          <RevealDiv><p className="inline-block rounded-full bg-white px-4 py-1 text-lg font-semibold tracking-[0.2em] text-pink uppercase">What&apos;s Included</p></RevealDiv>
           <RevealDiv delay="delay-100">
             <h2 className="mt-4 max-w-xl font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">
               Everything you need to teach ELD with confidence
