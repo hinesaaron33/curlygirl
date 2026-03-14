@@ -609,7 +609,7 @@ export default function HomePage() {
               <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">Choose your plan</h2>
             </RevealDiv>
             <RevealDiv delay="delay-200">
-              <p className="mx-auto mt-4 max-w-md text-base text-ink/50">Start with a 7-day free trial. No credit card required. Cancel anytime.</p>
+              <p className="mx-auto mt-4 max-w-md text-base text-ink/50">Start free and explore. Upgrade anytime to unlock the full library.</p>
 
               {/* Monthly / Yearly toggle */}
               <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-white/40 bg-white/30 p-1 backdrop-blur-sm">
@@ -723,7 +723,7 @@ export default function HomePage() {
           </RevealDiv>
           <RevealDiv delay="delay-100">
             <p className="mx-auto mt-4 max-w-md text-base text-ink/50">
-              Join 500+ educators who are saving hours every week. Start your 7-day free trial today.
+              Join 500+ educators who are saving hours every week. Start free today.
             </p>
           </RevealDiv>
           <RevealDiv delay="delay-200">

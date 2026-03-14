@@ -81,7 +81,7 @@ export default function PricingPage() {
               Choose your plan
             </h2>
             <p className="mx-auto mt-4 max-w-md text-base text-ink/50">
-              Start with a 7-day free trial. No credit card required. Cancel anytime.
+              Start free and explore. Upgrade anytime to unlock the full library.
             </p>
 
             {/* Monthly / Yearly toggle */}
@@ -194,7 +194,7 @@ export default function PricingPage() {
             Ready to save hours on lesson planning?
           </h2>
           <p className="mt-4 text-base text-ink/50">
-            Join educators who trust Curly Girl ELD. Start your 7-day free trial today.
+            Join educators who trust Curly Girl ELD. Start free today.
           </p>
           <div className="mt-10">
             <Link
