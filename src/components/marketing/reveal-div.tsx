@@ -76,14 +76,19 @@ export function RevealDiv({
       return;
     }
 
+    // Fallback: force visible after 3s in case observer is slow (mobile hydration)
+    const timeout = setTimeout(() => setVisible(true), 3000);
+
     ctx.observe(el, (entry) => {
       if (entry.isIntersecting) {
         setVisible(true);
+        clearTimeout(timeout);
         ctx.unobserve(el);
       }
     });
 
     return () => {
+      clearTimeout(timeout);
       ctx.unobserve(el);
     };
   }, [ctx]);
