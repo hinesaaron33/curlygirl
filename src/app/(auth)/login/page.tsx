@@ -25,6 +25,7 @@ export default function LoginPage() {
       setLoading(false);
       return;
     }
+    await fetch("/api/auth/sync", { method: "POST" });
     router.push("/library");
   };
 

@@ -40,7 +40,7 @@ export async function checkCopyAccess(userId: string) {
   return { allowed: true, remaining: limits.downloadsPerMonth - copyCount } as const;
 }
 
-async function getValidAccessToken(userId: string): Promise<string> {
+export async function getValidAccessToken(userId: string): Promise<string> {
   const user = await prisma.user.findUniqueOrThrow({
     where: { id: userId },
     select: {

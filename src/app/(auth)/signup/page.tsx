@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +26,13 @@ export default function SignupPage() {
     });
 
     if (error) { setError(error.message); setLoading(false); return; }
+    // If session exists (no email confirmation required), sync and redirect
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      await fetch("/api/auth/sync", { method: "POST" });
+      router.push("/library");
+      return;
+    }
     setSuccess(true);
     setLoading(false);
   };

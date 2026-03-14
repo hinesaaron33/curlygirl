@@ -8,12 +8,16 @@ function getOAuthClient() {
   );
 }
 
-export function getGoogleAuthUrl() {
+export function getGoogleAuthUrl(
+  scopes: string[] = ["https://www.googleapis.com/auth/drive.file"],
+  state?: string
+) {
   const client = getOAuthClient();
   return client.generateAuthUrl({
     access_type: "offline",
     prompt: "consent",
-    scope: ["https://www.googleapis.com/auth/drive.file"],
+    scope: scopes,
+    state,
   });
 }
 
