@@ -128,16 +128,16 @@ function LoginModal({ onClose }: { onClose: () => void }) {
         <div className="mb-8 text-center">
           <div className="inline-flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-pink font-bold text-white text-sm shadow-sm font-[family-name:var(--font-playfair)]">CG</div>
-            <span className="text-[15px] font-semibold tracking-tight text-ink font-[family-name:var(--font-playfair)]">Curly Girl <span className="text-pink">ELD</span></span>
+            <span className="text-[24px] font-semibold tracking-tight text-ink font-[family-name:var(--font-playfair)]">Curly Girl <span className="text-pink">ELD</span></span>
           </div>
         </div>
 
         <h2 className="text-xl font-bold text-ink font-[family-name:var(--font-playfair)]">Welcome back</h2>
-        <p className="mt-1 mb-6 text-sm text-ink/50">Log in to access your lesson plans</p>
+        <p className="mt-1 mb-6 text-sm text-ink">Log in to access your lesson plans</p>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label htmlFor="login-email" className="mb-1.5 block text-xs font-medium text-ink/50">Email</label>
+            <label htmlFor="login-email" className="mb-1.5 block text-sm font-medium text-ink">Email</label>
             <input
               id="login-email"
               type="email"
@@ -150,7 +150,7 @@ function LoginModal({ onClose }: { onClose: () => void }) {
             />
           </div>
           <div>
-            <label htmlFor="login-password" className="mb-1.5 block text-xs font-medium text-ink/50">Password</label>
+            <label htmlFor="login-password" className="mb-1.5 block text-sm font-medium text-ink">Password</label>
             <input
               id="login-password"
               type="password"

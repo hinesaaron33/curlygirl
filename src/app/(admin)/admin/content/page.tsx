@@ -103,10 +103,10 @@ export default function ContentManagementPage() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-900">
             Content Management
           </h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-1 text-sm text-gray-500">
             Browse Google Drive and link files as lesson plans
           </p>
         </div>
@@ -115,7 +115,7 @@ export default function ContentManagementPage() {
           disabled={loading}
           className="rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700 disabled:opacity-50"
         >
-          {loading ? "Loading…" : "Browse Drive"}
+          {loading ? "Loading..." : "Browse Drive"}
         </button>
       </div>
 
@@ -131,7 +131,7 @@ export default function ContentManagementPage() {
           {files.map((file) => (
             <div
               key={file.id}
-              className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+              className="rounded-lg border border-gray-200 bg-white p-4"
             >
               {file.thumbnailLink && (
                 <img
@@ -188,9 +188,7 @@ export default function ContentManagementPage() {
             <h2 className="text-lg font-semibold text-gray-900">
               Link to Lesson Plan
             </h2>
-            <p className="mt-1 text-sm text-gray-500">
-              {selectedFile.name}
-            </p>
+            <p className="mt-1 text-sm text-gray-500">{selectedFile.name}</p>
 
             <div className="mt-4 space-y-3">
               <input
@@ -200,7 +198,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
               />
               <textarea
                 placeholder="Description"
@@ -208,7 +206,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
                 rows={2}
               />
               <input
@@ -218,7 +216,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, gradeLevel: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
               />
               <input
                 type="text"
@@ -227,7 +225,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, topic: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
               />
               <input
                 type="text"
@@ -236,7 +234,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, languageSkill: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
               />
               <input
                 type="text"
@@ -245,7 +243,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, tags: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
               />
             </div>
 
@@ -267,7 +265,7 @@ export default function ContentManagementPage() {
                 }
                 className="rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700 disabled:opacity-50"
               >
-                {linking ? "Linking…" : "Link"}
+                {linking ? "Linking..." : "Link"}
               </button>
             </div>
           </div>

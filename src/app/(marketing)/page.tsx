@@ -81,7 +81,7 @@ export default function HomePage() {
     <RevealProvider>
       {/* ═══ HERO ═══ */}
       <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-base-light via-base to-base-dark">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 hidden lg:block">
           <div className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-pink/[0.08] blur-[120px]" />
           <div className="absolute -right-20 top-1/3 h-[400px] w-[400px] rounded-full bg-white/20 blur-[100px]" />
           <div className="absolute bottom-0 left-1/2 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-blush/[0.15] blur-[100px]" />
@@ -100,11 +100,11 @@ export default function HomePage() {
               <h1 className="lg:animate-fade-in-up lg:delay-200 max-w-3xl font-[family-name:var(--font-playfair)] text-5xl font-bold leading-[1.1] tracking-tight text-ink sm:text-6xl lg:text-5xl xl:text-6xl">
                 We make lesson planning
                 <br />
-                <em>
+                <em className="text-pink">
                   {"effortless.".split("").map((char, i) => (
                     <span
                       key={i}
-                      className="lg:animate-bounce-letter"
+                      className="animate-bounce-letter"
                       style={{ animationDelay: `${0.5 + i * 0.08}s` }}
                     >
                       {char}
@@ -129,7 +129,7 @@ export default function HomePage() {
                     <svg className="absolute inset-0 h-5 w-5 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                   </span>
                 </Link>
-                <Link href="#features" className="group inline-flex items-center gap-2 rounded-full border-2 border-ink/15 bg-white/30 px-8 py-3.5 text-base font-semibold text-ink/70 backdrop-blur-sm transition-all duration-300 hover:border-gold hover:bg-white/50 hover:text-ink hover:-translate-y-1 hover:scale-105 hover:shadow-lg hover:shadow-gold/20">
+                <Link href="#features" className="group inline-flex items-center gap-2 rounded-full border-2 border-ink/15 bg-white/30 px-8 py-3.5 text-base font-semibold text-ink/70 lg:backdrop-blur-sm transition-all duration-300 hover:border-gold hover:bg-white/50 hover:text-ink hover:-translate-y-1 hover:scale-105 hover:shadow-lg hover:shadow-gold/20">
                   Shop Lessons
                   <span className="relative h-5 w-5">
                     <svg className="absolute inset-0 h-5 w-5 transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
@@ -192,7 +192,7 @@ export default function HomePage() {
 
       {/* ═══ ABOUT ═══ */}
       <section id="about" className="relative overflow-hidden bg-base py-28 sm:py-36">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 hidden lg:block">
           <div className="absolute top-20 right-[10%] h-[300px] w-[300px] rounded-full bg-white/15 blur-[100px]" />
         </div>
 
@@ -232,7 +232,7 @@ export default function HomePage() {
 
           {/* Lesson card preview */}
           <RevealDiv delay="delay-200">
-            <div className="rounded-2xl border border-white/40 bg-white/30 p-8 shadow-xl shadow-ink/[0.06] backdrop-blur-sm">
+            <div className="rounded-2xl border border-white/40 bg-white/30 p-8 shadow-xl shadow-ink/[0.06] lg:backdrop-blur-sm">
               <div className="mb-4 flex items-center gap-2">
                 <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-teal" />
                 <span className="text-xs font-semibold tracking-wider text-teal-dark uppercase">Sample Lesson Plan</span>
@@ -269,7 +269,7 @@ export default function HomePage() {
 
       {/* ═══ FEATURES ═══ */}
       <section id="features" className="relative overflow-hidden bg-base-dark py-28 sm:py-36">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 hidden lg:block">
           <div className="absolute -bottom-20 left-[20%] h-[350px] w-[350px] rounded-full bg-pink/[0.06] blur-[120px]" />
         </div>
 
@@ -289,7 +289,7 @@ export default function HomePage() {
           <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f, i) => (
               <RevealDiv key={f.title} delay={`delay-${(i + 1) * 100}`}>
-                <div className="h-full rounded-2xl border border-white/40 bg-white/30 p-7 shadow-sm backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-pink/[0.08]">
+                <div className="h-full rounded-2xl border border-white/40 bg-white/30 p-7 shadow-sm lg:backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-pink/[0.08]">
                   <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${f.iconColor}`}>
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d={f.iconPath} /></svg>
                   </div>
@@ -350,7 +350,7 @@ export default function HomePage() {
 
       {/* ═══ TESTIMONIALS ═══ */}
       <section id="testimonials" className="relative overflow-hidden bg-base py-28 sm:py-36">
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 hidden lg:block">
           <div className="absolute top-1/2 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/15 blur-[100px]" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -364,7 +364,7 @@ export default function HomePage() {
           <div className="mx-auto mt-16 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-3">
             {testimonials.map((t, i) => (
               <RevealDiv key={t.name} delay={`delay-${(i + 1) * 100}`}>
-                <div className="h-full rounded-2xl border border-white/40 bg-white/30 p-7 shadow-sm backdrop-blur-sm">
+                <div className="h-full rounded-2xl border border-white/40 bg-white/30 p-7 shadow-sm lg:backdrop-blur-sm">
                   <div className="flex gap-0.5">{[1,2,3,4,5].map(j => <Star key={j} />)}</div>
                   <p className="mt-5 text-sm leading-relaxed text-ink/55 italic">&ldquo;{t.quote}&rdquo;</p>
                   <div className="mt-6 flex items-center gap-3">

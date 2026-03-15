@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/prisma";
+import { AdminNav } from "@/components/layout/admin-nav";
 
 export default async function AdminLayout({
   children,
@@ -26,13 +27,9 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="border-b border-gray-200 bg-white px-8 py-4">
-        <h1 className="text-lg font-semibold text-gray-900">
-          Admin Dashboard
-        </h1>
-      </header>
-      <main className="p-8">{children}</main>
+    <div className="flex min-h-screen bg-gray-50">
+      <AdminNav />
+      <main className="flex-1 p-8">{children}</main>
     </div>
   );
 }

@@ -34,7 +34,7 @@ export default function LoginPage() {
       <div className="mb-8 text-center">
         <Link href="/" className="inline-flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-pink font-bold text-white text-sm shadow-sm font-[family-name:var(--font-playfair)]">CG</div>
-          <span className="text-[15px] font-semibold tracking-tight text-ink font-[family-name:var(--font-playfair)]">Curly Girl <span className="text-pink">ELD</span></span>
+          <span className="text-[24px] font-semibold tracking-tight text-ink font-[family-name:var(--font-playfair)]">Curly Girl <span className="text-pink">ELD</span></span>
         </Link>
       </div>
 
@@ -43,12 +43,12 @@ export default function LoginPage() {
 
       <form onSubmit={handleLogin} className="space-y-4">
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-ink-muted">Email</label>
+          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink">Email</label>
           <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
             className="w-full rounded-xl border border-ink/10 bg-white/50 px-4 py-2.5 text-sm text-ink transition-colors placeholder:text-ink/30 focus:border-pink/50 focus:outline-none focus:ring-2 focus:ring-pink/20" placeholder="you@example.com" />
         </div>
         <div>
-          <label htmlFor="password" className="mb-1.5 block text-xs font-medium text-ink-muted">Password</label>
+          <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-ink">Password</label>
           <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
             className="w-full rounded-xl border border-ink/10 bg-white/50 px-4 py-2.5 text-sm text-ink transition-colors placeholder:text-ink/30 focus:border-pink/50 focus:outline-none focus:ring-2 focus:ring-pink/20" placeholder="Enter your password" />
         </div>
