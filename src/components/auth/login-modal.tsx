@@ -68,6 +68,7 @@ function LoginModal({ onClose }: { onClose: () => void }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   // Close on Escape
   useEffect(() => {
@@ -97,21 +98,20 @@ function LoginModal({ onClose }: { onClose: () => void }) {
       setLoading(false);
       return;
     }
+    let destination = "/library";
     try {
       const syncRes = await fetch("/api/auth/sync", { method: "POST" });
       if (syncRes.ok) {
         const syncData = await syncRes.json();
-        onClose();
-        router.push(syncData.role === "ADMIN" ? "/admin" : "/library");
-        return;
+        if (syncData.role === "ADMIN") destination = "/admin";
       }
     } catch {
       // sync failed, fall through to default redirect
-    } finally {
-      setLoading(false);
     }
-    onClose();
-    router.push("/library");
+    setLoading(false);
+    setRedirecting(true);
+    router.push(destination);
+    router.refresh();
   };
 
   return (
@@ -144,6 +144,12 @@ function LoginModal({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
+        {redirecting ? (
+          <div className="flex flex-col items-center gap-4 py-8">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-pink/30 border-t-pink" />
+            <p className="text-sm font-medium text-ink/70">Redirecting...</p>
+          </div>
+        ) : (<>
         <h2 className="text-xl font-bold text-ink font-[family-name:var(--font-playfair)]">Welcome back</h2>
         <p className="mt-1 mb-6 text-sm text-ink">Log in to access your lesson plans</p>
 
@@ -190,6 +196,7 @@ function LoginModal({ onClose }: { onClose: () => void }) {
           Don&apos;t have an account?{" "}
           <Link href="/signup" onClick={onClose} className="rounded-md bg-[#F5D491] px-2 py-0.5 font-semibold text-pink hover:text-pink-dark">Sign up</Link>
         </p>
+        </>)}
       </div>
     </div>
   );

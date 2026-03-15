@@ -11,6 +11,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,19 +26,20 @@ export default function LoginPage() {
       setLoading(false);
       return;
     }
+    let destination = "/library";
     try {
       const syncRes = await fetch("/api/auth/sync", { method: "POST" });
       if (syncRes.ok) {
         const syncData = await syncRes.json();
-        router.push(syncData.role === "ADMIN" ? "/admin" : "/library");
-        return;
+        if (syncData.role === "ADMIN") destination = "/admin";
       }
     } catch {
       // sync failed, fall through to default redirect
-    } finally {
-      setLoading(false);
     }
-    router.push("/library");
+    setLoading(false);
+    setRedirecting(true);
+    router.push(destination);
+    router.refresh();
   };
 
   return (
@@ -49,6 +51,12 @@ export default function LoginPage() {
         </Link>
       </div>
 
+      {redirecting ? (
+        <div className="flex flex-col items-center gap-4 py-8">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-pink/30 border-t-pink" />
+          <p className="text-sm font-medium text-ink/70">Redirecting...</p>
+        </div>
+      ) : (<>
       <h1 className="text-xl font-bold text-ink font-[family-name:var(--font-playfair)]">Welcome back</h1>
       <p className="mt-1 mb-6 text-sm text-ink-muted">Log in to access your lesson plans</p>
 
@@ -74,6 +82,7 @@ export default function LoginPage() {
         Don&apos;t have an account?{" "}
         <Link href="/signup" className="font-semibold text-pink hover:text-pink-dark">Sign up</Link>
       </p>
+      </>)}
     </div>
   );
 }
