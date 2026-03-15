@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/prisma";
-import { PRICE_IDS, getStripe } from "@/lib/stripe/config";
+import { getStripe } from "@/lib/stripe/config";
 
 export async function GET() {
   const supabase = await createClient();
@@ -129,11 +129,13 @@ export async function GET() {
   }
 
   // Build a set of yearly price IDs to determine billing interval
-  const yearlyPriceIds = new Set([
-    PRICE_IDS.STARTER_YEARLY,
-    PRICE_IDS.ESSENTIAL_YEARLY,
-    PRICE_IDS.PRO_PLUS_YEARLY,
-  ]);
+  const yearlyPriceIds = new Set(
+    [
+      process.env.STRIPE_PRICE_STARTER_YEARLY ?? "",
+      process.env.STRIPE_PRICE_ESSENTIAL_YEARLY ?? "",
+      process.env.STRIPE_PRICE_PRO_PLUS_YEARLY ?? "",
+    ].filter(Boolean)
+  );
 
   const signupsWithBilling = recentSignups.map((u) => ({
     ...u,
