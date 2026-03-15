@@ -77,7 +77,7 @@ export default function SubscriberManagementPage() {
           placeholder="Search name or email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="rounded-lg border border-navy-700 bg-navy-900 px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500 focus:border-coral-500 focus:outline-none focus:ring-1 focus:ring-coral-500"
+          className="rounded-lg border border-navy-700 bg-[#418DA2] px-3 py-2 text-sm text-gray-200 placeholder:text-white/60 focus:border-coral-500 focus:outline-none focus:ring-1 focus:ring-coral-500"
         />
         <select
           value={tier}
@@ -85,7 +85,7 @@ export default function SubscriberManagementPage() {
             setTier(e.target.value);
             setPage(1);
           }}
-          className="rounded-lg border border-navy-700 bg-navy-900 px-3 py-2 text-sm text-gray-200"
+          className="rounded-lg border border-navy-700 bg-[#418DA2] px-3 py-2 text-sm text-gray-200"
         >
           <option value="">All Tiers</option>
           <option value="STARTER">Starter</option>
@@ -98,7 +98,7 @@ export default function SubscriberManagementPage() {
             setStatus(e.target.value);
             setPage(1);
           }}
-          className="rounded-lg border border-navy-700 bg-navy-900 px-3 py-2 text-sm text-gray-200"
+          className="rounded-lg border border-navy-700 bg-[#418DA2] px-3 py-2 text-sm text-gray-200"
         >
           <option value="">All Statuses</option>
           <option value="ACTIVE">Active</option>
@@ -116,9 +116,9 @@ export default function SubscriberManagementPage() {
       </form>
 
       {/* Table */}
-      <div className="mt-6 overflow-x-auto rounded-lg border border-navy-800 bg-navy-900">
+      <div className="mt-6 overflow-x-auto rounded-lg border border-[#3a7f90] bg-[#418DA2]">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-navy-800 text-xs uppercase text-gray-500">
+          <thead className="border-b border-navy-800 text-xs uppercase text-white/60">
             <tr>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
@@ -131,13 +131,13 @@ export default function SubscriberManagementPage() {
           <tbody className="divide-y divide-navy-800">
             {loading ? (
               <tr>
-                <td colSpan={6} className="px-4 py-6 text-center text-gray-600">
+                <td colSpan={6} className="px-4 py-6 text-center text-white/50">
                   Loading...
                 </td>
               </tr>
             ) : users.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-6 text-center text-gray-600">
+                <td colSpan={6} className="px-4 py-6 text-center text-white/50">
                   No subscribers found
                 </td>
               </tr>
@@ -147,8 +147,8 @@ export default function SubscriberManagementPage() {
                   <td className="px-4 py-3 font-medium text-gray-100">
                     {u.name}
                   </td>
-                  <td className="px-4 py-3 text-gray-400">{u.email}</td>
-                  <td className="px-4 py-3 text-gray-300">
+                  <td className="px-4 py-3 text-white/80">{u.email}</td>
+                  <td className="px-4 py-3 text-white/90">
                     {u.subscription
                       ? tierLabels[u.subscription.tier] ?? u.subscription.tier
                       : "—"}
@@ -160,10 +160,10 @@ export default function SubscriberManagementPage() {
                       "—"
                     )}
                   </td>
-                  <td className="px-4 py-3 text-gray-300">
+                  <td className="px-4 py-3 text-white/90">
                     {u.subscription?.creditsBalance ?? "—"}
                   </td>
-                  <td className="px-4 py-3 text-gray-400">
+                  <td className="px-4 py-3 text-white/80">
                     {u.subscription
                       ? new Date(u.subscription.createdAt).toLocaleDateString()
                       : "—"}
@@ -178,7 +178,7 @@ export default function SubscriberManagementPage() {
       {/* Pagination */}
       {pagination && pagination.totalPages > 1 && (
         <div className="mt-4 flex items-center justify-between text-sm">
-          <p className="text-gray-500">
+          <p className="text-white/60">
             Page {pagination.page} of {pagination.totalPages} ({pagination.total}{" "}
             total)
           </p>
@@ -186,14 +186,14 @@ export default function SubscriberManagementPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="rounded border border-navy-700 px-3 py-1 text-gray-400 hover:bg-navy-800 disabled:opacity-40"
+              className="rounded border border-navy-700 px-3 py-1 text-white/80 hover:bg-[#418DA2] disabled:opacity-40"
             >
               Prev
             </button>
             <button
               onClick={() => setPage((p) => p + 1)}
               disabled={page >= pagination.totalPages}
-              className="rounded border border-navy-700 px-3 py-1 text-gray-400 hover:bg-navy-800 disabled:opacity-40"
+              className="rounded border border-navy-700 px-3 py-1 text-white/80 hover:bg-[#418DA2] disabled:opacity-40"
             >
               Next
             </button>
@@ -210,12 +210,12 @@ function StatusBadge({ status }: { status: string }) {
     CANCELED: "bg-coral-950 text-coral-400",
     PAST_DUE: "bg-yellow-950 text-yellow-400",
     TRIALING: "bg-blue-950 text-blue-400",
-    INACTIVE: "bg-navy-800 text-gray-400",
+    INACTIVE: "bg-[#418DA2] text-white/80",
   };
   return (
     <span
       className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
-        colors[status] ?? "bg-navy-800 text-gray-400"
+        colors[status] ?? "bg-[#418DA2] text-white/80"
       }`}
     >
       {status}

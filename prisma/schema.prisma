@@ -97,6 +97,21 @@ model LessonPlan {
   published        Boolean  @default(false)
   googleDriveFileId String?
   googleDriveUrl    String?
+
+  // Sheet-synced fields
+  tabName              String?
+  tptLink              String?
+  price                String?
+  resourceType         String?
+  slifeReady           Boolean?
+  resourceCount        String?
+  pageSlideCount       String?
+  theme                String?
+  resourceUpdate       String?
+  coverPreviewUpdate   String?
+  bundleNames          String[]
+  sheetSyncedAt        DateTime?
+
   createdById      String
   createdBy        User     @relation(fields: [createdById], references: [id])
   createdAt        DateTime @default(now())

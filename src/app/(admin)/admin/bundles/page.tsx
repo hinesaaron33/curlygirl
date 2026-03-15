@@ -178,7 +178,7 @@ export default function BundleManagementPage() {
       {showCreate && (
         <form
           onSubmit={handleCreate}
-          className="mt-4 rounded-lg border border-navy-800 bg-navy-900 p-4"
+          className="mt-4 rounded-lg border border-[#3a7f90] bg-[#418DA2] p-4"
         >
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <input
@@ -186,13 +186,13 @@ export default function BundleManagementPage() {
               placeholder="Bundle name *"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
-              className="rounded-lg border border-navy-700 bg-navy-800 px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500"
+              className="rounded-lg border border-navy-700 bg-[#418DA2] px-3 py-2 text-sm text-gray-200 placeholder:text-white/60"
               required
             />
             <select
               value={newTier}
               onChange={(e) => setNewTier(e.target.value)}
-              className="rounded-lg border border-navy-700 bg-navy-800 px-3 py-2 text-sm text-gray-200"
+              className="rounded-lg border border-navy-700 bg-[#418DA2] px-3 py-2 text-sm text-gray-200"
             >
               <option value="STARTER">Starter</option>
               <option value="ESSENTIAL">Essential</option>
@@ -203,7 +203,7 @@ export default function BundleManagementPage() {
               placeholder="Description (optional)"
               value={newDesc}
               onChange={(e) => setNewDesc(e.target.value)}
-              className="rounded-lg border border-navy-700 bg-navy-800 px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500"
+              className="rounded-lg border border-navy-700 bg-[#418DA2] px-3 py-2 text-sm text-gray-200 placeholder:text-white/60"
             />
           </div>
           <button
@@ -218,9 +218,9 @@ export default function BundleManagementPage() {
 
       {/* Bundle list */}
       {loading ? (
-        <p className="mt-6 text-sm text-gray-500">Loading bundles...</p>
+        <p className="mt-6 text-sm text-white/60">Loading bundles...</p>
       ) : bundles.length === 0 ? (
-        <p className="mt-6 text-sm text-gray-600">No bundles yet</p>
+        <p className="mt-6 text-sm text-white/50">No bundles yet</p>
       ) : (
         (["STARTER", "ESSENTIAL", "PRO_PLUS"] as const).map((tier) =>
           grouped[tier] && grouped[tier].length > 0 ? (
@@ -232,7 +232,7 @@ export default function BundleManagementPage() {
                 {grouped[tier].map((bundle) => (
                   <div
                     key={bundle.id}
-                    className="rounded-lg border border-navy-800 bg-navy-900"
+                    className="rounded-lg border border-[#3a7f90] bg-[#418DA2]"
                   >
                     <button
                       onClick={() => expandBundle(bundle.id)}
@@ -243,12 +243,12 @@ export default function BundleManagementPage() {
                           {bundle.name}
                         </span>
                         {bundle.description && (
-                          <span className="ml-2 text-sm text-gray-500">
+                          <span className="ml-2 text-sm text-white/60">
                             — {bundle.description}
                           </span>
                         )}
                       </div>
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-white/60">
                         {bundle._count.lessonPlans} lesson
                         {bundle._count.lessonPlans !== 1 ? "s" : ""}
                       </span>
@@ -257,7 +257,7 @@ export default function BundleManagementPage() {
                     {expandedId === bundle.id && (
                       <div className="border-t border-navy-800 px-4 py-3">
                         {lessonsLoading ? (
-                          <p className="text-sm text-gray-500">Loading...</p>
+                          <p className="text-sm text-white/60">Loading...</p>
                         ) : (
                           <>
                             {bundleLessons.length > 0 ? (
@@ -265,11 +265,11 @@ export default function BundleManagementPage() {
                                 {bundleLessons.map((lp) => (
                                   <li
                                     key={lp.id}
-                                    className="flex items-center justify-between rounded px-2 py-1.5 text-sm hover:bg-navy-800"
+                                    className="flex items-center justify-between rounded px-2 py-1.5 text-sm hover:bg-[#418DA2]"
                                   >
-                                    <span className="text-gray-300">
+                                    <span className="text-white/90">
                                       {lp.title}{" "}
-                                      <span className="text-gray-500">
+                                      <span className="text-white/60">
                                         ({lp.gradeLevel} / {lp.topic})
                                       </span>
                                     </span>
@@ -285,7 +285,7 @@ export default function BundleManagementPage() {
                                 ))}
                               </ul>
                             ) : (
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-white/50">
                                 No lessons in this bundle
                               </p>
                             )}
@@ -295,7 +295,7 @@ export default function BundleManagementPage() {
                               <div className="mt-3 flex items-center gap-2">
                                 <select
                                   id={`add-${bundle.id}`}
-                                  className="flex-1 rounded border border-navy-700 bg-navy-800 px-2 py-1.5 text-sm text-gray-200"
+                                  className="flex-1 rounded border border-navy-700 bg-[#418DA2] px-2 py-1.5 text-sm text-gray-200"
                                   defaultValue=""
                                 >
                                   <option value="" disabled>

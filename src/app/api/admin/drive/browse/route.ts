@@ -57,6 +57,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       files: response.data.files ?? [],
       nextPageToken: response.data.nextPageToken ?? null,
+      folderId,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Drive API error";

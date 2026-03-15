@@ -36,7 +36,7 @@ export function AdminNav() {
 
   return (
     <nav
-      className={`flex flex-col border-r border-admin-sidebar-border bg-admin-sidebar transition-all duration-300 ${
+      className={`flex flex-col border-r border-admin-sidebar-border bg-[#418DA2] transition-all duration-300 ${
         collapsed ? "w-16" : "w-64"
       }`}
     >
@@ -86,8 +86,8 @@ export function AdminNav() {
                   title={collapsed ? link.label : undefined}
                   className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-lg font-medium transition-colors ${
                     isActive
-                      ? "bg-pink text-white"
-                      : "text-white/70 hover:bg-white hover:ring-2 hover:ring-pink hover:text-pink"
+                      ? "bg-[#84F1EC] text-black"
+                      : "text-white/70 hover:ring-2 hover:ring-gold"
                   } ${collapsed ? "justify-center" : ""}`}
                 >
                   <Icon className="h-5 w-5 shrink-0" />
