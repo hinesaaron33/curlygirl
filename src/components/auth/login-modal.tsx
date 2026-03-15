@@ -97,10 +97,21 @@ function LoginModal({ onClose }: { onClose: () => void }) {
       setLoading(false);
       return;
     }
-    const syncRes = await fetch("/api/auth/sync", { method: "POST" });
-    const syncData = await syncRes.json();
+    try {
+      const syncRes = await fetch("/api/auth/sync", { method: "POST" });
+      if (syncRes.ok) {
+        const syncData = await syncRes.json();
+        onClose();
+        router.push(syncData.role === "ADMIN" ? "/admin" : "/library");
+        return;
+      }
+    } catch {
+      // sync failed, fall through to default redirect
+    } finally {
+      setLoading(false);
+    }
     onClose();
-    router.push(syncData.role === "ADMIN" ? "/admin" : "/library");
+    router.push("/library");
   };
 
   return (

@@ -15,7 +15,7 @@ import {
 
 const navLinks = [
   { href: "/admin", label: "Overview", icon: ChartBarIcon, exact: true },
-  { href: "/admin/content", label: "Content", icon: DocumentTextIcon },
+  { href: "/admin/content", label: "Library", icon: DocumentTextIcon },
   { href: "/admin/bundles", label: "Bundles", icon: RectangleStackIcon },
   { href: "/admin/subscribers", label: "Subscribers", icon: UsersIcon },
 ];

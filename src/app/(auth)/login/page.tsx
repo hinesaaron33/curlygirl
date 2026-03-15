@@ -25,9 +25,19 @@ export default function LoginPage() {
       setLoading(false);
       return;
     }
-    const syncRes = await fetch("/api/auth/sync", { method: "POST" });
-    const syncData = await syncRes.json();
-    router.push(syncData.role === "ADMIN" ? "/admin" : "/library");
+    try {
+      const syncRes = await fetch("/api/auth/sync", { method: "POST" });
+      if (syncRes.ok) {
+        const syncData = await syncRes.json();
+        router.push(syncData.role === "ADMIN" ? "/admin" : "/library");
+        return;
+      }
+    } catch {
+      // sync failed, fall through to default redirect
+    } finally {
+      setLoading(false);
+    }
+    router.push("/library");
   };
 
   return (

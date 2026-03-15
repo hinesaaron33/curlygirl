@@ -49,10 +49,22 @@ export default function ContentManagementPage() {
   );
 }
 
-type TabView = "drive" | "sheet";
+interface LessonPlanRow {
+  id: string;
+  title: string;
+  gradeLevel: string;
+  topic: string;
+  published: boolean;
+}
+
+type TabView = "lessons" | "drive" | "sheet";
 
 function ContentManagementContent() {
-  const [activeTab, setActiveTab] = useState<TabView>("drive");
+  const [activeTab, setActiveTab] = useState<TabView>("lessons");
+
+  // Lesson plans state
+  const [lessonPlans, setLessonPlans] = useState<LessonPlanRow[]>([]);
+  const [lessonsLoading, setLessonsLoading] = useState(false);
 
   // Drive state
   const [files, setFiles] = useState<DriveFile[]>([]);
@@ -108,6 +120,21 @@ function ContentManagementContent() {
       );
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchLessonPlans() {
+    setLessonsLoading(true);
+    try {
+      const res = await fetch("/api/admin/lessons");
+      const data = await res.json();
+      if (res.ok) {
+        setLessonPlans(data.lessons);
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setLessonsLoading(false);
     }
   }
 
@@ -249,6 +276,7 @@ function ContentManagementContent() {
     } else if (googleStatus === "error") {
       setMessage("Failed to connect Google Drive. Please try again.");
     }
+    fetchLessonPlans();
     browseDrive();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -267,10 +295,10 @@ function ContentManagementContent() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-100">
-            Content Management
+            Library
           </h1>
           <p className="mt-1 text-sm text-white/60">
-            Browse Google Drive and link files as lesson plans
+            Manage lesson plans, browse Google Drive, and sync from sheets
           </p>
         </div>
         <div className="flex gap-2">
@@ -299,6 +327,21 @@ function ContentManagementContent() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-[#84F1EC]/40" />
         <nav className="relative flex gap-1">
           <button
+            onClick={() => setActiveTab("lessons")}
+            className={`relative rounded-t-lg px-4 py-2 text-base font-medium transition-colors ${
+              activeTab === "lessons"
+                ? "border-3 border-[#84F1EC] border-b-transparent bg-admin-sidebar text-white"
+                : "border border-transparent text-white/60 hover:border-gold hover:border-b-transparent hover:text-white/80"
+            }`}
+          >
+            Lesson Plans
+            {lessonPlans.length > 0 && (
+              <span className="ml-2 inline-flex items-center rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs text-emerald-400">
+                {lessonPlans.length}
+              </span>
+            )}
+          </button>
+          <button
             onClick={() => setActiveTab("drive")}
             className={`relative rounded-t-lg px-4 py-2 text-base font-medium transition-colors ${
               activeTab === "drive"
@@ -325,6 +368,56 @@ function ContentManagementContent() {
           </button>
         </nav>
       </div>
+
+      {/* ─── Lesson Plans Tab ─── */}
+      {activeTab === "lessons" && (
+        <div className="mt-6">
+          {lessonsLoading && (
+            <div className="text-sm text-white/80">Loading lesson plans...</div>
+          )}
+
+          {!lessonsLoading && lessonPlans.length === 0 && (
+            <div className="rounded-lg border border-navy-700 bg-[#418DA2] p-6 text-center">
+              <p className="text-sm text-white/90">
+                No lesson plans yet. Import them via the Drive Files or Sheet Sync tabs.
+              </p>
+            </div>
+          )}
+
+          {lessonPlans.length > 0 && (
+            <div className="overflow-hidden rounded-lg border border-navy-700">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-[#3a7f90] text-xs uppercase text-white/80">
+                  <tr>
+                    <th className="px-4 py-3">Title</th>
+                    <th className="px-4 py-3">Grade Level</th>
+                    <th className="px-4 py-3">Topic</th>
+                    <th className="px-4 py-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-navy-700">
+                  {lessonPlans.map((lp) => (
+                    <tr key={lp.id} className="bg-[#418DA2] hover:bg-[#3a7f90]/60">
+                      <td className="px-4 py-3 font-medium text-gray-100">{lp.title}</td>
+                      <td className="px-4 py-3 text-white/80">{lp.gradeLevel}</td>
+                      <td className="px-4 py-3 text-white/80">{lp.topic}</td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${
+                          lp.published
+                            ? "bg-emerald-500/20 text-emerald-400"
+                            : "bg-amber-500/20 text-amber-400"
+                        }`}>
+                          {lp.published ? "Published" : "Draft"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* ─── Drive Tab ─── */}
       {activeTab === "drive" && (
