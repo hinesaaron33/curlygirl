@@ -97,9 +97,10 @@ function LoginModal({ onClose }: { onClose: () => void }) {
       setLoading(false);
       return;
     }
-    await fetch("/api/auth/sync", { method: "POST" });
+    const syncRes = await fetch("/api/auth/sync", { method: "POST" });
+    const syncData = await syncRes.json();
     onClose();
-    router.push("/library");
+    router.push(syncData.role === "ADMIN" ? "/admin" : "/library");
   };
 
   return (
@@ -164,16 +165,19 @@ function LoginModal({ onClose }: { onClose: () => void }) {
           {error && <div className="rounded-lg bg-pink/10 px-3 py-2 text-sm text-pink-dark">{error}</div>}
           <button
             type="submit"
-            disabled={loading}
-            className="w-full rounded-xl bg-pink py-3 text-sm font-semibold text-white shadow-lg shadow-pink/25 transition-all hover:bg-pink-dark disabled:opacity-50"
+            disabled={loading || !email || !password}
+            className="group w-full rounded-xl border-2 border-pink bg-white py-3 text-base font-semibold text-pink shadow-lg shadow-pink/25 transition-all hover:bg-pink hover:text-white hover:border-gold disabled:border-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none"
           >
-            {loading ? "Logging in..." : "Log In"}
+            <span className="inline-flex items-center gap-2">
+              {loading ? "Logging in..." : "Log In"}
+              <svg className="h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-disabled:hidden" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            </span>
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-ink/40">
+        <p className="mt-6 text-center text-sm text-ink/70">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" onClick={onClose} className="font-semibold text-pink hover:text-pink-dark">Sign up</Link>
+          <Link href="/signup" onClick={onClose} className="rounded-md bg-[#F5D491] px-2 py-0.5 font-semibold text-pink hover:text-pink-dark">Sign up</Link>
         </p>
       </div>
     </div>

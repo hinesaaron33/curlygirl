@@ -65,7 +65,7 @@ export default function SubscriberManagementPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Subscribers</h1>
+      <h1 className="text-2xl font-bold text-gray-100">Subscribers</h1>
 
       {/* Filters */}
       <form
@@ -77,7 +77,7 @@ export default function SubscriberManagementPage() {
           placeholder="Search name or email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-navy-700 bg-navy-900 px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500 focus:border-coral-500 focus:outline-none focus:ring-1 focus:ring-coral-500"
         />
         <select
           value={tier}
@@ -85,7 +85,7 @@ export default function SubscriberManagementPage() {
             setTier(e.target.value);
             setPage(1);
           }}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-navy-700 bg-navy-900 px-3 py-2 text-sm text-gray-200"
         >
           <option value="">All Tiers</option>
           <option value="STARTER">Starter</option>
@@ -98,7 +98,7 @@ export default function SubscriberManagementPage() {
             setStatus(e.target.value);
             setPage(1);
           }}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="rounded-lg border border-navy-700 bg-navy-900 px-3 py-2 text-sm text-gray-200"
         >
           <option value="">All Statuses</option>
           <option value="ACTIVE">Active</option>
@@ -109,16 +109,16 @@ export default function SubscriberManagementPage() {
         </select>
         <button
           type="submit"
-          className="rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700"
+          className="rounded-lg bg-coral-500 px-4 py-2 text-sm font-medium text-white hover:bg-coral-600"
         >
           Search
         </button>
       </form>
 
       {/* Table */}
-      <div className="mt-6 overflow-x-auto rounded-lg border border-gray-200 bg-white">
+      <div className="mt-6 overflow-x-auto rounded-lg border border-navy-800 bg-navy-900">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-gray-200 bg-gray-50 text-xs uppercase text-gray-500">
+          <thead className="border-b border-navy-800 text-xs uppercase text-gray-500">
             <tr>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
@@ -128,27 +128,27 @@ export default function SubscriberManagementPage() {
               <th className="px-4 py-3">Subscribed Since</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-navy-800">
             {loading ? (
               <tr>
-                <td colSpan={6} className="px-4 py-6 text-center text-gray-400">
+                <td colSpan={6} className="px-4 py-6 text-center text-gray-600">
                   Loading...
                 </td>
               </tr>
             ) : users.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-6 text-center text-gray-400">
+                <td colSpan={6} className="px-4 py-6 text-center text-gray-600">
                   No subscribers found
                 </td>
               </tr>
             ) : (
               users.map((u) => (
                 <tr key={u.id}>
-                  <td className="px-4 py-3 font-medium text-gray-900">
+                  <td className="px-4 py-3 font-medium text-gray-100">
                     {u.name}
                   </td>
-                  <td className="px-4 py-3 text-gray-600">{u.email}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 text-gray-400">{u.email}</td>
+                  <td className="px-4 py-3 text-gray-300">
                     {u.subscription
                       ? tierLabels[u.subscription.tier] ?? u.subscription.tier
                       : "—"}
@@ -160,10 +160,10 @@ export default function SubscriberManagementPage() {
                       "—"
                     )}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 text-gray-300">
                     {u.subscription?.creditsBalance ?? "—"}
                   </td>
-                  <td className="px-4 py-3 text-gray-600">
+                  <td className="px-4 py-3 text-gray-400">
                     {u.subscription
                       ? new Date(u.subscription.createdAt).toLocaleDateString()
                       : "—"}
@@ -186,14 +186,14 @@ export default function SubscriberManagementPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="rounded border border-gray-300 px-3 py-1 text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+              className="rounded border border-navy-700 px-3 py-1 text-gray-400 hover:bg-navy-800 disabled:opacity-40"
             >
               Prev
             </button>
             <button
               onClick={() => setPage((p) => p + 1)}
               disabled={page >= pagination.totalPages}
-              className="rounded border border-gray-300 px-3 py-1 text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+              className="rounded border border-navy-700 px-3 py-1 text-gray-400 hover:bg-navy-800 disabled:opacity-40"
             >
               Next
             </button>
@@ -206,16 +206,16 @@ export default function SubscriberManagementPage() {
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
-    ACTIVE: "bg-green-100 text-green-800",
-    CANCELED: "bg-red-100 text-red-800",
-    PAST_DUE: "bg-yellow-100 text-yellow-800",
-    TRIALING: "bg-blue-100 text-blue-800",
-    INACTIVE: "bg-gray-100 text-gray-800",
+    ACTIVE: "bg-green-950 text-green-400",
+    CANCELED: "bg-coral-950 text-coral-400",
+    PAST_DUE: "bg-yellow-950 text-yellow-400",
+    TRIALING: "bg-blue-950 text-blue-400",
+    INACTIVE: "bg-navy-800 text-gray-400",
   };
   return (
     <span
       className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
-        colors[status] ?? "bg-gray-100 text-gray-800"
+        colors[status] ?? "bg-navy-800 text-gray-400"
       }`}
     >
       {status}

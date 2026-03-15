@@ -87,7 +87,7 @@ export function StatCard({
 
   const content = (
     <>
-      <p className="font-[family-name:var(--font-playfair)] text-6xl font-bold text-[#61A0AF]">
+      <p className="font-[family-name:var(--font-playfair)] text-5xl sm:text-6xl font-bold text-[#61A0AF]">
         {countTo ? <>{(triggered ? count : 0).toLocaleString()}<span className="text-4xl font-bold align-middle">+</span></> : value}
       </p>
       {hoverLabel ? (

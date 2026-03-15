@@ -69,7 +69,7 @@ export function Navbar() {
           <Link
             href="/#pricing"
             onClick={(e) => scrollTo(e, "pricing")}
-            className="group inline-flex items-center gap-2 rounded-full bg-pink px-6 py-2.5 text-[13px] font-semibold text-white shadow-lg shadow-pink/25 ring-2 ring-transparent transition-all duration-300 hover:bg-pink-dark hover:shadow-2xl hover:shadow-pink/40 hover:-translate-y-1 hover:scale-105 hover:ring-gold"
+            className="group inline-flex items-center gap-2 rounded-full border-2 border-gold bg-pink px-6 py-2.5 text-[13px] font-semibold text-white shadow-lg shadow-pink/25 transition-all duration-300 hover:bg-white hover:text-pink hover:border-pink hover:shadow-2xl hover:shadow-pink/40 hover:-translate-y-1 hover:scale-105"
           >
             GET STARTED
             <span className="relative h-4 w-4">

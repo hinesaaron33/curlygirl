@@ -99,11 +99,14 @@ export default function ContentManagementPage() {
     }
   }
 
+  const inputClass =
+    "w-full rounded-lg border border-navy-700 bg-navy-800 px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500 focus:border-coral-500 focus:outline-none focus:ring-1 focus:ring-coral-500";
+
   return (
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-100">
             Content Management
           </h1>
           <p className="mt-1 text-sm text-gray-500">
@@ -113,14 +116,14 @@ export default function ContentManagementPage() {
         <button
           onClick={() => browseDrive()}
           disabled={loading}
-          className="rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700 disabled:opacity-50"
+          className="rounded-lg bg-coral-500 px-4 py-2 text-sm font-medium text-white hover:bg-coral-600 disabled:opacity-50"
         >
           {loading ? "Loading..." : "Browse Drive"}
         </button>
       </div>
 
       {message && (
-        <div className="mt-4 rounded-lg bg-blue-50 p-3 text-sm text-blue-800">
+        <div className="mt-4 rounded-lg bg-blue-950/50 p-3 text-sm text-blue-400">
           {message}
         </div>
       )}
@@ -131,7 +134,7 @@ export default function ContentManagementPage() {
           {files.map((file) => (
             <div
               key={file.id}
-              className="rounded-lg border border-gray-200 bg-white p-4"
+              className="rounded-lg border border-navy-800 bg-navy-900 p-4"
             >
               {file.thumbnailLink && (
                 <img
@@ -140,7 +143,7 @@ export default function ContentManagementPage() {
                   className="mb-3 h-32 w-full rounded object-cover"
                 />
               )}
-              <h3 className="truncate text-sm font-medium text-gray-900">
+              <h3 className="truncate text-sm font-medium text-gray-100">
                 {file.name}
               </h3>
               <p className="mt-1 text-xs text-gray-500">
@@ -149,7 +152,7 @@ export default function ContentManagementPage() {
               <div className="mt-3 flex gap-2">
                 <button
                   onClick={() => openLinkModal(file)}
-                  className="rounded bg-pink-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-pink-700"
+                  className="rounded bg-coral-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-coral-600"
                 >
                   Link to lesson plan
                 </button>
@@ -158,7 +161,7 @@ export default function ContentManagementPage() {
                     href={file.webViewLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                    className="rounded border border-navy-700 px-3 py-1.5 text-xs font-medium text-gray-300 hover:bg-navy-800"
                   >
                     View
                   </a>
@@ -174,7 +177,7 @@ export default function ContentManagementPage() {
           <button
             onClick={() => browseDrive(nextPageToken)}
             disabled={loading}
-            className="text-sm font-medium text-pink-600 hover:text-pink-700"
+            className="text-sm font-medium text-coral-400 hover:text-coral-300"
           >
             Load more
           </button>
@@ -183,9 +186,9 @@ export default function ContentManagementPage() {
 
       {/* Link modal */}
       {selectedFile && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
-            <h2 className="text-lg font-semibold text-gray-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+          <div className="w-full max-w-lg rounded-xl border border-navy-800 bg-navy-900 p-6 shadow-xl">
+            <h2 className="text-lg font-semibold text-gray-100">
               Link to Lesson Plan
             </h2>
             <p className="mt-1 text-sm text-gray-500">{selectedFile.name}</p>
@@ -198,7 +201,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                className={inputClass}
               />
               <textarea
                 placeholder="Description"
@@ -206,7 +209,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                className={inputClass}
                 rows={2}
               />
               <input
@@ -216,7 +219,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, gradeLevel: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                className={inputClass}
               />
               <input
                 type="text"
@@ -225,7 +228,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, topic: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                className={inputClass}
               />
               <input
                 type="text"
@@ -234,7 +237,7 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, languageSkill: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                className={inputClass}
               />
               <input
                 type="text"
@@ -243,14 +246,14 @@ export default function ContentManagementPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, tags: e.target.value })
                 }
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                className={inputClass}
               />
             </div>
 
             <div className="mt-5 flex justify-end gap-3">
               <button
                 onClick={() => setSelectedFile(null)}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="rounded-lg border border-navy-700 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-navy-800"
               >
                 Cancel
               </button>
@@ -263,7 +266,7 @@ export default function ContentManagementPage() {
                   !formData.topic ||
                   !formData.languageSkill
                 }
-                className="rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700 disabled:opacity-50"
+                className="rounded-lg bg-coral-500 px-4 py-2 text-sm font-medium text-white hover:bg-coral-600 disabled:opacity-50"
               >
                 {linking ? "Linking..." : "Link"}
               </button>

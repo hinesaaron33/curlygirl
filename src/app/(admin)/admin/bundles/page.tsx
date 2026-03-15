@@ -85,12 +85,11 @@ export default function BundleManagementPage() {
     setExpandedId(bundleId);
     setLessonsLoading(true);
 
-    const [lessonsRes, allRes] = await Promise.all([
+    const [lessonsRes] = await Promise.all([
       fetch(`/api/admin/bundles/${bundleId}/lessons`),
       allLessons.length > 0
         ? Promise.resolve(null)
         : fetch("/api/admin/stats").then(() =>
-            // Fetch all published lessons for the add dropdown
             fetch(`/api/admin/bundles/${bundleId}/lessons`)
           ),
     ]);
@@ -98,7 +97,6 @@ export default function BundleManagementPage() {
     const lessonsData = await lessonsRes.json();
     setBundleLessons(lessonsData.lessons ?? []);
 
-    // Fetch all published lesson plans if not already loaded
     if (allLessons.length === 0) {
       const lpRes = await fetch("/api/admin/lessons");
       if (lpRes.ok) {
@@ -117,11 +115,9 @@ export default function BundleManagementPage() {
       body: JSON.stringify({ lessonPlanId }),
     });
     if (res.ok) {
-      // Refresh bundle lessons
       const updated = await fetch(`/api/admin/bundles/${bundleId}/lessons`);
       const data = await updated.json();
       setBundleLessons(data.lessons ?? []);
-      // Update count
       setBundles((prev) =>
         prev.map((b) =>
           b.id === bundleId
@@ -163,17 +159,17 @@ export default function BundleManagementPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Bundles</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Bundles</h1>
         <button
           onClick={() => setShowCreate(!showCreate)}
-          className="rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700"
+          className="rounded-lg bg-coral-500 px-4 py-2 text-sm font-medium text-white hover:bg-coral-600"
         >
           {showCreate ? "Cancel" : "Create Bundle"}
         </button>
       </div>
 
       {message && (
-        <div className="mt-3 rounded-lg bg-blue-50 p-3 text-sm text-blue-800">
+        <div className="mt-3 rounded-lg bg-blue-950/50 p-3 text-sm text-blue-400">
           {message}
         </div>
       )}
@@ -182,7 +178,7 @@ export default function BundleManagementPage() {
       {showCreate && (
         <form
           onSubmit={handleCreate}
-          className="mt-4 rounded-lg border border-gray-200 bg-white p-4"
+          className="mt-4 rounded-lg border border-navy-800 bg-navy-900 p-4"
         >
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <input
@@ -190,13 +186,13 @@ export default function BundleManagementPage() {
               placeholder="Bundle name *"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
-              className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="rounded-lg border border-navy-700 bg-navy-800 px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500"
               required
             />
             <select
               value={newTier}
               onChange={(e) => setNewTier(e.target.value)}
-              className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="rounded-lg border border-navy-700 bg-navy-800 px-3 py-2 text-sm text-gray-200"
             >
               <option value="STARTER">Starter</option>
               <option value="ESSENTIAL">Essential</option>
@@ -207,13 +203,13 @@ export default function BundleManagementPage() {
               placeholder="Description (optional)"
               value={newDesc}
               onChange={(e) => setNewDesc(e.target.value)}
-              className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              className="rounded-lg border border-navy-700 bg-navy-800 px-3 py-2 text-sm text-gray-200 placeholder:text-gray-500"
             />
           </div>
           <button
             type="submit"
             disabled={creating || !newName}
-            className="mt-3 rounded-lg bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700 disabled:opacity-50"
+            className="mt-3 rounded-lg bg-coral-500 px-4 py-2 text-sm font-medium text-white hover:bg-coral-600 disabled:opacity-50"
           >
             {creating ? "Creating..." : "Create"}
           </button>
@@ -224,26 +220,26 @@ export default function BundleManagementPage() {
       {loading ? (
         <p className="mt-6 text-sm text-gray-500">Loading bundles...</p>
       ) : bundles.length === 0 ? (
-        <p className="mt-6 text-sm text-gray-400">No bundles yet</p>
+        <p className="mt-6 text-sm text-gray-600">No bundles yet</p>
       ) : (
         (["STARTER", "ESSENTIAL", "PRO_PLUS"] as const).map((tier) =>
           grouped[tier] && grouped[tier].length > 0 ? (
             <div key={tier} className="mt-8">
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-lg font-semibold text-gray-100">
                 {tierLabels[tier]}
               </h2>
               <div className="mt-3 space-y-2">
                 {grouped[tier].map((bundle) => (
                   <div
                     key={bundle.id}
-                    className="rounded-lg border border-gray-200 bg-white"
+                    className="rounded-lg border border-navy-800 bg-navy-900"
                   >
                     <button
                       onClick={() => expandBundle(bundle.id)}
                       className="flex w-full items-center justify-between px-4 py-3 text-left"
                     >
                       <div>
-                        <span className="font-medium text-gray-900">
+                        <span className="font-medium text-gray-100">
                           {bundle.name}
                         </span>
                         {bundle.description && (
@@ -252,16 +248,16 @@ export default function BundleManagementPage() {
                           </span>
                         )}
                       </div>
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-gray-500">
                         {bundle._count.lessonPlans} lesson
                         {bundle._count.lessonPlans !== 1 ? "s" : ""}
                       </span>
                     </button>
 
                     {expandedId === bundle.id && (
-                      <div className="border-t border-gray-100 px-4 py-3">
+                      <div className="border-t border-navy-800 px-4 py-3">
                         {lessonsLoading ? (
-                          <p className="text-sm text-gray-400">Loading...</p>
+                          <p className="text-sm text-gray-500">Loading...</p>
                         ) : (
                           <>
                             {bundleLessons.length > 0 ? (
@@ -269,11 +265,11 @@ export default function BundleManagementPage() {
                                 {bundleLessons.map((lp) => (
                                   <li
                                     key={lp.id}
-                                    className="flex items-center justify-between rounded px-2 py-1.5 text-sm hover:bg-gray-50"
+                                    className="flex items-center justify-between rounded px-2 py-1.5 text-sm hover:bg-navy-800"
                                   >
-                                    <span className="text-gray-700">
+                                    <span className="text-gray-300">
                                       {lp.title}{" "}
-                                      <span className="text-gray-400">
+                                      <span className="text-gray-500">
                                         ({lp.gradeLevel} / {lp.topic})
                                       </span>
                                     </span>
@@ -281,7 +277,7 @@ export default function BundleManagementPage() {
                                       onClick={() =>
                                         removeLesson(bundle.id, lp.id)
                                       }
-                                      className="text-xs text-red-600 hover:text-red-800"
+                                      className="text-xs text-coral-400 hover:text-coral-300"
                                     >
                                       Remove
                                     </button>
@@ -289,7 +285,7 @@ export default function BundleManagementPage() {
                                 ))}
                               </ul>
                             ) : (
-                              <p className="text-sm text-gray-400">
+                              <p className="text-sm text-gray-600">
                                 No lessons in this bundle
                               </p>
                             )}
@@ -299,7 +295,7 @@ export default function BundleManagementPage() {
                               <div className="mt-3 flex items-center gap-2">
                                 <select
                                   id={`add-${bundle.id}`}
-                                  className="flex-1 rounded border border-gray-300 px-2 py-1.5 text-sm"
+                                  className="flex-1 rounded border border-navy-700 bg-navy-800 px-2 py-1.5 text-sm text-gray-200"
                                   defaultValue=""
                                 >
                                   <option value="" disabled>
@@ -318,7 +314,7 @@ export default function BundleManagementPage() {
                                     ) as HTMLSelectElement;
                                     if (sel?.value) addLesson(bundle.id, sel.value);
                                   }}
-                                  className="rounded bg-pink-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-pink-700"
+                                  className="rounded bg-coral-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-coral-600"
                                 >
                                   Add
                                 </button>

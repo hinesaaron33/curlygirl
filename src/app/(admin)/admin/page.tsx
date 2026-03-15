@@ -41,7 +41,7 @@ export default function AdminPage() {
 
   if (error) {
     return (
-      <div className="rounded-lg bg-red-50 p-4 text-sm text-red-800">
+      <div className="rounded-lg bg-coral-950/50 p-4 text-sm text-coral-400">
         {error}
       </div>
     );
@@ -53,7 +53,7 @@ export default function AdminPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900">Overview</h1>
+      <h1 className="text-2xl font-bold text-gray-100">Overview</h1>
 
       {/* Stat cards */}
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -65,17 +65,17 @@ export default function AdminPage() {
 
       {/* Tier breakdown */}
       <div className="mt-8">
-        <h2 className="text-lg font-semibold text-gray-900">By Tier</h2>
+        <h2 className="text-lg font-semibold text-gray-100">By Tier</h2>
         <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
           {(["STARTER", "ESSENTIAL", "PRO_PLUS"] as const).map((tier) => (
             <div
               key={tier}
-              className="rounded-lg border border-gray-200 bg-white p-4"
+              className="rounded-lg border border-navy-800 bg-navy-900 p-4"
             >
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-sm font-medium text-gray-400">
                 {tierLabels[tier]}
               </p>
-              <p className="mt-1 text-2xl font-bold text-gray-900">
+              <p className="mt-1 text-2xl font-bold text-gray-100">
                 {stats.subscribers.byTier[tier] ?? 0}
               </p>
             </div>
@@ -85,15 +85,15 @@ export default function AdminPage() {
 
       {/* Status breakdown */}
       <div className="mt-8">
-        <h2 className="text-lg font-semibold text-gray-900">By Status</h2>
+        <h2 className="text-lg font-semibold text-gray-100">By Status</h2>
         <div className="mt-3 flex flex-wrap gap-3">
           {Object.entries(stats.subscribers.byStatus).map(([status, count]) => (
             <div
               key={status}
-              className="rounded-lg border border-gray-200 bg-white px-4 py-2"
+              className="rounded-lg border border-navy-800 bg-navy-900 px-4 py-2"
             >
-              <span className="text-sm text-gray-600">{status}</span>
-              <span className="ml-2 font-semibold text-gray-900">{count}</span>
+              <span className="text-sm text-gray-400">{status}</span>
+              <span className="ml-2 font-semibold text-gray-100">{count}</span>
             </div>
           ))}
         </div>
@@ -101,10 +101,10 @@ export default function AdminPage() {
 
       {/* Recent signups */}
       <div className="mt-8">
-        <h2 className="text-lg font-semibold text-gray-900">Recent Signups</h2>
-        <div className="mt-3 overflow-x-auto rounded-lg border border-gray-200 bg-white">
+        <h2 className="text-lg font-semibold text-gray-100">Recent Signups</h2>
+        <div className="mt-3 overflow-x-auto rounded-lg border border-navy-800 bg-navy-900">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-gray-200 bg-gray-50 text-xs uppercase text-gray-500">
+            <thead className="border-b border-navy-800 text-xs uppercase text-gray-500">
               <tr>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Email</th>
@@ -112,19 +112,19 @@ export default function AdminPage() {
                 <th className="px-4 py-3">Joined</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-navy-800">
               {stats.recentSignups.map((u) => (
                 <tr key={u.id}>
-                  <td className="px-4 py-3 font-medium text-gray-900">
+                  <td className="px-4 py-3 font-medium text-gray-100">
                     {u.name}
                   </td>
-                  <td className="px-4 py-3 text-gray-600">{u.email}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 text-gray-400">{u.email}</td>
+                  <td className="px-4 py-3 text-gray-300">
                     {u.subscription
                       ? tierLabels[u.subscription.tier] ?? u.subscription.tier
                       : "—"}
                   </td>
-                  <td className="px-4 py-3 text-gray-600">
+                  <td className="px-4 py-3 text-gray-400">
                     {new Date(u.createdAt).toLocaleDateString()}
                   </td>
                 </tr>
@@ -133,7 +133,7 @@ export default function AdminPage() {
                 <tr>
                   <td
                     colSpan={4}
-                    className="px-4 py-6 text-center text-gray-400"
+                    className="px-4 py-6 text-center text-gray-600"
                   >
                     No users yet
                   </td>
@@ -157,10 +157,10 @@ function StatCard({
   sub?: string;
 }) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-5">
-      <p className="text-sm font-medium text-gray-500">{label}</p>
-      <p className="mt-1 text-3xl font-bold text-gray-900">{value}</p>
-      {sub && <p className="mt-1 text-xs text-gray-400">{sub}</p>}
+    <div className="rounded-lg border border-navy-800 bg-navy-900 p-5">
+      <p className="text-sm font-medium text-gray-400">{label}</p>
+      <p className="mt-1 text-3xl font-bold text-gray-100">{value}</p>
+      {sub && <p className="mt-1 text-xs text-gray-500">{sub}</p>}
     </div>
   );
 }

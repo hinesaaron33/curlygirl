@@ -12,14 +12,15 @@ export async function POST() {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  await prisma.user.upsert({
+  const dbUser = await prisma.user.upsert({
     where: { email: user.email },
     update: {},
     create: {
       email: user.email,
       name: user.user_metadata?.name ?? user.email,
     },
+    select: { role: true },
   });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, role: dbUser.role });
 }

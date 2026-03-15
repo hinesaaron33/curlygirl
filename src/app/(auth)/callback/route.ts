@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/db/prisma";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -18,16 +16,18 @@ export async function GET(request: Request) {
       const name = user.user_metadata?.name ?? email;
 
       // Create User record in prisma if not exists
-      await prisma.user.upsert({
+      const dbUser = await prisma.user.upsert({
         where: { email },
         update: {},
         create: {
           email,
           name,
         },
+        select: { role: true },
       });
 
-      return NextResponse.redirect(`${origin}/library`);
+      const dest = dbUser.role === "ADMIN" ? "/admin" : "/library";
+      return NextResponse.redirect(`${origin}${dest}`);
     }
   }
 

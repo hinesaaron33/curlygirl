@@ -78,6 +78,25 @@ html {
   --color-ink-light: #2D5A6B;
   --color-ink-muted: #4A7A8A;
   --color-slate: #204552;
+
+  /* Admin navy — #172240 */
+  --color-navy-700: #243456;
+  --color-navy-800: #1d2b4a;
+  --color-navy-900: #172240;
+  --color-navy-950: #0f1730;
+
+  /* Admin sidebar — #63A7BA */
+  --color-admin-sidebar: #63A7BA;
+  --color-admin-sidebar-dark: #5699ab;
+  --color-admin-sidebar-border: #528d9e;
+
+  /* Admin accent — coral #e8607a */
+  --color-coral-300: #f1a0af;
+  --color-coral-400: #ec8494;
+  --color-coral-500: #e8607a;
+  --color-coral-600: #d14a65;
+  --color-coral-700: #b33a53;
+  --color-coral-950: #2d0f16;
 }
 
 :root {
