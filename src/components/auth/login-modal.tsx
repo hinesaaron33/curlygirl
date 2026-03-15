@@ -183,7 +183,7 @@ function LoginModal({ onClose }: { onClose: () => void }) {
           <button
             type="submit"
             disabled={loading || !email || !password}
-            className="group w-full rounded-xl border-2 border-pink bg-white py-3 text-base font-semibold text-pink shadow-lg shadow-pink/25 transition-all hover:bg-pink hover:text-white hover:border-gold disabled:border-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none"
+            className="group w-full rounded-xl border-2 border-pink bg-pink py-3 text-base font-semibold text-white shadow-lg shadow-pink/25 transition-all hover:bg-white hover:text-pink hover:border-pink disabled:border-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none"
           >
             <span className="inline-flex items-center gap-2">
               {loading ? "Logging in..." : "Log In"}
