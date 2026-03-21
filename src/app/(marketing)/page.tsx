@@ -13,52 +13,37 @@ const topics = [
   "Collaborative Discussions", "Research Skills", "Media Literacy",
 ];
 
-/* ── Features ── */
-const features = [
+/* ── Core Feature Cards ── */
+const coreFeatures = [
   {
-    title: "Save Hours Every Week",
-    description: "Stop spending evenings and weekends creating lesson plans from scratch. Our library is ready to go.",
-    iconColor: "bg-teal/20 text-teal-dark",
-    iconPath: "M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25",
+    title: "Fresh Resources Every Month",
+    description: "On the 1st of every month, new lesson plans land in your inbox. Reading passages, writing activities, speaking tasks, and more. No hunting through clunky websites.",
+    emoji: "\uD83D\uDCEC",
+    iconBg: "bg-pink/20",
   },
   {
-    title: "Standards-Aligned",
-    description: "Every plan is aligned to WIDA and state ELD frameworks, so you can teach with confidence and compliance.",
-    iconColor: "bg-pink/15 text-pink",
-    iconPath: "M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z",
+    title: "Scope & Sequence Included",
+    description: "No more guessing what to teach next. Higher-tier plans come with a full year of intentional, standards-aligned lessons mapped out day by day.",
+    emoji: "\uD83D\uDCCB",
+    iconBg: "bg-[#A78BFA]/35",
   },
   {
-    title: "Fully Customizable",
-    description: "Every plan can be tailored to your students' proficiency levels, interests, and classroom context.",
-    iconColor: "bg-blush/30 text-pink-dark",
-    iconPath: "M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10",
+    title: "Filter & Find in Seconds",
+    description: "Search by season, proficiency level, skill type, or unit theme. Everything is tagged and organized so the right lesson is always a click away.",
+    emoji: "\uD83D\uDD0D",
+    iconBg: "bg-gold/40",
   },
   {
-    title: "Differentiated for ELLs",
-    description: "Built-in scaffolding and differentiation for emerging, developing, and bridging proficiency levels.",
-    iconColor: "bg-gold/20 text-gold-dark",
-    iconPath: "M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z",
-  },
-  {
-    title: "Print-Ready PDFs",
-    description: "Download polished, professionally formatted PDFs ready for your classroom with a single click.",
-    iconColor: "bg-teal/20 text-teal-dark",
-    iconPath: "M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3",
-  },
-  {
-    title: "Expert-Created",
-    description: "Every plan is designed by experienced secondary ELD educators who know what works in real classrooms.",
-    iconColor: "bg-pink/15 text-pink",
-    iconPath: "M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z",
+    title: "Your Year, Your Way",
+    description: "Customize your teaching calendar based on your students' needs. Mix thematic and foundational units, and we'll generate a plan that fits your schedule.",
+    emoji: "\uD83D\uDCC5",
+    iconBg: "bg-[#A8E6CF]/40",
   },
 ];
 
-/* ── Steps ── */
-const steps = [
-  { num: "1", title: "Browse Our Library", desc: "Explore 500+ lesson plans organized by topic, grade level, and ELD proficiency standard." },
-  { num: "2", title: "Customize for Your Students", desc: "Use our built-in editor to tailor activities, vocabulary, and scaffolding to your students' needs." },
-  { num: "3", title: "Download & Print", desc: "Export clean, print-ready PDFs formatted beautifully for your classroom — one click and you're done." },
-];
+/* ── Pathway tags ── */
+const thematicTags = ["Travel Project", "About Me", "World Cup", "Back to School", "Fall", "Winter", "Spring"];
+const foundationalTags = ["Around the House", "Grocery & Money", "Family", "Community", "Health", "School Life"];
 
 /* ── Testimonials ── */
 const testimonials = [
@@ -274,27 +259,36 @@ export default function HomePage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <RevealDiv><p className="inline-block rounded-full bg-white px-4 py-1 text-lg font-semibold tracking-[0.2em] text-pink uppercase">What&apos;s Included</p></RevealDiv>
-          <RevealDiv delay="delay-100">
-            <h2 className="mt-4 max-w-xl font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              Everything you need to teach ELD with confidence
-            </h2>
-          </RevealDiv>
-          <RevealDiv delay="delay-200">
-            <p className="mt-4 max-w-xl text-base text-ink/50">
-              From ready-made plans to instant downloads, we handle the prep so you can focus on your students.
-            </p>
-          </RevealDiv>
+          {/* ── 1. Membership Intro Header ── */}
+          <div className="text-center">
+            <RevealDiv>
+              <span className="inline-block rounded-full bg-pink px-6 py-2 text-sm font-bold tracking-[0.2em] text-white uppercase">
+                Introducing
+              </span>
+            </RevealDiv>
+            <RevealDiv delay="delay-100">
+              <h2 className="mx-auto mt-6 max-w-3xl font-[family-name:var(--font-playfair)] text-3xl font-bold leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl">
+                The Curly Girl ELD{" "}
+                <em className="text-pink drop-shadow-[0_1px_2px_rgba(240,108,155,0.3)]">Membership</em>
+              </h2>
+            </RevealDiv>
+            <RevealDiv delay="delay-200">
+              <p className="mx-auto mt-5 max-w-xl font-[family-name:var(--font-playfair)] text-[19px] leading-relaxed text-ink/70">
+                Everything you need to teach ELD with confidence &mdash; delivered fresh to your inbox every month, so you can stop planning from scratch and start teaching what works.
+              </p>
+            </RevealDiv>
+          </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f, i) => (
+          {/* ── 2. Core Feature Cards (2x2) ── */}
+          <div className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
+            {coreFeatures.map((f, i) => (
               <RevealDiv key={f.title} delay={`delay-${(i + 1) * 100}`}>
-                <div className="h-full rounded-2xl border border-white/40 bg-white/30 p-7 shadow-sm lg:backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-pink/[0.08]">
-                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${f.iconColor}`}>
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d={f.iconPath} /></svg>
+                <div className="h-full rounded-2xl border border-white/40 bg-white/30 p-9 shadow-sm lg:backdrop-blur-sm transition-all duration-400 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-pink/[0.08]">
+                  <div className={`flex h-[48px] w-[48px] items-center justify-center rounded-xl ${f.iconBg}`}>
+                    <span className="text-[22px]">{f.emoji}</span>
                   </div>
-                  <h3 className="mt-5 text-base font-semibold text-ink">{f.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink/45">{f.description}</p>
+                  <h3 className="mt-5 text-[24px] font-bold text-ink">{f.title}</h3>
+                  <p className="mt-3 text-[18px] leading-snug text-ink/65">{f.description}</p>
                 </div>
               </RevealDiv>
             ))}
@@ -302,43 +296,129 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ HOW IT WORKS ═══ */}
-      <section id="how-it-works" className="relative overflow-hidden bg-base py-28 sm:py-36">
+      {/* ═══ TWO PATHWAYS ═══ */}
+      <section className="relative overflow-hidden bg-base py-28 sm:py-36">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <RevealDiv><p className="text-[13px] font-semibold tracking-[0.2em] text-pink uppercase">How It Works</p></RevealDiv>
-            <RevealDiv delay="delay-100">
-              <h2 className="mt-4 font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-                Four simple steps to better lessons
+            <RevealDiv>
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+                Two Pathways, One Goal
               </h2>
+            </RevealDiv>
+            <RevealDiv delay="delay-100">
+              <p className="mx-auto mt-4 max-w-xl text-base text-ink/55">
+                Choose the curriculum track that fits your classroom &mdash; or mix and match both.
+              </p>
             </RevealDiv>
           </div>
 
-          <div className="mx-auto mt-20 max-w-2xl">
-            {steps.map((step, i) => (
-              <RevealDiv key={step.num} delay={`delay-${(i + 1) * 100}`}>
-                <div className="relative flex gap-8">
-                  <div className="flex flex-col items-center">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-teal bg-white/40 font-[family-name:var(--font-playfair)] text-lg font-bold text-teal-dark">{step.num}</div>
-                    <div className="mt-2 h-full w-px bg-gradient-to-b from-teal/40 to-transparent" />
+          <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-6 lg:grid-cols-2">
+            {/* Pathway A */}
+            <RevealDiv delay="delay-200">
+              <div className="h-full overflow-hidden rounded-2xl bg-white shadow-lg shadow-ink/[0.06]">
+                <div className="h-1.5 bg-pink" />
+                <div className="p-8 sm:p-10">
+                  <span className="inline-block rounded-full bg-pink/15 px-4 py-1.5 text-xs font-extrabold tracking-[0.15em] text-pink uppercase">
+                    Pathway A
+                  </span>
+                  <h3 className="mt-5 font-[family-name:var(--font-playfair)] text-[1.85rem] font-bold leading-tight text-ink">
+                    Thematic &amp; Seasonal Units
+                  </h3>
+                  <p className="mt-4 font-[family-name:var(--font-playfair)] text-lg leading-relaxed text-ink/70">
+                    Engaging, high-interest projects tied to seasons and real-world topics that get students talking, writing, and collaborating.
+                  </p>
+                  <div className="mt-7 flex flex-wrap gap-2.5">
+                    {thematicTags.map((tag) => (
+                      <span key={tag} className="rounded-full border border-pink-light bg-pink/[0.05] px-4 py-1.5 text-sm text-ink/65">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <div className="pb-16">
-                    <h3 className="text-lg font-semibold text-ink">{step.title}</h3>
-                    <p className="mt-2 text-sm text-ink/50">{step.desc}</p>
+                </div>
+              </div>
+            </RevealDiv>
+
+            {/* Pathway B */}
+            <RevealDiv delay="delay-300">
+              <div className="h-full overflow-hidden rounded-2xl bg-white shadow-lg shadow-ink/[0.06]">
+                <div className="h-1.5 bg-gold" />
+                <div className="p-8 sm:p-10">
+                  <span className="inline-block rounded-full bg-gold/25 px-4 py-1.5 text-xs font-extrabold tracking-[0.15em] text-[#9A7B2D] uppercase">
+                    Pathway B
+                  </span>
+                  <h3 className="mt-5 font-[family-name:var(--font-playfair)] text-[1.85rem] font-bold leading-tight text-ink">
+                    Foundational ESL Units
+                  </h3>
+                  <p className="mt-4 font-[family-name:var(--font-playfair)] text-lg leading-relaxed text-ink/70">
+                    Traditional, high-frequency life-skills topics that build the vocabulary and language structures newcomers need every day.
+                  </p>
+                  <div className="mt-7 flex flex-wrap gap-2.5">
+                    {foundationalTags.map((tag) => (
+                      <span key={tag} className="rounded-full border border-gold-light bg-gold/[0.05] px-4 py-1.5 text-sm text-ink/65">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </RevealDiv>
-            ))}
-            {/* Step 4 — accent */}
-            <RevealDiv delay="delay-400">
-              <div className="relative flex gap-8">
-                <div className="flex flex-col items-center">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-pink bg-pink/10 font-[family-name:var(--font-playfair)] text-lg font-bold text-pink">4</div>
+              </div>
+            </RevealDiv>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ QUIZ CTA ═══ */}
+      <section className="relative overflow-hidden bg-base-dark py-20 sm:py-28">
+        <div className="relative mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+          <RevealDiv>
+            <div className="rounded-3xl bg-white px-10 py-14 text-center shadow-xl sm:px-16">
+              <span className="text-4xl">{"\uD83C\uDFAF"}</span>
+              <h2 className="mt-5 font-[family-name:var(--font-playfair)] text-3xl font-bold text-ink sm:text-[2.25rem]">
+                Not Sure Which Plan Is Right for You?
+              </h2>
+              <p className="mx-auto mt-5 max-w-lg font-[family-name:var(--font-playfair)] text-[17px] leading-relaxed text-ink/55">
+                Answer a few quick questions about your classroom, your district&apos;s resources, and what support you need &mdash; and we&apos;ll match you with your perfect plan.
+              </p>
+              <Link
+                href="/quiz"
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-pink px-10 py-4 text-[17px] font-semibold text-white shadow-lg shadow-pink/20 transition-all duration-300 hover:bg-pink-dark hover:-translate-y-0.5 hover:shadow-xl hover:shadow-pink/30"
+              >
+                Find Your Best Fit ✨
+              </Link>
+            </div>
+          </RevealDiv>
+        </div>
+      </section>
+
+      {/* ═══ MONTHLY CREDITS ═══ */}
+      <section className="relative overflow-hidden bg-base py-20 sm:py-28">
+        <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[auto_1fr] lg:gap-16">
+            {/* Left — white card with gold circle */}
+            <RevealDiv>
+              <div className="flex justify-center">
+                <div className="rounded-2xl bg-white px-16 py-12 text-center shadow-lg shadow-ink/[0.06]">
+                  <div className="mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold-light shadow-md shadow-gold/20">
+                    <p className="font-[family-name:var(--font-playfair)] text-6xl font-bold text-ink">$</p>
+                  </div>
+                  <p className="mt-5 text-[17px] text-ink/65">Every month you get</p>
+                  <p className="mt-1.5 font-[family-name:var(--font-playfair)] text-[28px] font-bold text-ink">Store Credit</p>
+                  <p className="mt-1.5 text-[17px] text-ink/55">to spend on any lesson plan</p>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-pink">Teach with Confidence</h3>
-                  <p className="mt-2 text-sm text-ink/50">Walk into your classroom prepared, knowing your lesson is standards-aligned, differentiated, and engaging.</p>
-                </div>
+              </div>
+            </RevealDiv>
+
+            {/* Right — text */}
+            <RevealDiv delay="delay-200">
+              <div>
+                <h2 className="font-[family-name:var(--font-playfair)] text-4xl font-bold tracking-tight text-ink sm:text-[2.75rem]">
+                  Credits That Add Up
+                </h2>
+                <p className="mt-5 font-[family-name:var(--font-playfair)] text-[19px] leading-snug text-ink/75">
+                  Every month, your membership earns you <strong className="text-ink/90">store credit</strong> to spend on any individual lesson plan in the Curly Girl shop.
+                </p>
+                <p className="mt-3 font-[family-name:var(--font-playfair)] text-[19px] leading-snug text-ink/75">
+                  Save them up for a big unit, or grab something you need right now. Either way, your subscription keeps paying for itself.
+                </p>
               </div>
             </RevealDiv>
           </div>
@@ -355,7 +435,7 @@ export default function HomePage() {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <RevealDiv><p className="text-[13px] font-semibold tracking-[0.2em] text-gold-dark uppercase">Testimonials</p></RevealDiv>
+            <RevealDiv><p className="inline-block rounded-full bg-white px-4 py-1 text-lg font-semibold tracking-[0.2em] text-pink uppercase">Testimonials</p></RevealDiv>
             <RevealDiv delay="delay-100">
               <h2 className="mt-4 font-[family-name:var(--font-playfair)] text-3xl font-bold tracking-tight text-ink sm:text-4xl">Loved by educators everywhere</h2>
             </RevealDiv>

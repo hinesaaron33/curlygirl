@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { FolderIcon } from "@heroicons/react/24/outline";
+import { LessonPlansTable } from "@/components/admin/lesson-plans-table";
 
 interface DriveFile {
   id: string;
@@ -49,22 +50,13 @@ export default function ContentManagementPage() {
   );
 }
 
-interface LessonPlanRow {
-  id: string;
-  title: string;
-  gradeLevel: string;
-  topic: string;
-  published: boolean;
-}
-
 type TabView = "lessons" | "drive" | "sheet";
 
 function ContentManagementContent() {
   const [activeTab, setActiveTab] = useState<TabView>("lessons");
 
-  // Lesson plans state
-  const [lessonPlans, setLessonPlans] = useState<LessonPlanRow[]>([]);
-  const [lessonsLoading, setLessonsLoading] = useState(false);
+  // Lesson plans count (from extracted component)
+  const [lessonCount, setLessonCount] = useState(0);
 
   // Drive state
   const [files, setFiles] = useState<DriveFile[]>([]);
@@ -120,21 +112,6 @@ function ContentManagementContent() {
       );
     } finally {
       setLoading(false);
-    }
-  }
-
-  async function fetchLessonPlans() {
-    setLessonsLoading(true);
-    try {
-      const res = await fetch("/api/admin/lessons");
-      const data = await res.json();
-      if (res.ok) {
-        setLessonPlans(data.lessons);
-      }
-    } catch {
-      // silently fail
-    } finally {
-      setLessonsLoading(false);
     }
   }
 
@@ -276,7 +253,6 @@ function ContentManagementContent() {
     } else if (googleStatus === "error") {
       setMessage("Failed to connect Google Drive. Please try again.");
     }
-    fetchLessonPlans();
     browseDrive();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -335,9 +311,9 @@ function ContentManagementContent() {
             }`}
           >
             Lesson Plans
-            {lessonPlans.length > 0 && (
+            {lessonCount > 0 && (
               <span className="ml-2 inline-flex items-center rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs text-emerald-400">
-                {lessonPlans.length}
+                {lessonCount}
               </span>
             )}
           </button>
@@ -372,50 +348,7 @@ function ContentManagementContent() {
       {/* ─── Lesson Plans Tab ─── */}
       {activeTab === "lessons" && (
         <div className="mt-6">
-          {lessonsLoading && (
-            <div className="text-sm text-white/80">Loading lesson plans...</div>
-          )}
-
-          {!lessonsLoading && lessonPlans.length === 0 && (
-            <div className="rounded-lg border border-navy-700 bg-[#418DA2] p-6 text-center">
-              <p className="text-sm text-white/90">
-                No lesson plans yet. Import them via the Drive Files or Sheet Sync tabs.
-              </p>
-            </div>
-          )}
-
-          {lessonPlans.length > 0 && (
-            <div className="overflow-hidden rounded-lg border border-navy-700">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-[#3a7f90] text-xs uppercase text-white/80">
-                  <tr>
-                    <th className="px-4 py-3">Title</th>
-                    <th className="px-4 py-3">Grade Level</th>
-                    <th className="px-4 py-3">Topic</th>
-                    <th className="px-4 py-3">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-navy-700">
-                  {lessonPlans.map((lp) => (
-                    <tr key={lp.id} className="bg-[#418DA2] hover:bg-[#3a7f90]/60">
-                      <td className="px-4 py-3 font-medium text-gray-100">{lp.title}</td>
-                      <td className="px-4 py-3 text-white/80">{lp.gradeLevel}</td>
-                      <td className="px-4 py-3 text-white/80">{lp.topic}</td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${
-                          lp.published
-                            ? "bg-emerald-500/20 text-emerald-400"
-                            : "bg-amber-500/20 text-amber-400"
-                        }`}>
-                          {lp.published ? "Published" : "Draft"}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+          <LessonPlansTable onCountChange={setLessonCount} />
         </div>
       )}
 
@@ -478,6 +411,7 @@ function ContentManagementContent() {
                     <img
                       src={file.thumbnailLink}
                       alt={file.name}
+                      referrerPolicy="no-referrer"
                       className="mb-3 h-32 w-full rounded object-cover"
                     />
                   )}
