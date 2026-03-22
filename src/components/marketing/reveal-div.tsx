@@ -4,6 +4,14 @@ import { createContext, useContext, useEffect, useRef, useCallback, useState } f
 
 /* ── Shared IntersectionObserver context ── */
 
+// Track whether the app has already done its initial load.
+// After the first page render, all subsequent navigations skip reveal animations.
+let hasInitiallyLoaded = false;
+if (typeof window !== "undefined") {
+  // Mark as loaded after a short delay so the first page gets animations
+  setTimeout(() => { hasInitiallyLoaded = true; }, 2000);
+}
+
 type RevealCallback = (entry: IntersectionObserverEntry) => void;
 
 const RevealContext = createContext<{
@@ -66,8 +74,15 @@ export function RevealDiv({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Skip reveal animation on mobile — show content immediately
+    // Skip reveal animation on mobile
     if (window.innerWidth < 1024) {
+      setVisible(true);
+      return;
+    }
+
+    // Skip animations on client-side navigation (not the initial page load)
+    // This prevents blank sections when navigating back from other pages
+    if (hasInitiallyLoaded || window.location.hash) {
       setVisible(true);
       return;
     }
@@ -75,7 +90,7 @@ export function RevealDiv({
     const el = ref.current;
     if (!el || !ctx) return;
 
-    // Immediate check for elements already in viewport (back navigation, bfcache, etc.)
+    // Immediate check for elements already in viewport
     const rect = el.getBoundingClientRect();
     if (rect.top < window.innerHeight && rect.bottom > 0) {
       setVisible(true);

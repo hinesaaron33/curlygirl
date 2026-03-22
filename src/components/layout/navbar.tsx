@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { LoginTrigger } from "@/components/auth/login-modal";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     let ticking = false;
@@ -24,10 +27,12 @@ export function Navbar() {
   }, []);
 
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    if (window.location.pathname === "/") {
-      e.preventDefault();
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (pathname === "/") {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false);
+    } else {
+      router.push(`/#${id}`);
     }
   };
 
@@ -41,7 +46,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" onClick={() => { if (window.location.pathname === "/") { window.scrollTo({ top: 0, behavior: "smooth" }); } }} className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-pink font-bold text-white text-sm shadow-lg shadow-pink/25">
             CG
           </div>
@@ -53,13 +58,13 @@ export function Navbar() {
               ESL / ELD LESSON PLANS
             </span>
           </div>
-        </Link>
+        </a>
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-4 md:flex">
           <Link href="/#about" onClick={(e) => scrollTo(e, "about")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">About</Link>
           <Link href="/#features" onClick={(e) => scrollTo(e, "features")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Features</Link>
-          <Link href="/#how-it-works" onClick={(e) => scrollTo(e, "how-it-works")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">How It Works</Link>
+          <Link href="/#whats-included" onClick={(e) => scrollTo(e, "whats-included")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">What&apos;s Included</Link>
           <Link href="/#pricing" onClick={(e) => scrollTo(e, "pricing")} className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Pricing</Link>
           <LoginTrigger className="rounded-full px-4 py-1.5 text-sm font-medium text-ink uppercase tracking-wide transition-all duration-200 hover:bg-pink hover:text-white hover:font-bold">Log In</LoginTrigger>
         </div>
@@ -104,7 +109,7 @@ export function Navbar() {
           <div className="flex flex-col gap-1 px-4 py-4">
             <Link href="/#about" onClick={(e) => scrollTo(e, "about")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">About</Link>
             <Link href="/#features" onClick={(e) => scrollTo(e, "features")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">Features</Link>
-            <Link href="/#how-it-works" onClick={(e) => scrollTo(e, "how-it-works")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">How It Works</Link>
+            <Link href="/#whats-included" onClick={(e) => scrollTo(e, "whats-included")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">What&apos;s Included</Link>
             <Link href="/#pricing" onClick={(e) => scrollTo(e, "pricing")} className="rounded-lg px-4 py-2.5 text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink">Pricing</Link>
             <LoginTrigger className="rounded-lg px-4 py-2.5 text-left text-sm font-medium text-ink/70 hover:bg-white/20 hover:text-ink" onClick={() => setMobileMenuOpen(false)}>Log In</LoginTrigger>
             <div className="mt-3 border-t border-ink/[0.08] pt-4">

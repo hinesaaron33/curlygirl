@@ -4,6 +4,7 @@ import { LaptopMockup } from "@/components/marketing/laptop-mockup";
 import { StatCard } from "@/components/marketing/stat-card";
 import { PricingSection } from "@/components/marketing/pricing-section";
 import { SignupSection } from "@/components/marketing/signup-section";
+import MonthlyUnlockSection from "@/components/MonthlyUnlockSection";
 
 /* ── Marquee topics ── */
 const topics = [
@@ -40,6 +41,34 @@ const coreFeatures = [
     iconBg: "bg-[#A8E6CF]/40",
   },
 ];
+
+/* ── Comparison features ── */
+const comparisonFeatures = [
+  { name: "Lessons delivered / month", starter: "2", essential: "4", proPlus: "6" },
+  { name: "Lesson bundle", starter: "Core plans", essential: "Scope & sequence", proPlus: "Full curriculum" },
+  { name: "Plan flexibility", starter: "Fixed", essential: "2-3 swap options", proPlus: "Full library access" },
+  { name: "Quarterly store credit", starter: "$5", essential: "$10", proPlus: "$20" },
+  { name: "Yearly plan credits upfront", starter: "$20", essential: "$40", proPlus: "$80" },
+  { name: "Credits expire?", starter: "Never", essential: "Never", proPlus: "Never" },
+  { name: "New plans added monthly", starter: true, essential: true, proPlus: true },
+  { name: "Scope & sequence curriculum", starter: false, essential: true, proPlus: true },
+  { name: "Custom lesson planning dashboard", starter: false, essential: false, proPlus: true },
+  { name: "Office hours access", starter: false, essential: false, proPlus: true },
+  { name: "Standards alignment tags", starter: true, essential: true, proPlus: true },
+  { name: "Email support", starter: true, essential: true, proPlus: true },
+  { name: "Priority support", starter: false, essential: true, proPlus: true },
+];
+
+function renderComparisonCell(value: boolean | string, accent?: boolean) {
+  if (typeof value === "boolean") {
+    return value ? (
+      <svg className={`h-4 w-4 ${accent ? "text-pink" : "text-teal-dark"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+    ) : (
+      <svg className="h-4 w-4 text-ink/20" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+    );
+  }
+  return <span className={accent ? "font-medium text-ink" : ""}>{value}</span>;
+}
 
 /* ── Pathway tags ── */
 const thematicTags = ["Travel Project", "About Me", "World Cup", "Back to School", "Fall", "Winter", "Spring"];
@@ -103,7 +132,7 @@ export default function HomePage() {
               </p>
 
               <p className="lg:animate-fade-in-up lg:delay-350 mt-4 max-w-xl text-lg leading-relaxed text-slate">
-                Flexible plans starting at $9.99/month. Every plan includes a curated lesson bundle plus monthly credits to unlock additional resources.
+                Flexible plans starting at $9.99/month. Every plan includes a curated lesson bundle plus quarterly credits to unlock additional resources.
               </p>
 
               <div className="lg:animate-fade-in-up lg:delay-400 mt-10 flex flex-wrap items-center gap-4">
@@ -293,6 +322,21 @@ export default function HomePage() {
               </RevealDiv>
             ))}
           </div>
+
+          <RevealDiv delay="delay-500">
+            <div className="mt-10 text-center">
+              <Link
+                href="#whats-included"
+                className="group inline-flex items-center gap-2 rounded-full border-2 border-gold bg-pink px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-pink/25 transition-all duration-300 hover:bg-white hover:text-pink hover:border-pink hover:shadow-2xl hover:shadow-pink/40 hover:-translate-y-1 hover:scale-105"
+              >
+                See What&apos;s Included
+                <span className="relative h-5 w-5">
+                  <svg className="absolute inset-0 h-5 w-5 transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
+                  <svg className="absolute inset-0 h-5 w-5 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                </span>
+              </Link>
+            </div>
+          </RevealDiv>
         </div>
       </section>
 
@@ -400,9 +444,9 @@ export default function HomePage() {
                   <div className="mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold-light shadow-md shadow-gold/20">
                     <p className="font-[family-name:var(--font-playfair)] text-6xl font-bold text-ink">$</p>
                   </div>
-                  <p className="mt-5 text-[17px] text-ink/65">Every month you get</p>
+                  <p className="mt-5 text-[17px] text-ink/65">Every quarter you get</p>
                   <p className="mt-1.5 font-[family-name:var(--font-playfair)] text-[28px] font-bold text-ink">Store Credit</p>
-                  <p className="mt-1.5 text-[17px] text-ink/55">to spend on any lesson plan</p>
+                  <p className="mt-1.5 text-[17px] text-ink/55">to spend on any lesson plan or bundle</p>
                 </div>
               </div>
             </RevealDiv>
@@ -414,10 +458,13 @@ export default function HomePage() {
                   Credits That Add Up
                 </h2>
                 <p className="mt-5 font-[family-name:var(--font-playfair)] text-[19px] leading-snug text-ink/75">
-                  Every month, your membership earns you <strong className="text-ink/90">store credit</strong> to spend on any individual lesson plan in the Curly Girl shop.
+                  Every quarter, your membership earns you <strong className="text-ink/90">store credit</strong> to spend on any individual lesson plan or bundle in the Curly Girl shop.
                 </p>
                 <p className="mt-3 font-[family-name:var(--font-playfair)] text-[19px] leading-snug text-ink/75">
                   Save them up for a big unit, or grab something you need right now. Either way, your subscription keeps paying for itself.
+                </p>
+                <p className="mt-3 font-[family-name:var(--font-playfair)] text-[19px] leading-snug text-ink/75">
+                  Pay for the Yearly Subscription and get all of your credits on Day 1.
                 </p>
               </div>
             </RevealDiv>
@@ -427,6 +474,53 @@ export default function HomePage() {
 
       {/* ═══ PRICING ═══ */}
       <PricingSection />
+
+      {/* ═══ COMPARE PLANS ═══ */}
+      <section id="compare-plans" className="bg-base-dark/50 py-24 sm:py-32">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <RevealDiv>
+            <h2 className="text-center font-[family-name:var(--font-playfair)] text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+              Compare plans
+            </h2>
+          </RevealDiv>
+          <RevealDiv delay="delay-100">
+            <p className="mt-4 text-center text-ink/50">See exactly what you get with each plan.</p>
+          </RevealDiv>
+
+          <RevealDiv delay="delay-200">
+            <div className="mt-12 overflow-hidden rounded-2xl border border-white/40 bg-white/30 backdrop-blur-sm shadow-xl shadow-ink/[0.06]">
+              <div className="grid grid-cols-4 border-b border-white/40 bg-white/20 px-6 py-4">
+                <div className="text-sm font-semibold text-ink">Feature</div>
+                <div className="text-center text-sm font-semibold text-ink/50">Starter</div>
+                <div className="text-center text-sm font-semibold text-pink">Essential</div>
+                <div className="text-center text-sm font-semibold text-ink/50">Pro Plus</div>
+              </div>
+              {comparisonFeatures.map((feature, index) => (
+                <div
+                  key={feature.name}
+                  className={`grid grid-cols-4 items-center px-6 py-3.5 ${
+                    index < comparisonFeatures.length - 1 ? "border-b border-white/20" : ""
+                  } ${index % 2 === 0 ? "" : "bg-white/10"}`}
+                >
+                  <div className="text-sm text-ink/70">{feature.name}</div>
+                  <div className="flex justify-center text-sm text-ink/50">
+                    {renderComparisonCell(feature.starter)}
+                  </div>
+                  <div className="flex justify-center text-sm text-ink/50">
+                    {renderComparisonCell(feature.essential, true)}
+                  </div>
+                  <div className="flex justify-center text-sm text-ink/50">
+                    {renderComparisonCell(feature.proPlus)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </RevealDiv>
+        </div>
+      </section>
+
+      {/* ═══ WHAT'S INCLUDED ═══ */}
+      <MonthlyUnlockSection />
 
       {/* ═══ TESTIMONIALS ═══ */}
       <section id="testimonials" className="relative overflow-hidden bg-base py-28 sm:py-36">

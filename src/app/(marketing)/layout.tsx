@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { StickyCTABar } from "@/components/marketing/sticky-cta-bar";
 import { LoginModalProvider } from "@/components/auth/login-modal";
 import { CheckoutModalProvider } from "@/components/checkout/checkout-modal";
 
@@ -15,6 +16,7 @@ export default function MarketingLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <StickyCTABar />
         </div>
       </CheckoutModalProvider>
     </LoginModalProvider>

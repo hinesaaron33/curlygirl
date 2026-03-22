@@ -37,8 +37,11 @@ const tiers = [
 ];
 
 const comparisonFeatures = [
+  { name: "Lessons delivered / month", starter: "2", essential: "4", proPlus: "6" },
   { name: "Lesson bundle", starter: "Core plans", essential: "Scope & sequence", proPlus: "Full curriculum" },
-  { name: "Monthly credits", starter: "3", essential: "8", proPlus: "15" },
+  { name: "Plan flexibility", starter: "Fixed", essential: "2-3 swap options", proPlus: "Full library access" },
+  { name: "Quarterly store credit", starter: "$5", essential: "$10", proPlus: "$20" },
+  { name: "Yearly plan credits upfront", starter: "$20", essential: "$40", proPlus: "$80" },
   { name: "Credits expire?", starter: "Never", essential: "Never", proPlus: "Never" },
   { name: "New plans added monthly", starter: true, essential: true, proPlus: true },
   { name: "Scope & sequence curriculum", starter: false, essential: true, proPlus: true },

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { RevealDiv } from "./reveal-div";
 import { CheckoutTrigger } from "@/components/checkout/checkout-modal";
 
@@ -11,7 +12,8 @@ const pricingTiers = [
     yearlyPrice: "$9.99",
     period: "/mo",
     description: "Perfect for individual teachers getting started.",
-    features: ["Core ELD lesson bundle", "3 credits/month for additional lessons", "Credits never expire", "Email support"],
+    monthlyFeatures: ["Core ELD lesson bundle", "Fixed monthly plans", "$5 quarterly store credit", "Credits never expire", "Email support"],
+    yearlyFeatures: ["Core ELD lesson bundle", "Fixed monthly plans", "$20 store credit upfront on Day 1", "Credits never expire", "Email support"],
     highlighted: false,
     badge: null,
   },
@@ -21,7 +23,8 @@ const pricingTiers = [
     yearlyPrice: "$14.99",
     period: "/mo",
     description: "A complete scope & sequence curriculum.",
-    features: ["Full scope & sequence curriculum", "8 credits/month for additional lessons", "Credits never expire", "Priority support", "New plans added monthly"],
+    monthlyFeatures: ["Full scope & sequence curriculum", "Swap from 2-3 curated alternatives each month", "$10 quarterly store credit", "Credits never expire", "Priority support", "New plans added monthly"],
+    yearlyFeatures: ["Full scope & sequence curriculum", "Swap from 2-3 curated alternatives each month", "$40 store credit upfront on Day 1", "Credits never expire", "Priority support", "New plans added monthly"],
     highlighted: false,
     badge: null,
   },
@@ -31,7 +34,8 @@ const pricingTiers = [
     yearlyPrice: "$24.99",
     period: "/mo",
     description: "Full curriculum plus custom lesson planning.",
-    features: ["Full curriculum + custom lesson planning dashboard", "15 credits/month for additional lessons", "Credits never expire", "Office hours access", "Priority support", "New plans added monthly"],
+    monthlyFeatures: ["Full curriculum + custom lesson planning dashboard", "Swap any plan from the full library", "$20 quarterly store credit", "Credits never expire", "Office hours access", "Priority support", "New plans added monthly"],
+    yearlyFeatures: ["Full curriculum + custom lesson planning dashboard", "Swap any plan from the full library", "$80 store credit upfront on Day 1", "Credits never expire", "Office hours access", "Priority support", "New plans added monthly"],
     highlighted: true,
     badge: "Best Value",
   },
@@ -69,6 +73,14 @@ export function PricingSection() {
                 <span className="ml-1.5 rounded-full bg-gold/80 px-2 py-0.5 text-[10px] font-bold text-ink">SAVE 33%</span>
               </button>
             </div>
+            <div className="mt-4">
+              <a
+                href="#compare-plans"
+                className="inline-flex items-center gap-2 rounded-full bg-[#7C3AED] px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 hover:bg-[#6D28D9] hover:-translate-y-0.5 hover:shadow-xl"
+              >
+                Compare Plans
+              </a>
+            </div>
           </RevealDiv>
         </div>
 
@@ -95,7 +107,7 @@ export function PricingSection() {
                   </div>
                 )}
                 <ul className="mt-8 flex-1 space-y-3">
-                  {tier.features.map(f => (
+                  {(yearly ? tier.yearlyFeatures : tier.monthlyFeatures).map(f => (
                     <li key={f} className="flex items-start gap-2.5 text-sm text-ink/60">
                       <svg className="mt-0.5 h-4 w-4 shrink-0 text-teal-dark" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                       {f}
@@ -127,6 +139,21 @@ export function PricingSection() {
             );
           })}
         </div>
+
+        <RevealDiv delay="delay-400">
+          <div className="mt-10 text-center">
+            <Link
+              href="#whats-included"
+              className="group inline-flex items-center gap-2 rounded-full border-2 border-gold bg-pink px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-pink/25 transition-all duration-300 hover:bg-white hover:text-pink hover:border-pink hover:shadow-2xl hover:shadow-pink/40 hover:-translate-y-1 hover:scale-105"
+            >
+              See What&apos;s Included
+              <span className="relative h-5 w-5">
+                <svg className="absolute inset-0 h-5 w-5 transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
+                <svg className="absolute inset-0 h-5 w-5 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+              </span>
+            </Link>
+          </div>
+        </RevealDiv>
       </div>
     </section>
   );
