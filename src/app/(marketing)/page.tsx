@@ -325,7 +325,7 @@ export default function HomePage() {
 
           <RevealDiv delay="delay-500">
             <div className="mt-10 text-center">
-              <Link
+              <a
                 href="#whats-included"
                 className="group inline-flex items-center gap-2 rounded-full border-2 border-gold bg-pink px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-pink/25 transition-all duration-300 hover:bg-white hover:text-pink hover:border-pink hover:shadow-2xl hover:shadow-pink/40 hover:-translate-y-1 hover:scale-105"
               >
@@ -334,7 +334,7 @@ export default function HomePage() {
                   <svg className="absolute inset-0 h-5 w-5 transition-all duration-300 group-hover:opacity-0 group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>
                   <svg className="absolute inset-0 h-5 w-5 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                 </span>
-              </Link>
+              </a>
             </div>
           </RevealDiv>
         </div>

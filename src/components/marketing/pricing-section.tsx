@@ -76,7 +76,7 @@ export function PricingSection() {
             <div className="mt-4">
               <a
                 href="#compare-plans"
-                className="inline-flex items-center gap-2 rounded-full bg-[#7C3AED] px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 hover:bg-[#6D28D9] hover:-translate-y-0.5 hover:shadow-xl"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-transparent bg-[#7C3AED] px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 hover:bg-white hover:text-[#7C3AED] hover:border-[#7C3AED] hover:-translate-y-0.5 hover:shadow-xl"
               >
                 Compare Plans
               </a>
