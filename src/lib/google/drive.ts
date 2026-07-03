@@ -58,16 +58,7 @@ export async function checkCopyAccess(userId: string, lessonPlanId: string) {
 }
 
 export async function purchaseWithCredit(userId: string, lessonPlanId: string) {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    include: { subscription: true },
-  });
-
-  if (!user?.subscription || user.subscription.creditsBalance < 1) {
-    throw new Error("Insufficient credits");
-  }
-
-  // Check not already owned
+  // Idempotent: already owned → no charge
   const existing = await prisma.userLessonAccess.findUnique({
     where: { userId_lessonPlanId: { userId, lessonPlanId } },
   });
@@ -76,23 +67,36 @@ export async function purchaseWithCredit(userId: string, lessonPlanId: string) {
     return; // Already owned, no-op
   }
 
-  await prisma.$transaction([
-    prisma.subscription.update({
-      where: { userId },
+  await prisma.$transaction(async (tx) => {
+    // Atomic conditional debit. The `creditsBalance >= 1` guard lives in the
+    // WHERE clause, so concurrent spends serialize on the row lock and a
+    // second request can't decrement a balance that's already been spent —
+    // this is what prevents the double-spend race. updateMany reports how
+    // many rows matched: 0 means the balance was insufficient.
+    const debit = await tx.subscription.updateMany({
+      where: { userId, creditsBalance: { gte: 1 } },
       data: { creditsBalance: { decrement: 1 } },
-    }),
-    prisma.userLessonAccess.create({
+    });
+
+    if (debit.count === 0) {
+      throw new Error("Insufficient credits");
+    }
+
+    // If this create hits the @@unique([userId, lessonPlanId]) constraint
+    // (two concurrent spends of the SAME lesson), the whole transaction —
+    // including the debit above — rolls back, so the lesson is charged once.
+    await tx.userLessonAccess.create({
       data: { userId, lessonPlanId },
-    }),
-    prisma.creditTransaction.create({
+    });
+    await tx.creditTransaction.create({
       data: {
         userId,
         lessonPlanId,
         amount: 1,
         type: "SPEND",
       },
-    }),
-  ]);
+    });
+  });
 }
 
 export async function getValidAccessToken(userId: string): Promise<string> {

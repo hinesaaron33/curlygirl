@@ -13,6 +13,9 @@ function getOAuthClient() {
  * account copying the file and sharing it to this address, so no Drive
  * permission is requested from subscribers.
  */
+/* HttpOnly cookie holding the per-flow OAuth state nonce (CSRF protection). */
+export const OAUTH_STATE_COOKIE = "google_oauth_state";
+
 export const SUBSCRIBER_SCOPES = [
   "openid",
   "https://www.googleapis.com/auth/userinfo.email",
