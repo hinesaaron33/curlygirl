@@ -42,6 +42,13 @@ export async function GET(request: Request) {
     );
   }
 
+  // folderId is interpolated into the Drive `q` string below, so restrict it
+  // to the Google file-id charset. Without this, a value containing a quote
+  // could break out of the query literal and enumerate the whole Drive.
+  if (!/^[A-Za-z0-9_-]+$/.test(folderId)) {
+    return NextResponse.json({ error: "Invalid folderId" }, { status: 400 });
+  }
+
   try {
     const drive = await getAdminDrive(dbUser.id);
 
