@@ -232,3 +232,13 @@ model UserLessonAccess {
 
   @@unique([userId, lessonPlanId])
 }
+
+// Idempotency ledger for Stripe webhooks. The Stripe event id is inserted
+// before an event is processed; a duplicate delivery (Stripe retries on any
+// slow/failed response) collides on the primary key and is skipped, so
+// credit grants can't run twice for the same event.
+model ProcessedStripeEvent {
+  id          String   @id @db.VarChar(255) // Stripe event id (evt_...)
+  type        String
+  processedAt DateTime @default(now())
+}
