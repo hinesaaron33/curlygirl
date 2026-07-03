@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { RevealDiv } from "./reveal-div";
 import { CheckoutTrigger } from "@/components/checkout/checkout-modal";
+import { useBillingToggle } from "@/stores/billing-toggle-store";
 
 const pricingTiers = [
   {
@@ -42,7 +42,7 @@ const pricingTiers = [
 ];
 
 export function PricingSection() {
-  const [yearly, setYearly] = useState(true);
+  const { yearly, setYearly } = useBillingToggle();
 
   return (
     <section id="pricing" className="relative overflow-hidden bg-base-dark pt-2 pb-28 sm:pt-3 sm:pb-36 scroll-mt-[72px]">

@@ -5,6 +5,7 @@ import { StatCard } from "@/components/marketing/stat-card";
 import { PricingSection } from "@/components/marketing/pricing-section";
 import { SignupSection } from "@/components/marketing/signup-section";
 import MonthlyUnlockSection from "@/components/MonthlyUnlockSection";
+import { ComparisonTable } from "@/components/marketing/comparison-table";
 
 /* ── Marquee topics ── */
 const topics = [
@@ -42,33 +43,6 @@ const coreFeatures = [
   },
 ];
 
-/* ── Comparison features ── */
-const comparisonFeatures = [
-  { name: "Lessons delivered / month", starter: "2", essential: "4", proPlus: "6" },
-  { name: "Lesson bundle", starter: "Core plans", essential: "Scope & sequence", proPlus: "Full curriculum" },
-  { name: "Plan flexibility", starter: "Fixed", essential: "2-3 swap options", proPlus: "Full library access" },
-  { name: "Quarterly store credit", starter: "$5", essential: "$10", proPlus: "$20" },
-  { name: "Yearly plan credits upfront", starter: "$20", essential: "$40", proPlus: "$80" },
-  { name: "Credits expire?", starter: "Never", essential: "Never", proPlus: "Never" },
-  { name: "New plans added monthly", starter: true, essential: true, proPlus: true },
-  { name: "Scope & sequence curriculum", starter: false, essential: true, proPlus: true },
-  { name: "Custom lesson planning dashboard", starter: false, essential: false, proPlus: true },
-  { name: "Office hours access", starter: false, essential: false, proPlus: true },
-  { name: "Standards alignment tags", starter: true, essential: true, proPlus: true },
-  { name: "Email support", starter: true, essential: true, proPlus: true },
-  { name: "Priority support", starter: false, essential: true, proPlus: true },
-];
-
-function renderComparisonCell(value: boolean | string, accent?: boolean) {
-  if (typeof value === "boolean") {
-    return value ? (
-      <svg className={`h-4 w-4 ${accent ? "text-pink" : "text-teal-dark"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-    ) : (
-      <svg className="h-4 w-4 text-ink/20" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-    );
-  }
-  return <span className={accent ? "font-medium text-ink" : ""}>{value}</span>;
-}
 
 /* ── Pathway tags ── */
 const thematicTags = ["Travel Project", "About Me", "World Cup", "Back to School", "Fall", "Winter", "Spring"];
@@ -476,48 +450,7 @@ export default function HomePage() {
       <PricingSection />
 
       {/* ═══ COMPARE PLANS ═══ */}
-      <section id="compare-plans" className="bg-base-dark/50 py-24 sm:py-32">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <RevealDiv>
-            <h2 className="text-center font-[family-name:var(--font-playfair)] text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-              Compare plans
-            </h2>
-          </RevealDiv>
-          <RevealDiv delay="delay-100">
-            <p className="mt-4 text-center text-ink/50">See exactly what you get with each plan.</p>
-          </RevealDiv>
-
-          <RevealDiv delay="delay-200">
-            <div className="mt-12 overflow-hidden rounded-2xl border border-white/40 bg-white/30 backdrop-blur-sm shadow-xl shadow-ink/[0.06]">
-              <div className="grid grid-cols-4 border-b border-white/40 bg-white/20 px-6 py-4">
-                <div className="text-sm font-semibold text-ink">Feature</div>
-                <div className="text-center text-sm font-semibold text-ink/50">Starter</div>
-                <div className="text-center text-sm font-semibold text-pink">Essential</div>
-                <div className="text-center text-sm font-semibold text-ink/50">Pro Plus</div>
-              </div>
-              {comparisonFeatures.map((feature, index) => (
-                <div
-                  key={feature.name}
-                  className={`grid grid-cols-4 items-center px-6 py-3.5 ${
-                    index < comparisonFeatures.length - 1 ? "border-b border-white/20" : ""
-                  } ${index % 2 === 0 ? "" : "bg-white/10"}`}
-                >
-                  <div className="text-sm text-ink/70">{feature.name}</div>
-                  <div className="flex justify-center text-sm text-ink/50">
-                    {renderComparisonCell(feature.starter)}
-                  </div>
-                  <div className="flex justify-center text-sm text-ink/50">
-                    {renderComparisonCell(feature.essential, true)}
-                  </div>
-                  <div className="flex justify-center text-sm text-ink/50">
-                    {renderComparisonCell(feature.proPlus)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </RevealDiv>
-        </div>
-      </section>
+      <ComparisonTable />
 
       {/* ═══ WHAT'S INCLUDED ═══ */}
       <MonthlyUnlockSection />
