@@ -1,6 +1,6 @@
 "use client";
 
-import { LessonBuilderAnimation } from "./lesson-builder-animation";
+import MonitorShowcase from "./monitor-showcase";
 
 export function LaptopMockup() {
   return (
@@ -10,7 +10,7 @@ export function LaptopMockup() {
         {/* Screen bezel */}
         <div className="rounded-xl bg-black p-[2px]">
           {/* Screen */}
-          <div className="relative h-72 overflow-hidden rounded-[10px] bg-[#e8e8e8] sm:h-80 lg:h-[22rem]">
+          <div className="relative overflow-hidden rounded-[10px] bg-[#FBF7F2]">
             {/* Browser chrome */}
             <div className="flex items-center gap-2 border-b border-ink/10 bg-white/80 px-3 py-1.5">
               <div className="flex gap-1.5">
@@ -23,10 +23,8 @@ export function LaptopMockup() {
               </div>
             </div>
 
-            {/* Lesson builder animation (static finished slide on mobile / reduced motion) */}
-            <div className="absolute inset-0 top-8 p-4">
-              <LessonBuilderAnimation />
-            </div>
+            {/* Animated product showcase (sizes itself to the frames' 1280:800 ratio) */}
+            <MonitorShowcase />
           </div>
         </div>
 

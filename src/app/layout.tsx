@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans } from "next/font/google";
+import { Playfair_Display, DM_Sans, Poppins } from "next/font/google";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -23,6 +23,14 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+/* Used by the hero MonitorShowcase SVG frames */
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Curly Girl ELD | Lesson Plans for Secondary Educators",
   description:
@@ -37,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <body
-        className={`${playfair.variable} ${dmSans.variable} ${geistMono.variable} antialiased`}
+        className={`${playfair.variable} ${dmSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
       >
         {children}
       </body>
