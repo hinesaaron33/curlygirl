@@ -27,6 +27,7 @@ export async function GET() {
     orderBy: { copiedAt: "desc" },
     select: {
       id: true,
+      lessonPlanId: true,
       copiedFileId: true,
       copiedAt: true,
       lessonPlan: {
