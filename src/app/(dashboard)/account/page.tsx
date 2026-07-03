@@ -165,7 +165,7 @@ export default function AccountPage() {
 
         {/* Google Drive */}
         <div className="rounded-lg border border-[#3a7f90] bg-[#418DA2] p-5">
-          <h2 className="text-lg font-semibold text-gray-100">Google Drive</h2>
+          <h2 className="text-lg font-semibold text-gray-100">Google account</h2>
           <div className="mt-4">
             {user?.googleConnected ? (
               <div className="flex items-center gap-2">
@@ -187,7 +187,7 @@ export default function AccountPage() {
                   href="/api/auth/google"
                   className="rounded-lg bg-coral-500 px-4 py-2 text-sm font-medium text-white hover:bg-coral-600"
                 >
-                  Connect Google Drive
+                  Connect Google
                 </a>
               </div>
             )}

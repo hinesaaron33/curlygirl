@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/prisma";
-import { exchangeCodeForTokens } from "@/lib/google/oauth";
+import { exchangeCodeForTokens, emailFromIdToken } from "@/lib/google/oauth";
 import { encrypt } from "@/lib/google/token-encryption";
 
 export async function GET(request: Request) {
@@ -38,6 +38,8 @@ export async function GET(request: Request) {
       return NextResponse.redirect(errorRedirect);
     }
 
+    const googleEmail = emailFromIdToken(tokens.id_token);
+
     await prisma.user.update({
       where: { email: user.email! },
       data: {
@@ -46,6 +48,7 @@ export async function GET(request: Request) {
         googleTokenExpiry: tokens.expiry_date
           ? new Date(tokens.expiry_date)
           : null,
+        ...(googleEmail ? { googleEmail } : {}),
       },
     });
 

@@ -17,7 +17,6 @@ export async function GET() {
     select: {
       name: true,
       email: true,
-      googleAccessToken: true,
       googleEmail: true,
       subscription: true,
     },
@@ -32,7 +31,7 @@ export async function GET() {
       name: dbUser.name,
       email: dbUser.email,
       googleEmail: dbUser.googleEmail,
-      googleConnected: !!dbUser.googleAccessToken,
+      googleConnected: !!dbUser.googleEmail,
     },
     subscription: dbUser.subscription
       ? {

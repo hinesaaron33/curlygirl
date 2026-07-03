@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/prisma";
-import { purchaseWithCredit, copyFileToSubscriber } from "@/lib/google/drive";
+import { purchaseWithCredit, deliverLessonToSubscriber } from "@/lib/google/drive";
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
   try {
     await purchaseWithCredit(dbUser.id, lessonPlanId);
-    const result = await copyFileToSubscriber(dbUser.id, lessonPlanId);
+    const result = await deliverLessonToSubscriber(dbUser.id, lessonPlanId);
 
     const updatedSub = await prisma.subscription.findUnique({
       where: { userId: dbUser.id },

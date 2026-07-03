@@ -18,7 +18,7 @@ export async function GET() {
     where: { email: user.email! },
     select: {
       id: true,
-      googleAccessToken: true,
+      googleEmail: true,
       subscription: true,
     },
   });
@@ -82,7 +82,7 @@ export async function GET() {
       ...plan,
       accessState: accessMap[plan.id] ?? "locked",
     })),
-    googleConnected: !!dbUser?.googleAccessToken,
+    googleConnected: !!dbUser?.googleEmail,
     creditsRemaining,
   });
 }

@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/prisma";
-import { getGoogleAuthUrl } from "@/lib/google/oauth";
+import {
+  getGoogleAuthUrl,
+  SUBSCRIBER_SCOPES,
+  ADMIN_SCOPES,
+} from "@/lib/google/oauth";
 
 export async function GET(request: Request) {
   const supabase = await createClient();
@@ -18,7 +22,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const isAdmin = searchParams.get("admin") === "true";
 
-  let scopes = ["https://www.googleapis.com/auth/drive.file"];
+  let scopes = SUBSCRIBER_SCOPES;
   let state: string | undefined;
 
   if (isAdmin) {
@@ -29,11 +33,7 @@ export async function GET(request: Request) {
     });
 
     if (dbUser?.role === "ADMIN") {
-      scopes = [
-        "https://www.googleapis.com/auth/drive.readonly",
-        "https://www.googleapis.com/auth/drive.file",
-        "https://www.googleapis.com/auth/spreadsheets.readonly",
-      ];
+      scopes = ADMIN_SCOPES;
       state = "admin";
     }
   }

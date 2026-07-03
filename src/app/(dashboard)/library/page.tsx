@@ -109,9 +109,9 @@ export default function LibraryPage() {
   }
 
   function buttonLabel(plan: LibraryPlan) {
-    if (copiedIds.has(plan.id)) return "Copied to Drive ✓";
-    if (copyingId === plan.id) return "Copying...";
-    if (!data?.googleConnected) return "Connect Google Drive";
+    if (copiedIds.has(plan.id)) return "Delivered to your Drive ✓";
+    if (copyingId === plan.id) return "Delivering...";
+    if (!data?.googleConnected) return "Connect Google to get lessons";
     if (plan.accessState === "available") return "Use 1 credit to unlock";
     if (plan.accessState === "locked") return "Subscribe to access";
     return "Get this lesson";
@@ -167,7 +167,9 @@ export default function LibraryPage() {
       {!data?.googleConnected && (
         <div className="mt-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3">
           <p className="text-sm text-amber-200">
-            Connect your Google account to copy lesson plans to your Drive.{" "}
+            Connect your Google account and we&apos;ll deliver your own editable
+            copy of each lesson straight to your Google Drive — we only ask for
+            your email, never access to your files.{" "}
             <a
               href="/api/auth/google"
               className="font-medium text-amber-100 underline hover:no-underline"

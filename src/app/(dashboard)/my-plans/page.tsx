@@ -125,7 +125,7 @@ export default function MyPlansPage() {
                 })}
               </p>
               <a
-                href={`https://docs.google.com/file/d/${copy.copiedFileId}`}
+                href={`https://drive.google.com/open?id=${copy.copiedFileId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 block w-full rounded-lg bg-coral-500 px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-coral-600"

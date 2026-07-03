@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/prisma";
-import { copyFileToSubscriber } from "@/lib/google/drive";
+import { deliverLessonToSubscriber } from "@/lib/google/drive";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -15,14 +15,14 @@ export async function POST(request: Request) {
 
   const dbUser = await prisma.user.findUnique({
     where: { email: user.email! },
-    select: { id: true, googleAccessToken: true },
+    select: { id: true, googleEmail: true },
   });
 
   if (!dbUser) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  if (!dbUser.googleAccessToken) {
+  if (!dbUser.googleEmail) {
     return NextResponse.json(
       { error: "Google account not connected" },
       { status: 400 }
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await copyFileToSubscriber(dbUser.id, lessonPlanId);
+    const result = await deliverLessonToSubscriber(dbUser.id, lessonPlanId);
     return NextResponse.json(result);
   } catch (error) {
     const message =
